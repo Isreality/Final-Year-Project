@@ -16,6 +16,9 @@ module.exports = {
         c4: '#c4c4c4',
         e5: '#e5e5e5',
         red: '#CC4424'
+      },
+      fontFamily: {
+        sans: ['Satoshi', 'sans-serif'], // Change 'Roboto' to your desired font
       }
     },
   },
