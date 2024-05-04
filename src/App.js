@@ -117,7 +117,8 @@ function App() {
           </form>
         </div>
       </div>
-
+      
+      {/* Image */}
       <div className='grid justify-items-start bg-fixed' >
         <img src={fisher} alt="fisher"/>
       </div>
