@@ -1,55 +1,123 @@
 import './App.css';
 import './style.css';
 import fisher from './img/fisher.jpg';
+// import cancel from './img/cancel.png';
+import cancel from './icons/cancel.svg';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+// import { ToastContainer, toast } from 'react-toastify';
+
+
+function Modal({ message, type, onClose }) {
+  return (
+    <div 
+      className='bg-red2 p-4 text-red text-left relative font-bold border-red rounded-md top-0 '
+      type= {'success' ? 'green' : 'red'}
+      // style={{
+      //   position: 'fixed',
+      //   top: 50,
+      //   left: 20,
+      //   right: 0,
+      //   // background: type === 'success' ? 'green' : 'red',
+      //   color: '#ffffff',
+      //   padding: '10px',
+      //   textAlign: 'center',
+      //   borderRadius: '20px',
+      // }}
+    >
+      <div className='flex flex-row gap-10'>
+        <img src={cancel} alt="" className="bg-red p-4 absolute left-0 top-0 rounded-md"/>
+        
+        <div className='ml-12'>{message}</div> 
+      </div>
+
+      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 top-50 left-20 font-normal'>
+          X
+      </button>
+    </div>
+  );
+}
+
 
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
+  const [errors, setErrorMessage] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const validateForm = () => {
-    const errors = {};
-
-    // Validate email
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Email address is invalid';
-    }
-
-    // Validate password
-    if (password.length < 8) {
-      errors.password = 'Must have a minimum length of 8 characters';
-    }
-
-    setErrors(errors);
-
-    // Return true if there are no errors
-    return Object.keys(errors).length === 0;
-  };
+  // const notify = () => toast("SIgn In Successfull!");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (validateForm()) {
-      // Form is valid
-      console.log('Email:', email);
-      console.log('Password:', password);
-    } else {
-      // Form is invalid, do not proceed with submission
-      console.log('Form contains errors');
+    
+    // Check if email and password are not empty
+     if (email.trim() === '') {
+      setErrorMessage('Email is required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
     }
+    if (password.trim() === '') {
+      setErrorMessage('Password is required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    }
+
+    // Check if email is in a valid format
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setErrorMessage('Email is invalid.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    }
+
+    if (email !== 'agbajeisrael01@gmail.com') {
+      setErrorMessage('You inputted the wrong email. Please try again!');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    }
+
+    // Check if password meets minimum length
+    if (password !== 'Oluwadante01') {
+      setErrorMessage('Incorrect Password');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    }
+
+    // Perform action if inputs are correct
+    console.log('Email:', email);
+    console.log('Password:', password);
+    setErrorMessage('');
+    setSuccessMessage('Sign-in successful.');
+    setIsModalOpen(true);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
   return (
-    <div className="grid justify-items-left items-center grid-cols-2  bg-white gap-20" >
+    <div className="grid justify-items-left items-center grid-cols-2 bg-white gap-20" >
       <div className='grid justify-items-start'>
-        <div className='py-24 px-16'>
+        <div className='py-20 px-16'>
+          {isModalOpen && (
+              <Modal
+                message={errors || successMessage}
+                type={errors ? 'error' : 'success'}
+                onClose={closeModal}
+                className="mb-24"
+              />
+            )}
           <h1 className='text-primary text-5xl font-bold mb-4'>Sign In</h1><br/>
           
           {/* Form */}
@@ -65,7 +133,8 @@ function App() {
                 placeholder='example@gmail.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required/>
+                // required
+                />
                 {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}<br/><br/>
             </div>
             
@@ -79,7 +148,8 @@ function App() {
                 placeholder='Enter your password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required/>
+                // required
+                />
                 
                 {/* Eye icon switch */}
                 {showPassword ? (
@@ -113,7 +183,19 @@ function App() {
             </div><br/>
             
             {/* Submit Button */}
-            <input type='submit' value="Sign In" className='mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'/>
+            <input
+            onClick = {handleSubmit} 
+            type='submit' 
+            value="Sign In" 
+            className='mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
+            />
+            {/* {isModalOpen && (
+              <Modal
+                message={errors || successMessage}
+                type={errors ? 'error' : 'success'}
+                onClose={closeModal}
+              />
+            )} */}
           </form>
         </div>
       </div>
