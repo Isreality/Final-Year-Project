@@ -202,7 +202,7 @@ useEffect(() => {
               />
             )}
 
-          <h1 className='text-primary text-left text-5xl font-bold mb-2'>Sign In</h1><br/>
+          <h1 className='text-primary text-left text-5xl font-black mb-2'>Sign In</h1><br/>
           {/* {data && (
             <div>
               <h3>Fetched Data:</h3>
