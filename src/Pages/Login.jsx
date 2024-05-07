@@ -5,8 +5,10 @@ import fisher from '../img/fisher.jpg';
 import cancel from '../icons/cancel.svg';
 import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import Dashboard from '../Pages/Dashboard';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+// import Dashboard from '../Pages/Dashboard';
+// import axios from 'axios';
+// import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
 function Modal({ message, type, onClose }) {
@@ -28,37 +30,58 @@ function Modal({ message, type, onClose }) {
   );
 }
 
-// const history = createBrowserHistory();
+// const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api/';
 
-function App({history}) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrorMessage] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
+  // const navigate = useNavigate();
   // const history = createBrowserHistory();
-  
-  useEffect(() => {
-    fetch('https://e9d9-102-89-23-53.ngrok-free.app/api') 
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-  
+  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api';
 
-  <Router>
-      <Routes>
-        <Route index path="./components/Dashboard" Component={Dashboard}></Route>
-        {/* <Route exact path="/Home" Component={Home}></Route>
-        <Route path="/Portfolio" Component={Portfolio}></Route> */}
-      </Routes>
-  </Router>
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${{BASE_URL}}/admin/sign-in`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const data = await response.json();
+      console.warn(data);
+      console.warn(JSON.stringify(data[2].fullname));
+      localStorage.setItem('auth', JSON.stringify(data[2].fullname));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  fetchData();
+}, []);
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     // const url = 'https://e9d9-102-89-23-53.ngrok-free.app/api'
+
+//     const response = await fetch(`${{BASE_URL}}/admin/sign-in`);
+//     const responseJson = await response.json();
+//   } 
+//     fetchData();
+//   }, []);
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -86,13 +109,15 @@ function App({history}) {
         setSuccessMessage('');
         setIsModalOpen(true);
         return;
-      } else {
-        setSuccessMessage('Sign-in successful.');
-        setTimeout(() => {
-        setIsModalOpen(true);
-        history.push({Dashboard}); 
-        }, 1000);
-      }
+      } 
+      // else {
+      //   setSuccessMessage('Sign-in successful.');
+      //   setTimeout(() => {
+      //   setIsModalOpen(true);
+        // navigate('../Pages/Dashboard.jsx');
+        // window.location.href = './Dashboard'; 
+      //   }, 1000);
+      // }
 
     // Check if email is in a valid format
     if (!/^\S+@\S+\.\S+$/.test(email)) {
@@ -132,6 +157,8 @@ function App({history}) {
     setErrorMessage('');
     setSuccessMessage('Sign-in successful.');
     setIsModalOpen(true);
+
+    // onLogin();
   };
 
   const closeModal = () => {
@@ -154,16 +181,16 @@ function App({history}) {
               />
             )}
 
-          <h1 className='text-primary text-left text-5xl font-bold mb-4'>Sign In</h1><br/>
-          {data && (
+          <h1 className='text-primary text-left text-5xl font-bold mb-2'>Sign In</h1><br/>
+          {/* {data && (
             <div>
               <h3>Fetched Data:</h3>
                 <pre>{JSON.stringify(data, null, 2)}</pre>
             </div>
           )}
-          
+           */}
           {/* Form */}
-          <form  className='grid justify-items-stretch' onSubmit={handleSubmit}>
+          <form  className='grid justify-items-stretch text-left' onSubmit={handleSubmit}>
             <div className='space-y-2 items-start'>
               
               {/* Email */}
@@ -171,7 +198,7 @@ function App({history}) {
               <input 
                 className='border-2 p-4 w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
                 type='email' 
-                name = "email" 
+                id = "email" 
                 placeholder='example@gmail.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -186,7 +213,7 @@ function App({history}) {
               <input 
                 className='border-2 p-4 w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
                 type= {showPassword ? 'text' : 'password'}
-                name = "pwd" 
+                id = "pwd" 
                 placeholder='Enter your password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -244,4 +271,4 @@ function App({history}) {
   );
 }
 
-export default App;
+export default Login;
