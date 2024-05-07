@@ -30,7 +30,6 @@ function Modal({ message, type, onClose }) {
   );
 }
 
-// const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api/';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -42,57 +41,50 @@ function Login() {
   // const [data, setData] = useState(null);
   // const navigate = useNavigate();
   // const history = createBrowserHistory();
-  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api';
+  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api/admin/signi-in';
+  const endpoint = '/admin/sign-in';
 
 useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${{BASE_URL}}/admin/sign-in`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(),
-      });
+     setErrorMessage('');
+      // setEmailError('');
+      // setPasswordError('');
+//   const fetchData = async () => {
+//     try {
+//       const response = await fetch(`${{BASE_URL}}/admin/sign-in`, {
+//         method: 'POST',
+//         headers: {
+//           'Accept': 'application/json',
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(),
+//       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch data');
+//       }
 
-      const data = await response.json();
-      console.warn(data);
-      console.warn(JSON.stringify(data[2].fullname));
-      localStorage.setItem('auth', JSON.stringify(data[2].fullname));
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+//       const data = await response.json();
+//       console.warn(data);
+//       console.warn(JSON.stringify(data[2].fullname));
+//       localStorage.setItem('auth', JSON.stringify(data[2].fullname));
+//     } catch (error) {
+//       console.error('Error fetching data:', error);
+//     }
+//   };
 
-  fetchData();
+//   fetchData();
 }, []);
 
-// useEffect(() => {
-//   const fetchData = async () => {
-//     // const url = 'https://e9d9-102-89-23-53.ngrok-free.app/api'
-
-//     const response = await fetch(`${{BASE_URL}}/admin/sign-in`);
-//     const responseJson = await response.json();
-//   } 
-//     fetchData();
-//   }, []);
-  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  // function ParentComponent() {
-  //   return <handleSubmit history={history} />;
-  // }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    
     // Check if email and password are empty  
     if (email.trim() === '' && password.trim() === ''){
         setErrorMessage('Email and password are required.');
@@ -151,6 +143,35 @@ useEffect(() => {
     //   }, 1000); 
     // }
 
+    try {
+      const response = await fetch(`${{BASE_URL}}${endpoint}`, {}, {
+        // const response = await fetch(`${{BASE_URL}}/admin/sign-in`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const data = await response.json();
+      console.warn(data);
+      console.warn(JSON.stringify(data));
+      localStorage.setItem('auth', JSON.stringify(data));
+
+      // navigate('../Pages/dashboard');
+
+      setEmail('');
+      setPassword('');
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+
     // Perform action if inputs are correct
     console.log('Email:', email);
     console.log('Password:', password);
@@ -194,7 +215,7 @@ useEffect(() => {
             <div className='space-y-2 items-start'>
               
               {/* Email */}
-              <label for="email" className='text-xl text-left mb-8'>Email</label><br/>
+              <label htmlFor="email" className='text-xl text-left mb-8'>Email</label><br/>
               <input 
                 className='border-2 p-4 w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
                 type='email' 
@@ -209,7 +230,7 @@ useEffect(() => {
             
             {/* Password */}
             <div className='space-y-2' style={{ position: 'relative' }}>
-              <label for="pwd" className='text-xl text-left mb-8'>Password</label><br/>
+              <label htmlFor="pwd" className='text-xl text-left mb-8'>Password</label><br/>
               <input 
                 className='border-2 p-4 w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
                 type= {showPassword ? 'text' : 'password'}

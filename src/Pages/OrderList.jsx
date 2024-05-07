@@ -3,13 +3,13 @@ import "../style.css";
 import Sidebar from "../Components/Sidebar";
 
 
-const Dashboard = () => {
+const OrderList = () => {
     return ( 
         <>
          <Sidebar/>
-           <h1>Hello World!</h1>
+           
         </>
      );
 }
  
-export default Dashboard;
+export default OrderList;
