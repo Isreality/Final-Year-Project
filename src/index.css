@@ -19,14 +19,16 @@ body {
   border-radius: 6px;
   background-color: #481986;
   color: #ffffff !important; 
-  margin: 0.5rem;
+  /* margin-left: 0.5rem; */
+  /* padding: 16px 80px 16px 16px; */
 }
 
 .active:hover{
   border-radius: 6px;
   background-color: #481986 !important;
-  color: #ffffff !important; 
-  margin: 0.5rem;
+  color: #ffffff !important;
+  /* padding: 16px 100px 16px 16px;  */
+  /* margin: 0.5rem; */
 }
 
 code {
