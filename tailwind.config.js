@@ -11,6 +11,7 @@ module.exports = {
         secondary: 'rgba(0, 0, 0, 0.6)',
         black: '#000000',
         black2: '#646464',
+        black3: '#8b8b8b',
         shade: '#121111',
         disable: '#f2f2f2',
         fa: '#fafafa',

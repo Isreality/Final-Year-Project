@@ -1,11 +1,12 @@
 import "../style.css"
-import dash from "../icons/sidebar/dash.svg"
-import order from '../icons/sidebar/order.svg';
-import people from "../icons/sidebar/people.svg"
-import product from "../icons/sidebar/product.svg"
-import not from "../icons/sidebar/not.svg"
-import star from "../icons/sidebar/star.svg"
-import settings from "../icons/sidebar/settings.svg"
+import { RxDashboard } from "react-icons/rx";
+import { RiFileList3Line } from "react-icons/ri";
+import { LuUsers } from "react-icons/lu";
+import { FiBox } from "react-icons/fi";
+import { RiNotification2Line } from "react-icons/ri";
+import { FaRegStar } from "react-icons/fa";
+import { SlSettings } from "react-icons/sl";
+
 
 
 const SidebarData =
@@ -13,63 +14,63 @@ const SidebarData =
       {
         title: "Dashboard",
         path: "/Dashboard",
-        src: dash,
+        icons: <RxDashboard className="w-5 h-5"/>,
         id: 1
       },
   
       {
         title: "Order List",
         path: "/OrderList",
-        src: order,
+        icons: <RiFileList3Line className="w-5 h-5"/>,
         id: 2
       },
 
       {
         title: "Staff Admins",
         path: "/StaffAdmins",
-        src: people,
+        icons: <LuUsers className="w-5 h-5"/>,
         id: 3
       },
 
       {
         title: "Vendors",
         path: "/Vendors",
-        src: people,
+        icons: <LuUsers className="w-5 h-5"/>,
         id: 4
       },
 
       {
         title: "Customers",
         path: "/Customers",
-        src: people,
+        icons: <LuUsers className="w-5 h-5"/>,
         id: 5
       },
 
       {
         title: "Manage Products",
         path: "/ManageProducts",
-        src: product,
+        icons: <FiBox className="w-5 h-5"/>,
         id: 6
       },
 
       {
         title: "Push Notification",
         path: "/PushNotification",
-        src: not,
+        icons: <RiNotification2Line className="w-5 h-5"/>,
         id: 7
       },
 
       {
         title: "Reviews",
         path: "/Reviews",
-        src: star,
+        icons: <FaRegStar className="w-5 h-5"/>,
         id: 8
       },
 
       {
         title: "Settings",
         path: "/Settings",
-        src: settings,
+        icons: <SlSettings className="w-5 h-5"/>,
         id: 9
       },
     ]

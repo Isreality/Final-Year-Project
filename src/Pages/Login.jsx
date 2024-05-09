@@ -243,7 +243,7 @@ useEffect(() => {
                 
                 {/* Eye icon switch */}
                 {showPassword ? (
-                  <FaEyeSlash
+                  <FaEye
                     onClick={togglePasswordVisibility}
                     size={20}
                     style={{
@@ -256,7 +256,7 @@ useEffect(() => {
                     }}
                   />
                 ) : (
-                  <FaEye
+                  <FaEyeSlash
                     onClick={togglePasswordVisibility}
                     size={20}
                     style={{
