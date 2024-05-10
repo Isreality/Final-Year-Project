@@ -17,7 +17,7 @@ const Dashboard = () => {
 
             {/* Body */}
             <div className="w-full">
-              <div><Header title="Dashboard"/></div><br/>
+              <div className="mb-4"><Header title="Dashboard"/></div>
               
               <div className="px-8">
                 <div><Heading title="Dashboard"/></div>

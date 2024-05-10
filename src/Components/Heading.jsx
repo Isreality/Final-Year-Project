@@ -3,8 +3,8 @@ import "../style.css";
 const Heading = (props) => {
     return ( 
         <>
-          <div className="flex flex-row">
-            <h1 className="text-primary text-2xl font-semibold">{props.title}</h1>
+          <div className="text-left">
+            <h1 className="text-primary text-2xl font-bold">{props.title}</h1>
           </div>           
         </>
      );
