@@ -41,7 +41,7 @@ function Login() {
   // const [data, setData] = useState(null);
   // const navigate = useNavigate();
   // const history = createBrowserHistory();
-  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api/admin/signi-in';
+  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api/admin/sign-in';
   const endpoint = '/admin/sign-in';
 
 useEffect(() => {
@@ -120,17 +120,17 @@ useEffect(() => {
     }
 
     // Check if email and password are not given correct inputs
-    // if (email !== 'agbajeisrael01@gmail.com' && password !== 'Oluwadante01') {
+    // if (email !== 'ashaluwalakazeem@gmail.com' && password !== 'password') {
     //   setErrorMessage('Your email and password are incorrect. Please try again!');
     //   setSuccessMessage('');
     //   setIsModalOpen(true);
     //   return;
-    // } else if (email !== 'agbajeisrael01@gmail.com') {
+    // } else if (email !== 'ashaluwalakazeem@gmail.com') {
     //     setErrorMessage('You inputted the wrong email. Please try again!');
     //     setSuccessMessage('');
     //     setIsModalOpen(true);
     //     return;
-    // } else if (password !== 'Oluwadante01'){
+    // } else if (password !== 'password'){
     //     setErrorMessage('Incorrect Password');
     //     setSuccessMessage('');
     //     setIsModalOpen(true);
@@ -139,13 +139,13 @@ useEffect(() => {
     //     setSuccessMessage('Sign-in successful.');
     //     setTimeout(() => {
     //       setIsModalOpen(true);
-    //       history.push({Dashboard}); 
+    //       // history.push({Dashboard}); 
     //   }, 1000); 
     // }
 
     try {
-      const response = await fetch(`${{BASE_URL}}${endpoint}`, {}, {
-        // const response = await fetch(`${{BASE_URL}}/admin/sign-in`, {
+      // const response = await fetch(`${{BASE_URL}}${endpoint}`, {}, {
+        const response = await fetch(BASE_URL + endpoint, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -179,7 +179,7 @@ useEffect(() => {
     setSuccessMessage('Sign-in successful.');
     setIsModalOpen(true);
 
-    // onLogin();
+    // response();
   };
 
   const closeModal = () => {

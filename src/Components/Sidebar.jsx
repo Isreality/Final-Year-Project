@@ -6,6 +6,7 @@ import Login from "../Pages/Login";
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { TbLogout } from "react-icons/tb";
+import Skeleton from 'react-loading-skeleton';
 
 
 const Sidebar = () => {
@@ -31,9 +32,9 @@ const Sidebar = () => {
                     <div className="flex justify-between lg:flex-col space-y-1">
                         {SidebarData.map((nav) => (
                             <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-black2 hover:text-black2 hover:bg-disable font-normal  hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
-                                {nav.icons}
+                                {nav.icons || <Skeleton circle width={20} height={20}/>}
                                 {/* <NavLink to={nav.path} className="nav">{nav.title}</NavLink> */}
-                                {nav.title}
+                                {nav.title || <Skeleton/>}
                             </NavLink> 
                         ))}
                     </div><br/>

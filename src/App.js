@@ -12,27 +12,30 @@ import PushNotification from './Pages/PushNotification';
 import Reviews from './Pages/Reviews';
 import Settings from './Pages/Settings';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 
 function App() {
   return (   
     <div className="App" >
-      <Router>
-        {/* <Link to='/Dashboard'>Dashboard</Link> */}
-        <Routes>
-          {/* <Route path="./Pages/Dashboard" Component={<LoginNav cmd={Dashboard}/>}></Route> */}
-          <Route index path="/" Component={Login}></Route>
-          <Route exact path="/Dashboard" Component={Dashboard}></Route>
-          <Route exact path="/OrderList" Component={OrderList}></Route>
-          <Route path="/StaffAdmins" Component={StaffAdmins}></Route> 
-          <Route path="/Vendors" Component={Vendors}></Route>
-          <Route path="/Customers" Component={Customers}></Route>
-          <Route path="/ManageProducts" Component={ManageProducts}></Route>
-          <Route path="/PushNotification" Component={PushNotification}></Route>
-          <Route path="/Reviews" Component={Reviews}></Route>
-          <Route path="/Settings" Component={Settings}></Route>
-        </Routes>
-      </Router>
+      <SkeletonTheme baseColor='#313131' highlightColor='#525252'>
+        <Router>
+          {/* <Link to='/Dashboard'>Dashboard</Link> */}
+          <Routes>
+            {/* <Route path="./Pages/Dashboard" Component={<LoginNav cmd={Dashboard}/>}></Route> */}
+            <Route index path="/" Component={Login}></Route>
+            <Route exact path="/Dashboard" Component={Dashboard}></Route>
+            <Route exact path="/OrderList" Component={OrderList}></Route>
+            <Route path="/StaffAdmins" Component={StaffAdmins}></Route> 
+            <Route path="/Vendors" Component={Vendors}></Route>
+            <Route path="/Customers" Component={Customers}></Route>
+            <Route path="/ManageProducts" Component={ManageProducts}></Route>
+            <Route path="/PushNotification" Component={PushNotification}></Route>
+            <Route path="/Reviews" Component={Reviews}></Route>
+            <Route path="/Settings" Component={Settings}></Route>
+          </Routes>
+        </Router>
+      </SkeletonTheme>
   
       {/* <Login/> */}
  
