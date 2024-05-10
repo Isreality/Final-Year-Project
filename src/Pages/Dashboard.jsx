@@ -4,23 +4,27 @@ import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
 import { useState, useEffect } from 'react';
-import Skeleton from 'react-loading-skeleton';
+// import Skeleton from 'react-loading-skeleton';
 
 
 const Dashboard = () => {
-const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false)
 
-useEffect(() => {
-  setTimeout(async () =>{
-    setIsLoading();
-  })
-}, [5000]);
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+        setLoading(false)
+    }, 5000)
+  }, [])
 
     return ( 
         <div>
-          <div className="flex flex-row">
-            <div>{isLoading && <Skeleton/>}</div>
-            {/* Sidebar */}
+
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <div className="flex flex-row">
+              {/* Sidebar */}
             <div>
               <Sidebar/>
             </div>
@@ -34,8 +38,9 @@ useEffect(() => {
               </div>
               
             </div>
+            </div>
+          )}
 
-          </div>
          
            
         </div>
