@@ -15,7 +15,7 @@ const Dashboard = () => {
     setLoading(true)
     setTimeout(() => {
         setLoading(false)
-    }, 5000)
+    }, 1000)
   }, [])
 
     return ( 
@@ -35,10 +35,10 @@ const Dashboard = () => {
                 <div className="mb-4"><Header title="Dashboard"/></div>
                 
                 <div className="px-8">
-                  <div><Heading title="Dashboard"/></div>
+                  <div className="mb-4"><Heading title="Dashboard"/></div>
                 </div>
 
-                <div className="flex flex-row">
+                <div className="px-8">
                   <div><Card/></div>
                 </div>
                 

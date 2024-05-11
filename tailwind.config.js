@@ -21,7 +21,8 @@ module.exports = {
         red2: '#FCF5F4',
         success: '#009688',
         success2: '#EBF7F5',
-        pend: '#EDBB00'
+        pend: '#EDBB00',
+        blue: '#2196F3'
       },
       fontFamily: {
         sans: ['Satoshi', 'sans-serif'], // Change 'Roboto' to your desired font
