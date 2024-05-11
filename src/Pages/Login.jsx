@@ -41,7 +41,7 @@ function Login() {
   // const [data, setData] = useState(null);
   // const navigate = useNavigate();
   // const history = createBrowserHistory();
-  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api/admin/sign-in';
+  const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api';
   const endpoint = '/admin/sign-in';
 
 useEffect(() => {
@@ -146,12 +146,18 @@ useEffect(() => {
     try {
       // const response = await fetch(`${{BASE_URL}}${endpoint}`, {}, {
         const response = await fetch(BASE_URL + endpoint, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+          // credentials: 'include',
+          method: 'POST',
+          mode: "cors",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'text/plain',
+          },
+          body: JSON.stringify({ 
+              email: 'ashaluwalakazeem@gmail.com', 
+              password: 'password' 
+          }),
       });
 
       if (!response.ok) {
@@ -188,7 +194,7 @@ useEffect(() => {
 
 
   return (
-    <div className="grid justify-items-left items-center grid-cols-2 bg-white gap-20" >
+    <div className="grid justify-items-left items-center grid-cols-1 md:grid-cols-2 md:py-0 md:px-0 bg-white gap-20" >
       <div className='grid justify-items-start'>
         <div className='py-20 px-16 space-y-4'>
           {isModalOpen && (
@@ -202,7 +208,7 @@ useEffect(() => {
               />
             )}
 
-          <h1 className='text-primary text-left text-5xl font-black mb-2'>Sign In</h1><br/>
+          <h1 className='text-primary text-left text-3xl md:text-5xl font-black mb-2'>Sign In</h1><br/>
           {/* {data && (
             <div>
               <h3>Fetched Data:</h3>
@@ -212,7 +218,7 @@ useEffect(() => {
            */}
           {/* Form */}
           <form  className='grid justify-items-stretch text-left' onSubmit={handleSubmit}>
-            <div className='space-y-2 items-start'>
+            <div className='space-y-1 md:space-y-2 items-start'>
               
               {/* Email */}
               <label htmlFor="email" className='text-xl text-left mb-8'>Email</label><br/>
@@ -277,16 +283,17 @@ useEffect(() => {
             onClick = {handleSubmit} 
             type='submit' 
             value="Sign In" 
-            className='mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
+            className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
             />
           </form>
         </div>
       </div>
       
       {/* Image */}
-      <div className='grid justify-items-start bg-fixed' >
+      {/* <div className='grid justify-items-start bg-fixed hidden md:block bg-cover bg-center'>
         <img src={fisher} alt="fisher"/>
-      </div>
+      </div> */}
+      <div className="md:block bg-cover bg-center md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} />
  
     </div>
   );

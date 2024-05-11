@@ -2,7 +2,6 @@ import "../style.css";
 import "../index.css";
 import { useState } from 'react';
 import SidebarData from "../Components/SidebarData";
-import Login from "../Pages/Login";
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { TbLogout } from "react-icons/tb";
@@ -11,6 +10,7 @@ import Skeleton from 'react-loading-skeleton';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const openModal = () => {
         setIsOpen(true);
@@ -23,6 +23,14 @@ const Sidebar = () => {
     return ( 
         <>
             <div className=" sticky h-full left-0 w-60 text-left border-r-2 border-fa p-4 bg-white" >
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <div>
+                {/* Display your content using the fetched data */}
+                {/* Example: <p>{data.someValue}</p> */}
+                </div>
+            )}
                 <div className="">
                     <div className="flex flex-col justify-items-start mb-4 pl-2">                
                     <Link to='/Dashboard'><h1 className="mb-4 mt-4 font-extrabold text-primary text-2xl">Market Access</h1></Link>

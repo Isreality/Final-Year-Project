@@ -18,7 +18,8 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 function App() {
   return (   
     <div className="App" >
-      <SkeletonTheme baseColor='#313131' highlightColor='#525252'>
+      {/* <SkeletonTheme baseColor='#313131' highlightColor='#525252'> */}
+      <SkeletonTheme baseColor='#202020' highlightColor='#444'>
         <Router>
           {/* <Link to='/Dashboard'>Dashboard</Link> */}
           <Routes>
