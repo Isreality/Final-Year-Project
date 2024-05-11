@@ -48,31 +48,6 @@ useEffect(() => {
      setErrorMessage('');
       // setEmailError('');
       // setPasswordError('');
-//   const fetchData = async () => {
-//     try {
-//       const response = await fetch(`${{BASE_URL}}/admin/sign-in`, {
-//         method: 'POST',
-//         headers: {
-//           'Accept': 'application/json',
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(),
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Failed to fetch data');
-//       }
-
-//       const data = await response.json();
-//       console.warn(data);
-//       console.warn(JSON.stringify(data[2].fullname));
-//       localStorage.setItem('auth', JSON.stringify(data[2].fullname));
-//     } catch (error) {
-//       console.error('Error fetching data:', error);
-//     }
-//   };
-
-//   fetchData();
 }, []);
 
 
@@ -144,22 +119,14 @@ useEffect(() => {
     // }
 
     try {
-      // const response = await fetch(`${{BASE_URL}}${endpoint}`, {}, {
         const response = await fetch(BASE_URL + endpoint, {
-          // credentials: 'include',
           method: 'POST',
-          // mode: "no-cors",
           headers: {
-            'app-token':   'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
+            'app-token': 'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            // 'Access-Control-Allow-Origin': 'http://localhost:3000',
-            // 'Content-Type': 'text/plain',
           },
-          body: JSON.stringify({ 
-              email: 'ashaluwalakazeem@gmail.com', 
-              password: 'password' 
-          }),
+          body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -168,7 +135,7 @@ useEffect(() => {
 
       const data = await response.json();
       console.warn(data);
-      console.warn(JSON.stringify(data));
+      // console.warn(JSON.stringify(data));
       localStorage.setItem('auth', JSON.stringify(data));
 
       // navigate('../Pages/dashboard');
@@ -181,13 +148,10 @@ useEffect(() => {
     }
 
     // Perform action if inputs are correct
-    console.log('Email:', email);
-    console.log('Password:', password);
     setErrorMessage('');
     setSuccessMessage('Sign-in successful.');
     setIsModalOpen(true);
 
-    // response();
   };
 
   const closeModal = () => {
@@ -211,13 +175,7 @@ useEffect(() => {
             )}
 
           <h1 className='text-primary text-left text-3xl md:text-5xl font-black mb-2'>Sign In</h1><br/>
-          {/* {data && (
-            <div>
-              <h3>Fetched Data:</h3>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-            </div>
-          )}
-           */}
+
           {/* Form */}
           <form  className='grid justify-items-stretch text-left' onSubmit={handleSubmit}>
             <div className='space-y-1 md:space-y-2 items-start'>
