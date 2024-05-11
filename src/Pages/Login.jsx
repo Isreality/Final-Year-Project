@@ -150,8 +150,9 @@ useEffect(() => {
           method: 'POST',
           // mode: "cors",
           headers: {
-            // 'Accept': 'application/json',
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
+            // 'Access-Control-Allow-Origin': 'https:localhost/3000',
             // 'Content-Type': 'text/plain',
           },
           body: JSON.stringify({ 
