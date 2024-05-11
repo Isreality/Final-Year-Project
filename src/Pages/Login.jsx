@@ -148,9 +148,9 @@ useEffect(() => {
         const response = await fetch(BASE_URL + endpoint, {
           // credentials: 'include',
           method: 'POST',
-          mode: "cors",
+          // mode: "cors",
           headers: {
-            'Accept': 'application/json',
+            // 'Accept': 'application/json',
             'Content-Type': 'application/json',
             // 'Content-Type': 'text/plain',
           },
@@ -194,9 +194,9 @@ useEffect(() => {
 
 
   return (
-    <div className="grid justify-items-left items-center grid-cols-1 md:grid-cols-2 md:py-0 md:px-0 bg-white gap-20" >
+    <div className="grid items-center  md:py-0 md:px-0 md:block bg-fixed sm:bg-cover lg:bg-contain bg-no-repeat md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} >
       <div className='grid justify-items-start'>
-        <div className='py-20 px-16 space-y-4'>
+        <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0 bg-white items-center rounded-lg'>
           {isModalOpen && (
               <Modal
                 message={errors || successMessage}
@@ -293,7 +293,7 @@ useEffect(() => {
       {/* <div className='grid justify-items-start bg-fixed hidden md:block bg-cover bg-center'>
         <img src={fisher} alt="fisher"/>
       </div> */}
-      <div className="md:block bg-cover bg-center md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} />
+      {/* <div className="md:block bg-cover bg-center md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} /> */}
  
     </div>
   );
