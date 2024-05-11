@@ -148,10 +148,9 @@ useEffect(() => {
         const response = await fetch(BASE_URL + endpoint, {
           // credentials: 'include',
           method: 'POST',
-          mode: "no-cors",
+          // mode: "no-cors",
           headers: {
-            'key': 'app-token',
-            'value':   'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
+            'app-token':   'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             // 'Access-Control-Allow-Origin': 'http://localhost:3000',
