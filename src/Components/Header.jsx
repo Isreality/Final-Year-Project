@@ -7,7 +7,7 @@ import fisher from '../img/fisher.jpg';
 
 const Header = (props) => {
     return ( 
-        <div className="px-8 py-4 border-b-2 border-disable">
+        <div className="px-8 py-4 border-b border-disable">
 
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center text-sm gap-1 text-black2">

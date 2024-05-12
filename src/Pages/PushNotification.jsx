@@ -57,15 +57,15 @@ const PushNotification = () => {
                 </div>
 
                 {/* Body */}
-                <div className=" border-2 border-disable rounded-md px-10 py-8 mx-8">
+                <div className="border border-disable rounded-md px-10 py-8 mx-8">
                   {/* Form */}
-                    <form  className='grid justify-items-stretch text-left space-y-4'>
+                    <form  className='space-y-4'>
                                 
                         {/* Title */}
-                        <div className='space-y-1 md:space-y-2 items-start'>
-                            <label htmlFor="title" className='text-sm text-left text-black2'>Title</label><br/>
+                        <div className='space-y-1 md:space-y-2 items-start text-left'>
+                            <label htmlFor="title" className='text-md text-black2'>Title</label><br/>
                             <input 
-                                className='border-2 p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
+                                className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
                                 type='text' 
                                 id = "title" 
                                 value={title}
@@ -76,10 +76,10 @@ const PushNotification = () => {
                         </div>
                         
                         {/* Body */}
-                        <div className='space-y-2' style={{ position: 'relative' }}>
-                            <label htmlFor="body" className='text-sm text-left text-black2'>Body</label><br/>
+                        <div className='space-y-2 text-left' style={{ position: 'relative' }}>
+                            <label htmlFor="body" className='text-md text-left text-black2'>Body</label><br/>
                             <input 
-                                className='border-2 p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
+                                className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
                                 id = "text" 
                                 value={body}
                                 onChange={(e) => setBody(e.target.value)}
@@ -88,9 +88,9 @@ const PushNotification = () => {
                         </div>
 
                         {/* Image */}
-                        <div className='space-y-2' style={{ position: 'relative' }}>
-                            <label htmlFor="image" className='text-sm text-left text-black2'>Upload Image</label><br/>
-                            {/* <div
+                        <div className='space-y-2 text-left mb-4' style={{ position: 'relative' }}>
+                            <label htmlFor="image" className='text-md text-left text-black2'>Upload Image</label><br/>
+                            <div
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
                                 style={{
@@ -100,45 +100,43 @@ const PushNotification = () => {
                                 textAlign: 'center',
                                 cursor: 'pointer',
                                 }}
-                            ></div> */}
-                            <input 
+                            >
+                                <input
                                 type="file"
                                 accept=".jpg, .png"
                                 onChange={handleImageChange}
-                                // style={{ display: 'none' }}
-                                onDrop={handleDrop}
-                                onDragOver={handleDragOver}
-                                className="w-full h-64"
-                                style={{
-                                // display: 'none',
-                                border: '2px dashed #c4c4c4',
-                                borderRadius: '5px',
-                                padding: '20px',
-                                textAlign: 'center',
-                                cursor: 'pointer',
-                                }}
-                            />
+                                style={{ display: 'none' }}
+                                />
+                                <p className="text-md">Drag and drop files, or <b className="text-primary">Browse</b></p>
+                                <label htmlFor="imageInput" className="text-sm" style={{ cursor: 'pointer' }}>
+                                JPG, PNG - Max file size 10MB
+                                </label>
+                            </div>
 
                             {image && (
                                 <div>
-                                    <img
-                                        src={URL.createObjectURL(image)}
-                                        alt="Selected Image"
-                                        style={{ maxWidth: '100%', maxHeight: '300px' }}
-                                    />
+                                <img
+                                    src={URL.createObjectURL(image)}
+                                    alt="Selected Image"
+                                    style={{ maxWidth: '100%', maxHeight: '300px' }}
+                                />
                                 </div>
                             )}
+
+                            
                             {/* {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/> */}
-                        </div><br/>
+                        </div>
                         
                         {/* Submit Button */}
+                        <div className="grid justify-items-end">
                         <input
-                        // onClick = {handleSubmit} 
-                        type='submit' 
-                        value="Send"
-                        // disabled={loading} 
-                        className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
-                        /> 
+                            // onClick = {handleSubmit} 
+                            type='submit' 
+                            value="Send"
+                            // disabled={loading} 
+                            className=' py-4 px-24 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-md font-bold'
+                        />
+                        </div> 
                     </form>
                 </div>
                 
