@@ -6,13 +6,14 @@ import cancel from '../icons/cancel.svg';
 import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { FaSpinner } from 'react-icons/fa';
 // import Dashboard from '../Pages/Dashboard';
 // import axios from 'axios';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
 function Modal({ message, type, onClose }) {
-  const modalClasses = `relative top-0 left-0 right-0 p-4 font-medium text-left z-50 ${type === 'success' ? 'bg-success2 text-success' : 'bg-red2 text-red'}`;
+  const modalClasses = `relative top-0 left-0 right-0 p-4 font-medium text-left rounded-md z-50 ${type === 'success' ? 'bg-success2 text-success' : 'bg-red2 text-red'}`;
   const iconSrc = type === 'success' ? success : cancel;
   const iconColor = type === 'success' ? 'bg-success' : 'bg-red';
 
@@ -23,8 +24,8 @@ function Modal({ message, type, onClose }) {
         <div className='ml-12'>{message}</div> 
       </div>
 
-      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 top-50 left-20 font-normal'>
-          X</button>
+      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 text-lg top-30 left-20 font-normal'>
+          &times;</button>
     </div>
           
   );
@@ -38,6 +39,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
   // const [data, setData] = useState(null);
   const navigate = useNavigate();
   const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api';
@@ -57,7 +60,8 @@ useEffect(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // setLoading(true);
+    // setError(null);
     
     // Check if email and password are empty  
     if (email.trim() === '' && password.trim() === ''){
@@ -76,14 +80,6 @@ useEffect(() => {
         setIsModalOpen(true);
         return;
       } 
-      // else {
-      //   setSuccessMessage('Sign-in successful.');
-      //   setTimeout(() => {
-      //   setIsModalOpen(true);
-      //   navigate('../Pages/Dashboard.jsx');
-      //   window.location.href = './Dashboard'; 
-      //   }, 1000);
-      // }
 
     // Check if email is in a valid format
     if (!/^\S+@\S+\.\S+$/.test(email)) {
@@ -93,19 +89,6 @@ useEffect(() => {
       return;
     }
 
-     
-    // else if (password !== 'password'){
-    //     setErrorMessage('Incorrect Password');
-    //     setSuccessMessage('');
-    //     setIsModalOpen(true);
-    //     return;
-    // } else {
-    //     setSuccessMessage('Sign-in successful.');
-    //     setTimeout(() => {
-    //       setIsModalOpen(true);
-    //       // history.push({Dashboard}); 
-    //   }, 1000); 
-    // }
 
     try {
         const response = await fetch(BASE_URL + endpoint, {
@@ -170,7 +153,10 @@ useEffect(() => {
       // setErrorMessage('');
     } catch (error) {
       console.error('Error fetching data:', error);
-    }
+    } 
+    // finally {
+    //   setLoading(false);
+    // }
 
     // Perform action if inputs are correct
     // setErrorMessage('');
@@ -187,7 +173,7 @@ useEffect(() => {
   return (
     <div className="grid items-center  md:py-0 md:px-0 md:block bg-fixed sm:bg-cover lg:bg-contain bg-no-repeat md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} >
       <div className='grid justify-items-start'>
-        <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0 bg-white items-center rounded-lg'>
+        <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0  items-center rounded-lg'>
           {isModalOpen && (
               <Modal
                 message={errors || successMessage}
@@ -267,9 +253,11 @@ useEffect(() => {
             <input
             onClick = {handleSubmit} 
             type='submit' 
-            value="Sign In" 
+            value="Sign In"
+            // disabled={loading} 
             className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
-            />
+            /> 
+            {/* {loading ? <div className='flex flex-row gap-1 text-lg items-center'><FaSpinner className="icon-spin" /> Signing In...</div> : 'Sign In'}</button> */}
           </form>
         </div>
       </div>
