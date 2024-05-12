@@ -34,14 +34,15 @@ const Dashboard = () => {
                 <Sidebar/>
               </div>
 
-              {/* Body */}
+              {/* Header */}
               <div className="w-full">
-                <div className="mb-4"><Header title="Dashboard"/></div>
+                <div className="mb-4 items-center"><Header title="Dashboard" link="/Dashboard"/></div>
                 
                 <div className="px-8">
                   <div className="mb-4"><Heading title="Dashboard"/></div>
                 </div>
-
+                
+                {/* Body */}
                 <div className=" grid grid-cols-4 px-8 gap-5">
                   <Card className="bg-primary !important text-white" title="Total Revenue" icons={<TbCurrencyNaira className="size-10 text-white bg-primary p-2 rounded-full"/>} info="10M"/>
                   <Card className="bg-fa !important" title="Total Orders" icons={<RiListView className="size-10 text-white bg-blue p-2 rounded-full"/>} info="5K"/>
