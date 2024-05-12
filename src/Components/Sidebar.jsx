@@ -22,7 +22,7 @@ const Sidebar = () => {
 
     return ( 
         <>
-            <div className=" sticky h-full left-0 w-60 text-left border-r-2 border-fa p-4 bg-white" >
+            <div className=" sticky h-full left-0 w-60 text-left border-r-2 border-disable p-4 bg-white" >
             {loading ? (
                 <p>Loading...</p>
             ) : (

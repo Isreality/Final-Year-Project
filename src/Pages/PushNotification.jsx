@@ -57,7 +57,7 @@ const PushNotification = () => {
                 </div>
 
                 {/* Body */}
-                <div className=" border-2 border-fa p-10 mx-8">
+                <div className=" border-2 border-disable rounded-md px-10 py-8 mx-8">
                   {/* Form */}
                     <form  className='grid justify-items-stretch text-left space-y-4'>
                                 
@@ -65,7 +65,7 @@ const PushNotification = () => {
                         <div className='space-y-1 md:space-y-2 items-start'>
                             <label htmlFor="title" className='text-sm text-left text-black2'>Title</label><br/>
                             <input 
-                                className='border-2 p-4 w-full rounded-md border-fa bg-white focus:outline-disable' 
+                                className='border-2 p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
                                 type='text' 
                                 id = "title" 
                                 value={title}
@@ -79,19 +79,18 @@ const PushNotification = () => {
                         <div className='space-y-2' style={{ position: 'relative' }}>
                             <label htmlFor="body" className='text-sm text-left text-black2'>Body</label><br/>
                             <input 
-                                className='border-2 p-4 w-full rounded-md border-fa bg-white focus:outline-disable' 
-                                id = "pwd" 
+                                className='border-2 p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
+                                id = "text" 
                                 value={body}
                                 onChange={(e) => setBody(e.target.value)}
-                            // required
                             />
                             {/* {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/> */}
-                        </div><br/>
+                        </div>
 
                         {/* Image */}
                         <div className='space-y-2' style={{ position: 'relative' }}>
                             <label htmlFor="image" className='text-sm text-left text-black2'>Upload Image</label><br/>
-                            <div
+                            {/* <div
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
                                 style={{
@@ -101,22 +100,32 @@ const PushNotification = () => {
                                 textAlign: 'center',
                                 cursor: 'pointer',
                                 }}
-                            ></div>
+                            ></div> */}
                             <input 
                                 type="file"
                                 accept=".jpg, .png"
                                 onChange={handleImageChange}
-                                style={{ display: 'none' }}
+                                // style={{ display: 'none' }}
+                                onDrop={handleDrop}
+                                onDragOver={handleDragOver}
+                                className="w-full h-64"
+                                style={{
+                                // display: 'none',
+                                border: '2px dashed #c4c4c4',
+                                borderRadius: '5px',
+                                padding: '20px',
+                                textAlign: 'center',
+                                cursor: 'pointer',
+                                }}
                             />
 
                             {image && (
                                 <div>
-                                <h3>Selected Image Preview:</h3>
-                                <img
-                                    src={URL.createObjectURL(image)}
-                                    alt="Selected Image"
-                                    style={{ maxWidth: '100%', maxHeight: '300px' }}
-                                />
+                                    <img
+                                        src={URL.createObjectURL(image)}
+                                        alt="Selected Image"
+                                        style={{ maxWidth: '100%', maxHeight: '300px' }}
+                                    />
                                 </div>
                             )}
                             {/* {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/> */}
