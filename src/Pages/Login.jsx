@@ -5,7 +5,7 @@ import fisher from '../img/fisher.jpg';
 import cancel from '../icons/cancel.svg';
 import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import Dashboard from '../Pages/Dashboard';
 // import axios from 'axios';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -39,7 +39,7 @@ function Login() {
   const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [data, setData] = useState(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const history = createBrowserHistory();
   const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api';
   const endpoint = '/admin/sign-in';
@@ -81,8 +81,8 @@ useEffect(() => {
       //   setSuccessMessage('Sign-in successful.');
       //   setTimeout(() => {
       //   setIsModalOpen(true);
-        // navigate('../Pages/Dashboard.jsx');
-        // window.location.href = './Dashboard'; 
+      //   navigate('../Pages/Dashboard.jsx');
+      //   window.location.href = './Dashboard'; 
       //   }, 1000);
       // }
 
@@ -94,18 +94,8 @@ useEffect(() => {
       return;
     }
 
-    // Check if email and password are not given correct inputs
-    // if (email !== 'ashaluwalakazeem@gmail.com' && password !== 'password') {
-    //   setErrorMessage('Your email and password are incorrect. Please try again!');
-    //   setSuccessMessage('');
-    //   setIsModalOpen(true);
-    //   return;
-    // } else if (email !== 'ashaluwalakazeem@gmail.com') {
-    //     setErrorMessage('You inputted the wrong email. Please try again!');
-    //     setSuccessMessage('');
-    //     setIsModalOpen(true);
-    //     return;
-    // } else if (password !== 'password'){
+     
+    // else if (password !== 'password'){
     //     setErrorMessage('Incorrect Password');
     //     setSuccessMessage('');
     //     setIsModalOpen(true);
@@ -136,21 +126,57 @@ useEffect(() => {
       const data = await response.json();
       console.warn(data);
       // console.warn(JSON.stringify(data));
-      localStorage.setItem('auth', JSON.stringify(data));
+      // localStorage.setItem('auth', JSON.stringify(data));
 
       // navigate('../Pages/dashboard');
+      // Check if email and password are not given correct inputs
+      if (email !== data.email && password !== data.password) {
+        setErrorMessage('Invalid email or password!');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      }  else {
+          setSuccessMessage('Sign-in successful.');
+          setTimeout(() => {
+          setIsModalOpen(true);
+          navigate('/Dashboard'); 
+          }, 1000);
+        }
 
-      setEmail('');
-      setPassword('');
-      setErrorMessage('');
+      // if (email !== data.email && password !== data.password) {
+      //   setErrorMessage('Invalid email or password!');
+      //   setSuccessMessage('');
+      //   setIsModalOpen(true);
+      //   return;
+      // } else if (email !== data.email) {
+      //     setErrorMessage('You inputted the wrong email. Please try again!');
+      //     setSuccessMessage('');
+      //     setIsModalOpen(true);
+      //     return;
+      // } else if (password !== data.password){
+      //     setErrorMessage('Incorrect Password. Please try again!');
+      //     setSuccessMessage('');
+      //     setIsModalOpen(true);
+      //     return;
+      // } else {
+      //     setSuccessMessage('Sign-in successful.');
+      //     setTimeout(() => {
+      //       setIsModalOpen(true);
+      //       // history.push({Dashboard}); 
+      //   }, 1000); 
+      // }
+
+      // setEmail('');
+      // setPassword('');
+      // setErrorMessage('');
     } catch (error) {
       console.error('Error fetching data:', error);
     }
 
     // Perform action if inputs are correct
-    setErrorMessage('');
-    setSuccessMessage('Sign-in successful.');
-    setIsModalOpen(true);
+    // setErrorMessage('');
+    // setSuccessMessage('Sign-in successful.');
+    // setIsModalOpen(true);
 
   };
 

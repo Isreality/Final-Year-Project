@@ -11,7 +11,8 @@ import ManageProducts from './Pages/ManageProducts';
 import PushNotification from './Pages/PushNotification';
 import Reviews from './Pages/Reviews';
 import Settings from './Pages/Settings';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+// import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 
@@ -20,7 +21,7 @@ function App() {
     <div className="App" >
       {/* <SkeletonTheme baseColor='#313131' highlightColor='#525252'> */}
       <SkeletonTheme baseColor='#202020' highlightColor='#444'>
-        <Router>
+        <BrowserRouter>
           {/* <Link to='/Dashboard'>Dashboard</Link> */}
           <Routes>
             {/* <Route path="./Pages/Dashboard" Component={<LoginNav cmd={Dashboard}/>}></Route> */}
@@ -35,7 +36,7 @@ function App() {
             <Route path="/Reviews" Component={Reviews}></Route>
             <Route path="/Settings" Component={Settings}></Route>
           </Routes>
-        </Router>
+        </BrowserRouter>
       </SkeletonTheme>
   
       {/* <Login/> */}
