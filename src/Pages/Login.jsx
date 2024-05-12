@@ -40,7 +40,6 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [data, setData] = useState(null);
   const navigate = useNavigate();
-  // const history = createBrowserHistory();
   const BASE_URL = 'https://e9d9-102-89-23-53.ngrok-free.app/api';
   const endpoint = '/admin/sign-in';
 
