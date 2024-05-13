@@ -14,6 +14,7 @@ const PushNotification = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
+  // const [isHovered, setIsHovered] = useState(false);
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
@@ -29,6 +30,18 @@ const PushNotification = () => {
   const handleDragOver = (e) => {
     e.preventDefault();
   };
+
+  const handleRemoveImage = () => {
+    setImage(null);
+  };
+
+  // const handleImageHover = () => {
+  //   setIsHovered(true);
+  // };
+
+  // const handleImageHoverExit = () => {
+  //   setIsHovered(false);
+  // };
 
   useEffect(() => {
     setLoading(true)
@@ -91,45 +104,74 @@ const PushNotification = () => {
                         {/* Image */}
                         <div className='space-y-2 text-left mb-4' style={{ position: 'relative' }}>
                             <label htmlFor="image" className='text-md text-left text-black2'>Upload Image</label><br/>
-                            <div
-                                onDrop={handleDrop}
-                                onDragOver={handleDragOver}
-                                // className="h-50 text-center"
-                                style={{
-                                border: '2px dashed #ccc',
-                                borderRadius: '5px',
-                                padding: '40px',
-                                textAlign: 'center',
-                                cursor: 'pointer',
-                                }}
-                            >
-                                <input
-                                type="file"
-                                accept=".jpg, .png"
-                                onChange={handleImageChange}
-                                style={{ display: 'none' }}
-                                id="imageInput"
-                                />
-
-                                {/* <p className="text-md text-black2">Drag and drop files, or <b className="text-primary">Browse</b></p> */}
-                                <label htmlFor="imageInput" className="text-sm text-black2" style={{ cursor: 'pointer' }}>
-                                  <div className="grid justify-items-center"><LiaImage className="text-c4 size-32"/></div>
-                                  Drag and drop files, or <b className="text-primary">Browse</b><br/>
-                                  JPG, PNG - Max file size 10MB
-                                </label>
-                                
-                            </div>
-
-                            {image && (
-                                <div>
+                            
+                            {image ? (
+                              <div
+                                // onMouseEnter={handleImageHover}
+                                // onMouseLeave={handleImageHoverExit}
+                                style={{ position: 'relative', display: 'inline-block' }}
+                              >
                                 <img
-                                    src={URL.createObjectURL(image)}
-                                    alt="Selected Image"
-                                    style={{ maxWidth: '100%', maxHeight: '300px' }}
-                                />
-                                </div>
-                            )}
+                                  src={URL.createObjectURL(image)}
+                                  alt="Selected Image"
+                                  style={{  maxHeight: '300px', borderRadius: '6px' }}
+                                  className="w-full"
+                                /><br/>
 
+                                <div className="grid justify-items-start">
+                                  {/* Option to change image */}
+                                  <label
+                                    htmlFor="imageInput"
+                                    className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer"
+                                  >
+                                    Change Image
+                                  </label>
+
+                                  {/* Option to remove the image */}
+                                  <button 
+                                    className="text-black2 bg-disable px-4 py-2 rounded-md" 
+                                    onClick={handleRemoveImage}
+                                    style={{
+                                      position: 'absolute',
+                                      bottom: 0,
+                                      right: 0,
+                                      cursor: 'pointer',
+                                    }}
+                                    >
+                                  Remove Image</button>
+                                </div>
+                                                                
+                              </div>
+                            ) : (
+                            
+                              <div
+                                  onDrop={handleDrop}
+                                  onDragOver={handleDragOver}
+                                  // className="h-50 text-center"
+                                  style={{
+                                  border: '2px dashed #ccc',
+                                  borderRadius: '5px',
+                                  padding: '40px',
+                                  textAlign: 'center',
+                                  cursor: 'pointer',
+                                  }}
+                              >
+                                  <input
+                                  type="file"
+                                  accept=".jpg, .png"
+                                  onChange={handleImageChange}
+                                  style={{ display: 'none' }}
+                                  id="imageInput"
+                                  />
+
+                                  <label htmlFor="imageInput" className="text-black2" style={{ cursor: 'pointer' }}>
+                                    <div className="grid justify-items-center"><LiaImage className="text-c4 size-32"/></div>
+                                    Drag and drop files, or <b className="text-primary">Browse</b><br/>
+                                    <p className="text-xs">JPG, PNG - Max file size (10MB)</p>
+                                  </label>
+                                  
+                              </div>
+                            )}
                             
                             {/* {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/> */}
                         </div>
