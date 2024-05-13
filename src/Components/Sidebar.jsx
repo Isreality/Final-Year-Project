@@ -6,11 +6,13 @@ import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { TbLogout } from "react-icons/tb";
 import Skeleton from 'react-loading-skeleton';
+import { useNavigate } from 'react-router-dom';
 
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate(false);
 
     const openModal = () => {
         setIsOpen(true);
@@ -69,7 +71,8 @@ const Sidebar = () => {
                                 
                                 <div className=" flex flex-row justify-items-stretch gap-4 mr-2">
                                     <button className="bg-disable text-black2 py-3 px-16 rounded-md" onClick={closeModal}>Cancel</button>
-                                    <Link to="/" className="bg-red text-white py-3 px-16 rounded-md">Logout</Link>
+                                    <button className="bg-red text-white py-3 px-16 rounded-md" onClick={navigate('/')}>Yes</button>
+                                    {/* <Link to="/" className="bg-red text-white py-3 px-16 rounded-md">Logout</Link> */}
                                 </div>
                             </div>
                         </div>

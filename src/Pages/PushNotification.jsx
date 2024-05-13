@@ -4,6 +4,7 @@ import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
 import { useState, useEffect } from 'react';
+import { LiaImage } from "react-icons/lia";
 import { FaUsers } from "react-icons/fa";
 // import Skeleton from 'react-loading-skeleton';
 
@@ -93,10 +94,11 @@ const PushNotification = () => {
                             <div
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
+                                // className="h-50 text-center"
                                 style={{
                                 border: '2px dashed #ccc',
                                 borderRadius: '5px',
-                                padding: '20px',
+                                padding: '40px',
                                 textAlign: 'center',
                                 cursor: 'pointer',
                                 }}
@@ -106,11 +108,16 @@ const PushNotification = () => {
                                 accept=".jpg, .png"
                                 onChange={handleImageChange}
                                 style={{ display: 'none' }}
+                                id="imageInput"
                                 />
-                                <p className="text-md">Drag and drop files, or <b className="text-primary">Browse</b></p>
-                                <label htmlFor="imageInput" className="text-sm" style={{ cursor: 'pointer' }}>
-                                JPG, PNG - Max file size 10MB
+
+                                {/* <p className="text-md text-black2">Drag and drop files, or <b className="text-primary">Browse</b></p> */}
+                                <label htmlFor="imageInput" className="text-sm text-black2" style={{ cursor: 'pointer' }}>
+                                  <div className="grid justify-items-center"><LiaImage className="text-c4 size-32"/></div>
+                                  Drag and drop files, or <b className="text-primary">Browse</b><br/>
+                                  JPG, PNG - Max file size 10MB
                                 </label>
+                                
                             </div>
 
                             {image && (

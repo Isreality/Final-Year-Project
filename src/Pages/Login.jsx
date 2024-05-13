@@ -6,7 +6,7 @@ import cancel from '../icons/cancel.svg';
 import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { FaSpinner } from 'react-icons/fa';
+// import { FaSpinner } from 'react-icons/fa';
 // import Dashboard from '../Pages/Dashboard';
 // import axios from 'axios';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -173,7 +173,7 @@ useEffect(() => {
   return (
     <div className="grid items-center  md:py-0 md:px-0 md:block bg-fixed sm:bg-cover lg:bg-contain bg-no-repeat md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} >
       <div className='grid justify-items-start'>
-        <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0  items-center rounded-lg'>
+        <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0 items-center rounded-lg'>
           {isModalOpen && (
               <Modal
                 message={errors || successMessage}
