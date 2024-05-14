@@ -22,6 +22,11 @@ const Sidebar = () => {
         setIsOpen(false);
     };
 
+    const proceed = () => {
+        setIsOpen(false);
+        navigate('/'); 
+    };
+
     return ( 
         <>
             <div className=" sticky h-full left-0 w-60 text-left border-r border-disable p-4 bg-white" >
@@ -54,7 +59,8 @@ const Sidebar = () => {
                         <TbLogout className="h-5 w-5"/>
                         <button type="submit" onClick={openModal}>Logout</button>
                     </div>
-
+                    
+                    {/* Logout */}
                     {isOpen && (
                         <div className="fixed inset-0 flex justify-center items-center z-80">
                             <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -71,8 +77,7 @@ const Sidebar = () => {
                                 
                                 <div className=" flex flex-row justify-items-stretch gap-4 mr-2">
                                     <button className="bg-disable text-black2 py-3 px-16 rounded-md" onClick={closeModal}>Cancel</button>
-                                    {/* <button className="bg-red text-white py-3 px-16 rounded-md" onClick={navigate('/')}>Yes</button> */}
-                                    <Link to="/" className="bg-red text-white py-3 px-16 rounded-md">Logout</Link>
+                                    <button className="bg-red text-white py-3 px-16 rounded-md" onClick={proceed}>Logout</button>
                                 </div>
                             </div>
                         </div>

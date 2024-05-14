@@ -5,6 +5,7 @@ import Header from "../Components/Header";
 import Heading from "../Components/Heading";
 import { useState, useEffect } from 'react';
 import { LiaImage } from "react-icons/lia";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaUsers } from "react-icons/fa";
 // import Skeleton from 'react-loading-skeleton';
@@ -16,6 +17,7 @@ const PushNotification = () => {
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate(false);
   // const [isHovered, setIsHovered] = useState(false);
 
   const handleImageChange = (e) => {
@@ -41,8 +43,13 @@ const PushNotification = () => {
     setIsOpen(true);
   };
 
-const closeModal = () => {
+  const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const proceed = () => {
+    setIsOpen(false);
+    navigate('/'); 
   };
 
   useEffect(() => {
@@ -188,14 +195,12 @@ const closeModal = () => {
                         
                         {/* Submit Button */}
                         <div className="grid justify-items-end">
-                          <input
+                          <button
                               // onClick = {handleSubmit}
                               onClick={openModal} 
-                              type='submit' 
-                              value="Send"
-                              // disabled={loading} 
+                              type='submit'  
                               className=' py-4 px-24 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-md font-bold'
-                          />
+                          >Send</button>
 
                           {isOpen && (
                               <div className="fixed inset-0 flex justify-center items-center z-80">
@@ -213,8 +218,8 @@ const closeModal = () => {
                                       
                                       <div className=" flex flex-row justify-items-stretch gap-4 mr-2">
                                           <button className="bg-disable text-black2 py-3 px-16 rounded-md" onClick={closeModal}>Cancel</button>
-                                          {/* <button className="bg-red text-white py-3 px-16 rounded-md" onClick={navigate('/')}>Yes</button> */}
-                                          <button className="bg-primary text-white py-3 px-16 rounded-md">Send</button>
+                                          <button className="bg-red text-white py-3 px-16 rounded-md" onClick={proceed}>Send</button>
+                                          {/* <button className="bg-primary text-white py-3 px-16 rounded-md">Send</button> */}
                                       </div>
                                   </div>
                               </div>
