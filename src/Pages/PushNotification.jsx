@@ -24,7 +24,7 @@ function Modal({ message, type, onClose }) {
         <div className='ml-12'>{message}</div> 
       </div>
 
-      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 text-lg top-30 left-20 font-normal'>
+      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 text-lg top-30 right-4 size-4 font-normal'>
           &times;</button>
     </div>
           
@@ -60,6 +60,10 @@ function PushNotification () {
 
   const handleRemoveImage = () => {
     setImage(null);
+  };
+
+  const removeModal = () => {
+    setIsModalOpen(false);
   };
 
   const openModal = (e) => {
@@ -112,16 +116,19 @@ function PushNotification () {
                   <div className="mb-4"><Heading title="Push Notification"/></div>
                 </div>
 
-                {isModalOpen && (
-                  <Modal
-                    message={errors || successMessage}
-                    type={errors ? 
-                      'error' : 
-                      'success'}
-                    onClose={closeModal}
-                    className="mb-24"
-                  />
-                )}
+                {/* Header */}
+                <div className="mx-8 mb-4">
+                  {isModalOpen && (                  
+                      <Modal
+                        message={errors || successMessage}
+                        type={errors ? 
+                          'error' : 
+                          'success'}
+                        onClose={removeModal}
+                        className=""
+                      />
+                  )}
+                </div>
 
                 {/* Body */}
                 <div className="border border-disable rounded-md px-10 py-8 mx-8">
@@ -132,21 +139,21 @@ function PushNotification () {
                         <div className='space-y-1 md:space-y-2 items-start text-left'>
                             <label htmlFor="title" className='text-md text-black2'>Title</label><br/>
                             <input 
-                                className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
+                                className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
                                 type='text' 
                                 id = "title" 
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 // required
                                 />
-                                {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}<br/><br/>
+                                {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}<br/>
                         </div>
-                        
+
                         {/* Body */}
                         <div className='space-y-2 text-left'>
                             <label htmlFor="body" className='text-md text-left text-black2'>Body</label><br/>
-                            <input 
-                                className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable' 
+                            <textarea 
+                                className='border p-4 w-full h-32 rounded-md border-disable bg-white focus:outline-disable text-black2' 
                                 id = "text" 
                                 value={body}
                                 onChange={(e) => setBody(e.target.value)}
