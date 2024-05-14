@@ -11,8 +11,8 @@ const Header = (props) => {
 
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center text-sm gap-1 text-black2">
-                    <Link>Home</Link>
-                    <TbMathGreater className="text-primary font-medium"/>
+                    <p className="cursor-pointer">Home</p>
+                    <TbMathGreater className="text-primary font-medium cursor-pointer"/>
                     <Link to={props.link} className="text-primary font-medium">{props.title}</Link>
                 </div>
 
