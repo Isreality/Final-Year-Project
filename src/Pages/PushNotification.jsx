@@ -6,18 +6,41 @@ import Heading from "../Components/Heading";
 import { useState, useEffect } from 'react';
 import { LiaImage } from "react-icons/lia";
 import { useNavigate } from 'react-router-dom';
+import cancel from '../icons/cancel.svg';
+import success from '../icons/success.svg';
 import { Link } from 'react-router-dom';
 import { FaUsers } from "react-icons/fa";
 // import Skeleton from 'react-loading-skeleton';
 
+function Modal({ message, type, onClose }) {
+  const modalClasses = `relative top-0 left-0 right-0 p-4 font-medium text-left rounded-md z-50 ${type === 'success' ? 'bg-success2 text-success' : 'bg-red2 text-red'}`;
+  const iconSrc = type === 'success' ? success : cancel;
+  const iconColor = type === 'success' ? 'bg-success' : 'bg-red';
 
-const PushNotification = () => {
+  return (
+    <div className={modalClasses}>
+      <div className='flex flex-row gap-10'>
+        <img src={iconSrc} alt="" className={`p-4 absolute left-0 top-0 rounded-md ${iconColor}`}/>        
+        <div className='ml-12'>{message}</div> 
+      </div>
+
+      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 text-lg top-30 left-20 font-normal'>
+          &times;</button>
+    </div>
+          
+  );
+}
+
+function PushNotification () {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [image, setImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate(false);
+  const [errors, setErrorMessage] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   // const [isHovered, setIsHovered] = useState(false);
 
   const handleImageChange = (e) => {
@@ -39,7 +62,18 @@ const PushNotification = () => {
     setImage(null);
   };
 
-  const openModal = () => {
+  const openModal = (e) => {
+    e.preventDefault();
+
+    // Validate the form inputs
+    if (!title || !body) {
+      setErrorMessage('Both title and body are required.');
+      // setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    }
+
+    setErrorMessage('');
     setIsOpen(true);
   };
 
@@ -49,7 +83,7 @@ const PushNotification = () => {
 
   const proceed = () => {
     setIsOpen(false);
-    navigate('/'); 
+    navigate('/PushNotification'); 
   };
 
   useEffect(() => {
@@ -78,10 +112,21 @@ const PushNotification = () => {
                   <div className="mb-4"><Heading title="Push Notification"/></div>
                 </div>
 
+                {isModalOpen && (
+                  <Modal
+                    message={errors || successMessage}
+                    type={errors ? 
+                      'error' : 
+                      'success'}
+                    onClose={closeModal}
+                    className="mb-24"
+                  />
+                )}
+
                 {/* Body */}
                 <div className="border border-disable rounded-md px-10 py-8 mx-8">
                   {/* Form */}
-                    <form  className='space-y-4'>
+                    <form  className='space-y-4' onSubmit={openModal}>
                                 
                         {/* Title */}
                         <div className='space-y-1 md:space-y-2 items-start text-left'>
@@ -94,7 +139,7 @@ const PushNotification = () => {
                                 onChange={(e) => setTitle(e.target.value)}
                                 // required
                                 />
-                                {/* {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}<br/><br/> */}
+                                {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}<br/><br/>
                         </div>
                         
                         {/* Body */}
@@ -106,7 +151,7 @@ const PushNotification = () => {
                                 value={body}
                                 onChange={(e) => setBody(e.target.value)}
                             />
-                            {/* {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/> */}
+                            {errors.body && <span style={{ color: 'red' }}>{errors.body}</span>}<br/>
                         </div>
 
                         {/* Image */}
@@ -196,8 +241,7 @@ const PushNotification = () => {
                         {/* Submit Button */}
                         <div className="grid justify-items-end">
                           <button
-                              // onClick = {handleSubmit}
-                              onClick={openModal} 
+                              // onClick = {handleSubmit} 
                               type='submit'  
                               className=' py-4 px-24 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-md font-bold'
                           >Send</button>
@@ -205,21 +249,19 @@ const PushNotification = () => {
                           {isOpen && (
                               <div className="fixed inset-0 flex justify-center items-center z-80">
                                   <div className="absolute inset-0 bg-black opacity-50"></div>
-                                  <div className="relative bg-white rounded-lg max-w-lg py-8 px-10 z-10">
+                                  <div className="relative bg-white rounded-lg max-w-lg py-8 px-16 z-10">
                                       <button
-                                      className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
-                                      onClick={closeModal}
-                                      >
+                                        className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
+                                        onClick={closeModal}>
                                       &times;
                                       </button>
 
                                       <h2 className="text-xl text-primary text-center font-semibold mb-4">Send Notification</h2>
-                                      <p className="mb-4 text-center">Are you sure you want to send notifications?</p>
+                                      <p className="mb-4 text-center">Do you want to send post notification?</p>
                                       
                                       <div className=" flex flex-row justify-items-stretch gap-4 mr-2">
-                                          <button className="bg-disable text-black2 py-3 px-16 rounded-md" onClick={closeModal}>Cancel</button>
-                                          <button className="bg-red text-white py-3 px-16 rounded-md" onClick={proceed}>Send</button>
-                                          {/* <button className="bg-primary text-white py-3 px-16 rounded-md">Send</button> */}
+                                          <button className="bg-disable text-black2 py-3 px-12 rounded-md" onClick={closeModal}>No</button>
+                                          <button className="bg-primary text-white py-3 px-12 rounded-md" onClick={proceed}>Send</button>
                                       </div>
                                   </div>
                               </div>

@@ -68,7 +68,7 @@ useEffect(() => {
         setErrorMessage('Email and password are required.');
         setSuccessMessage('');
         setIsModalOpen(true);
-      return;
+        return;
       } else if (email.trim() === '') {
         setErrorMessage('Email is required.');
         setSuccessMessage('');
