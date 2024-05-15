@@ -75,9 +75,10 @@ function PushNotification () {
       // setSuccessMessage('');
       setIsModalOpen(true);
       return;
-    }
+    } 
 
     setErrorMessage('');
+    setSuccessMessage('');
     setIsOpen(true);
   };
 
@@ -87,7 +88,11 @@ function PushNotification () {
 
   const proceed = () => {
     setIsOpen(false);
-    navigate('/PushNotification'); 
+    setSuccessMessage('Notification sent successfully');
+    setTitle('');
+    setBody('');
+    setIsModalOpen(true);
+    return; 
   };
 
   useEffect(() => {
