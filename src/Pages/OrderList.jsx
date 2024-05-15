@@ -13,7 +13,29 @@ const OrderList = () => {
   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+   const [deleteId, setDeleteId] = useState(null);
   const rowsPerPage = 10;
+
+  const openModal = (id) => {
+    setDeleteId(id);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleDelete = (id) => {
+    setData(data.filter(item => item.id !== id));
+    setIsOpen(false);
+  };
+
+  const confirmDelete = () => {
+    if (deleteId !== null) {
+      handleDelete(deleteId);
+    }
+  };
 
 //   useEffect(() => {
 //     const fetchData = async () => {
@@ -191,6 +213,16 @@ const tableData =
     date: "May 15,2024",
   },
 
+  {
+    id: 13,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
 ]
 
 
@@ -251,12 +283,13 @@ const tableData =
                                 <td className="p-4">{item.date}</td>
                                 <td className="flex flex-row gap-2 p-2 items-center">
                                     <FaEye className="text-c4 size-5"/>
-                                    <HiOutlineTrash className="text-red size-5" />
+                                    <HiOutlineTrash className="text-red size-5 cursor-pointer" onClick={() => openModal(item.id)}/>
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
+
                     <div className="flex justify-between items-center mt-4">
                         <button
                         onClick={handlePreviousPage}
@@ -276,6 +309,27 @@ const tableData =
                         Next
                         </button>
                     </div>
+
+                          {isOpen && (
+                              <div className="fixed inset-0 flex justify-center items-center z-80">
+                                  <div className="absolute inset-0 bg-black opacity-50"></div>
+                                  <div className="relative bg-white rounded-lg max-w-lg py-8 px-16 z-10">
+                                      <button
+                                        className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
+                                        onClick={closeModal}>
+                                      &times;
+                                      </button>
+
+                                      <h2 className="text-xl text-red text-center font-semibold mb-4">Delete Order</h2>
+                                      <p className="mb-4 text-center">Do you want to delete this order?</p>
+                                      
+                                      <div className=" flex flex-row justify-items-stretch gap-4 mr-2">
+                                          <button className="bg-disable text-black2 py-3 px-12 rounded-md cursor-pointer" onClick={closeModal}>No</button>
+                                          <button className="bg-red text-white py-3 px-12 rounded-md cursor-pointer" onClick={confirmDelete}>Delete</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          )}
                 </div>
                 
               </div>
