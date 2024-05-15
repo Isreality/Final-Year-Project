@@ -9,11 +9,11 @@ import Heading from "../Components/Heading";
 
 
 const OrderList = () => {
-//   const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const rowsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
 
 //   useEffect(() => {
 //     const fetchData = async () => {
@@ -49,23 +49,25 @@ const OrderList = () => {
 //     return <div className="text-center p-4">No data available</div>;
 //   }
 
-//   const indexOfLastRow = currentPage * rowsPerPage;
-//   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
 //   const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
 
-//   const totalPages = Math.ceil(data.length / rowsPerPage);
 
-//   const handleNextPage = () => {
-//     if (currentPage < totalPages) {
-//       setCurrentPage(currentPage + 1);
-//     }
-//   };
+  const totalPages = Math.ceil(data.length / rowsPerPage);
 
-//   const handlePreviousPage = () => {
-//     if (currentPage > 1) {
-//       setCurrentPage(currentPage - 1);
-//     }
-//   };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
 const tableData =
 [
@@ -249,13 +251,13 @@ const tableData =
                                 <td className="p-4">{item.date}</td>
                                 <td className="flex flex-row gap-2 p-2 items-center">
                                     <FaEye className="text-c4 size-5"/>
-                                    <HiOutlineTrash className="text-red size-5"/>
+                                    <HiOutlineTrash className="text-red size-5" />
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                    {/* <div className="flex justify-between items-center mt-4">
+                    <div className="flex justify-between items-center mt-4">
                         <button
                         onClick={handlePreviousPage}
                         disabled={currentPage === 1}
@@ -273,7 +275,7 @@ const tableData =
                         >
                         Next
                         </button>
-                    </div> */}
+                    </div>
                 </div>
                 
               </div>
