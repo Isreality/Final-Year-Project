@@ -1,6 +1,8 @@
 // // import { Link } from "react-router-dom";
 import "../style.css";
 import { useState, useEffect } from 'react';
+import { FaEye } from 'react-icons/fa';
+import { HiOutlineTrash } from "react-icons/hi";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
@@ -68,15 +70,123 @@ const OrderList = () => {
 const tableData =
 [
   {
-    name: "Dashboard",
-    details: "Dante",
-    id: 1
+    id: 1,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
   },
 
   {
-    name: "Dashboard",
-    details: "Dante",
-    id: 2
+    id: 2,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 3,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 4,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 5,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 6,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 7,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 8,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 9,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 10,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 11,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
+  },
+
+  {
+    id: 12,
+    name: "John Doe",
+    product: "Catfish",
+    phone: "1234567890",
+    status: "Delivered",
+    price: "N500",
+    date: "May 15,2024",
   },
 
 ]
@@ -96,7 +206,7 @@ const tableData =
 
               {/* Header */}
               <div className="w-full">
-                <div className="mb-4 items-center"><Header title="Dashboard" link="/Dashboard"/></div>
+                <div className="mb-4 items-center"><Header title="Orders" link="/OrderList"/></div>
                 
                 <div className="px-8">
                   <div className="mb-4"><Heading title="Orders"/></div>
@@ -105,11 +215,16 @@ const tableData =
                 {/* Body */}
                 <div className="text-left px-8 gap-5">
                     <table className="min-w-full border-collapse border border-disable">
-                        <thead className="bg-fa ">
+                        <thead className="bg-fa text-sm">
                         <tr className="">
                             <div className="p-2 text-center items-center"><th className="p-4 text-black2 font-normal">ID</th></div>
                             <th className="p-4 text-black2 font-normal">Name</th>
-                            <th className="p-4 text-black2 font-normal">Details</th>
+                            <th className="p-4 text-black2 font-normal">Product</th>
+                            <th className="p-4 text-black2 font-normal">Phone</th>
+                            <th className="p-4 text-black2 font-normal">Status</th>
+                            <th className="p-4 text-black2 font-normal">Price</th>
+                            <th className="p-4 text-black2 font-normal">Delivery Date</th>
+                            <th className="p-4 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
                         {/* <tbody>
@@ -124,10 +239,18 @@ const tableData =
 
                         <tbody>
                         {tableData.map((item) => (
-                            <tr key={item.id} className="text-black2">
-                            <div className="bg-white p-4 text-center items-center"><td className=" bg-fa px-4 py-2 rounded-sm">{item.id}</td></div>
-                            <td className="p-4">{item.name}</td>
-                            <td className="p-4">{item.details}</td>
+                            <tr key={item.id} className="text-black2 text-sm border-b border-disable">
+                                <div className="bg-white p-4 text-center text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div>
+                                <td className="p-4">{item.name}</td>
+                                <td className="p-4">{item.product}</td>
+                                <td className="p-4">{item.phone}</td>
+                                <td className="p-4">{item.status}</td>
+                                <td className="p-4">{item.price}</td>
+                                <td className="p-4">{item.date}</td>
+                                <td className="flex flex-row gap-2 p-2 items-center">
+                                    <FaEye className="text-c4 size-5"/>
+                                    <HiOutlineTrash className="text-red size-5"/>
+                                </td>
                             </tr>
                         ))}
                         </tbody>
