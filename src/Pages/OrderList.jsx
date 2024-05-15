@@ -103,13 +103,13 @@ const tableData =
                 </div>
                 
                 {/* Body */}
-                <div className=" grid grid-cols-4 px-8 gap-5">
-                    <table className="min-w-full border-collapse border border-gray-200">
-                        <thead className="bg-fa">
-                        <tr>
-                            <th className="p-4 text-black2 font-medium">ID</th>
-                            <th className="p-4 text-black2 font-medium">Name</th>
-                            <th className="p-4 text-black2 font-medium">Details</th>
+                <div className="text-left px-8 gap-5">
+                    <table className="min-w-full border-collapse border border-disable">
+                        <thead className="bg-fa ">
+                        <tr className="">
+                            <div className="p-2 text-center items-center"><th className="p-4 text-black2 font-normal">ID</th></div>
+                            <th className="p-4 text-black2 font-normal">Name</th>
+                            <th className="p-4 text-black2 font-normal">Details</th>
                         </tr>
                         </thead>
                         {/* <tbody>
@@ -124,8 +124,8 @@ const tableData =
 
                         <tbody>
                         {tableData.map((item) => (
-                            <tr key={item.id}>
-                            <td className="px-2 py-2 bg-fa">{item.id}</td>
+                            <tr key={item.id} className="text-black2">
+                            <div className="bg-white p-4 text-center items-center"><td className=" bg-fa px-4 py-2 rounded-sm">{item.id}</td></div>
                             <td className="p-4">{item.name}</td>
                             <td className="p-4">{item.details}</td>
                             </tr>
