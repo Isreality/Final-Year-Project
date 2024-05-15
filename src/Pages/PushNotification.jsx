@@ -78,7 +78,7 @@ function PushNotification () {
     } 
 
     setErrorMessage('');
-    setSuccessMessage('');
+    // setSuccessMessage('');
     setIsOpen(true);
   };
 
