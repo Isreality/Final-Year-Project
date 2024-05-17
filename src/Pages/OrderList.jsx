@@ -14,7 +14,9 @@ const OrderList = () => {
 //   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
-   const [deleteId, setDeleteId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [details, setDetails] = useState({});
   const rowsPerPage = 10;
 
   const openModal = (id) => {
@@ -35,6 +37,15 @@ const OrderList = () => {
     if (deleteId !== null) {
       handleDelete(deleteId);
     }
+  };
+
+  const openDetailsModal = (item) => {
+    setDetails(item);
+    setIsDetailsModalOpen(true);
+  };
+
+  const closeDetailsModal = () => {
+    setIsDetailsModalOpen(false);
   };
 
 //   useEffect(() => {
@@ -282,7 +293,7 @@ const tableData =
                                 <td className="p-4">{item.price}</td>
                                 <td className="p-4">{item.date}</td>
                                 <td className="flex flex-row gap-2 p-2 items-center">
-                                    <FaEye className="text-c4 size-5"/>
+                                    <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => openDetailsModal(item)}/>
                                     <HiOutlineTrash className="text-red size-5 cursor-pointer" onClick={() => openModal(item.id)}/>
                                 </td>
                             </tr>
@@ -327,6 +338,33 @@ const tableData =
                                           <button className="bg-disable text-black2 py-3 px-12 rounded-md cursor-pointer" onClick={closeModal}>No</button>
                                           <button className="bg-red text-white py-3 px-12 rounded-md cursor-pointer" onClick={confirmDelete}>Delete</button>
                                       </div>
+                                  </div>
+                              </div>
+                          )}
+
+                          {isDetailsModalOpen && (
+                              <div className="fixed inset-0 flex justify-center items-center z-80">
+                                  <div className="absolute inset-0 bg-black opacity-50"></div>
+                                  <div className="relative bg-white rounded-lg max-w-lg py-8 px-16 z-10">
+                                      <button
+                                        className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
+                                        onClick={closeModal}>
+                                      &times;
+                                      </button>
+
+                                      <h2 className="text-xl text-red text-center font-semibold mb-4">Order Details</h2>
+                                      {tableData.map((item) => (
+                                        <div key={item.id} className="text-black2 text-sm border-b border-disable">
+                                            <p className="flex flex-row p-4"><strong>ID:</strong>{item.id}</p>
+                                            {/* <p className="p-4">{item.product}</p>
+                                            <p className="p-4">{item.phone}</p>
+                                            <p className="p-4">{item.status}</p>
+                                            <p className="p-4">{item.price}</p>
+                                            <p className="p-4">{item.date}</p> */}
+                                            
+                                        </div>
+                                    ))}                                      
+                                                                            
                                   </div>
                               </div>
                           )}
