@@ -91,6 +91,7 @@ function PushNotification () {
     setSuccessMessage('Notification sent successfully');
     setTitle('');
     setBody('');
+    setImage('');
     setIsModalOpen(true);
     return; 
   };

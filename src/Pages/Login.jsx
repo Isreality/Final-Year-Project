@@ -112,7 +112,7 @@ useEffect(() => {
 
       // navigate('../Pages/dashboard');
       // Check if email and password are not given correct inputs
-      if (email !== data.email && password !== data.password) {
+      if (email !== data.email || password !== data.password) {
         setErrorMessage('Invalid email or password!');
         setSuccessMessage('');
         setIsModalOpen(true);

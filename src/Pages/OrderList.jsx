@@ -348,13 +348,13 @@ const tableData =
                                   <div className="relative bg-white rounded-lg max-w-lg py-8 px-16 z-10">
                                       <button
                                         className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
-                                        onClick={closeModal}>
+                                        onClick={closeDetailsModal}>
                                       &times;
                                       </button>
 
                                       <h2 className="text-xl text-red text-center font-semibold mb-4">Order Details</h2>
-                                      {tableData.map((item) => (
-                                        <div key={item.id} className="text-black2 text-sm border-b border-disable">
+                                      
+                                        <div className="text-black2 text-sm border-b border-disable">
                                             <p className="flex flex-row p-4"><strong>ID:</strong>{item.id}</p>
                                             {/* <p className="p-4">{item.product}</p>
                                             <p className="p-4">{item.phone}</p>
@@ -362,8 +362,7 @@ const tableData =
                                             <p className="p-4">{item.price}</p>
                                             <p className="p-4">{item.date}</p> */}
                                             
-                                        </div>
-                                    ))}                                      
+                                        </div>                                     
                                                                             
                                   </div>
                               </div>

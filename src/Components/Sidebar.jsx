@@ -40,7 +40,7 @@ const Sidebar = () => {
             )}
                 <div className="">
                     <div className="flex flex-col justify-items-start mb-4 pl-2">                
-                    <Link to='/Dashboard'><h1 className="mb-4 mt-4 font-extrabold text-primary text-2xl">Market Access</h1></Link>
+                    <h1 className="mb-4 mt-4 font-extrabold text-primary text-2xl">Market Access</h1>
                     </div>
                     
                     {/* Nav */}
