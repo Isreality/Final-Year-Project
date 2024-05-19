@@ -354,15 +354,15 @@ const tableData =
 
                                       <h2 className="text-xl text-red text-center font-semibold mb-4">Order Details</h2>
                                       
-                                        <div className="text-black2 text-sm border-b border-disable">
-                                            <p className="flex flex-row p-4"><strong>ID:</strong>{item.id}</p>
+                                        {/* <div key={id} className="text-black2 text-sm border-b border-disable">
+                                            <p className="flex flex-row p-4"><strong>ID:</strong>{item.id}</p> */}
                                             {/* <p className="p-4">{item.product}</p>
                                             <p className="p-4">{item.phone}</p>
                                             <p className="p-4">{item.status}</p>
                                             <p className="p-4">{item.price}</p>
                                             <p className="p-4">{item.date}</p> */}
                                             
-                                        </div>                                     
+                                        {/* </div>                                      */}
                                                                             
                                   </div>
                               </div>

@@ -6,7 +6,7 @@ import cancel from '../icons/cancel.svg';
 import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-// import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from 'react-icons/fa';
 // import Dashboard from '../Pages/Dashboard';
 // import axios from 'axios';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
@@ -39,7 +39,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
   // const [data, setData] = useState(null);
   const navigate = useNavigate();
@@ -250,14 +250,16 @@ useEffect(() => {
             </div><br/>
             
             {/* Submit Button */}
-            <input
+            {/* <input
             onClick = {handleSubmit} 
             type='submit' 
             value="Sign In"
             // disabled={loading} 
             className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
-            /> 
-            {/* {loading ? <div className='flex flex-row gap-1 text-lg items-center'><FaSpinner className="icon-spin" /> Signing In...</div> : 'Sign In'}</button> */}
+            />  */}
+            <button type="submit" onClick = {handleSubmit} disabled={loading} className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'>
+              {loading ? <><FaSpinner className="icon-spin" /> Signing In...</> : 'Sign In'}
+            </button>
           </form>
         </div>
       </div>
