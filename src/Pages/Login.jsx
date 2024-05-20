@@ -95,10 +95,8 @@ useEffect(() => {
           method: 'POST',
           headers: {
             'app-token': 'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
-            // 'Authorization': 'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'origin': '*',
           },
           body: JSON.stringify({ email, password }),
       });
@@ -114,7 +112,7 @@ useEffect(() => {
 
       // navigate('../Pages/dashboard');
       // Check if email and password are not given correct inputs
-      if (email !== data.email && password !== data.password) {
+      if (email !== data.email || password !== data.password) {
         setErrorMessage('Invalid email or password!');
         setSuccessMessage('');
         setIsModalOpen(true);
@@ -154,6 +152,9 @@ useEffect(() => {
       // setPassword('');
       // setErrorMessage('');
     } catch (error) {
+      // setErrorMessage('Invalid email or password');
+      // setSuccessMessage('');
+      // setIsModalOpen(true);
       console.error('Error fetching data:', error);
     } 
     // finally {
