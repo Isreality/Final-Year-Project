@@ -48,6 +48,7 @@ function Login() {
 
 useEffect(() => {
      setErrorMessage('');
+     setSuccessMessage('');
       // setEmailError('');
       // setPasswordError('');
 }, []);
@@ -102,28 +103,38 @@ useEffect(() => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-
-      const data = await response.json();
-      console.warn(data);
-      // console.warn(JSON.stringify(data));
-      // localStorage.setItem('auth', JSON.stringify(data));
-
-      // navigate('../Pages/dashboard');
-      // Check if email and password are not given correct inputs
-      if (email !== data.email || password !== data.password) {
+        // throw new Error('Failed to fetch data');
         setErrorMessage('Invalid email or password!');
         setSuccessMessage('');
         setIsModalOpen(true);
         return;
-      }  else {
-          setSuccessMessage('Sign-in successful.');
-          setTimeout(() => {
-          setIsModalOpen(true);
-          navigate('/Dashboard'); 
-          }, 1000);
-        }
+      }
+
+      const data = await response.json();
+      console.warn(data);
+      console.warn(JSON.stringify(data));
+      localStorage.setItem('auth', JSON.stringify(data.status));
+      setTimeout(() => {
+        setSuccessMessage('Sign-in successful.');
+        setIsModalOpen(true);
+        navigate('/Dashboard'); 
+        }, 1000);
+
+      // navigate('../Pages/dashboard');
+      // Check if email and password are not given correct inputs
+      // if (email !== data.email || password !== data.password) {
+      //   setErrorMessage('Invalid email or password!');
+      //   setSuccessMessage('');
+      //   setIsModalOpen(true);
+      //   return;
+      // }  else {
+      //     setSuccessMessage('Sign-in successful.');
+      //     setErrorMessage('');
+      //     setTimeout(() => {
+      //     setIsModalOpen(true);
+      //     navigate('/Dashboard'); 
+      //     }, 1000);
+      //   }
 
       // if (email !== data.email && password !== data.password) {
       //   setErrorMessage('Invalid email or password!');
