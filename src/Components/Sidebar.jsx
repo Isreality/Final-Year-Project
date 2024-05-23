@@ -41,18 +41,16 @@ const Sidebar = () => {
                 <p>Loading...</p>
             ) : (
                 <div>
-                {/* Display your content using the fetched data */}
-                {/* Example: <p>{data.someValue}</p> */}
                 </div>
             )}
                 <div>
-                    <div className="hidden sticky h-full left-0 w-60 text-left border-r border-disable p-4 bg-white md:show">
+                    <div className="hidden md:flex md:flex-col sticky h-full left-0 w-60 text-left border-r border-disable p-4 bg-white md:show">
                         <div className="flex flex-col justify-items-start mb-4 pl-2">                
                         <h1 className="mb-4 mt-4 font-extrabold text-primary text-2xl">Market Access</h1>
                         </div>
                         
                         {/* Nav */}
-                        <div className="flex justify-between lg:flex-col space-y-1">
+                        <div className="flex justify-between flex-col md:flex-col lg:flex-col space-y-1">
                             {SidebarData.map((nav) => (
                                 <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-black2 hover:text-black2 hover:bg-disable font-normal  hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
                                     {nav.icons || <Skeleton circle width={20} height={20}/>}
@@ -97,16 +95,16 @@ const Sidebar = () => {
                     
                     {/* Side Toggle */}
                     <div className="md:hidden">    
-                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black absolute top-2 right-4"/> : <RxHamburgerMenu className="text-primary font-black absolute top-6 size-5 mr-4 left-2"/>}</button>
+                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black absolute top-15 right-20"/> : <RxHamburgerMenu className="text-primary font-black absolute top-6 size-5 mr-4 left-2"/>}</button>
                             {side &&(
-                            <div className="sticky h-full w-screen left-0 -translate-x-0 transition-all">
-                                <div className="flex bg-white flex-col right-0 top-0 p-2 gap-5 z-[100] w-56">
-                                    <div className="flex flex-col justify-items-start mb-2 pl-2">                
-                                        <h1 className="mt-4 font-extrabold text-left text-primary text-xl">Market Access</h1>
+                            <div className="sticky h-full w-screen left-0 top-0 -translate-x-0 transition-all px-4">
+                                <div className="flex bg-white flex-col right-0 top-0 p-2 gap-5 z-[100] w-56 ">
+                                    <div className="flex flex-col justify-items-start pl-2">                
+                                        <h1 className="font-extrabold text-left text-primary text-2xl">Market Access</h1>
                                     </div>
                                 
                                     {/* Nav */}
-                                    <div className="flex justify-between flex-col lg:flex-col space-y-1">
+                                    <div className="flex justify-between flex-col space-y-1">
                                         {SidebarData.map((nav) => (
                                             <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-black2 hover:text-black2 hover:bg-disable font-normal  hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
                                                 {nav.icons || <Skeleton circle width={20} height={20}/>}
@@ -125,7 +123,7 @@ const Sidebar = () => {
                                     {/* Logout Modal */}
                                     {isOpen && (
                                         <div className="fixed inset-0 flex justify-center items-center z-80">
-                                            <div className="absolute inset-0 bg-black opacity-50"></div>
+                                            <div className="absolute inset-0 bg-black opacity-50 h-full"></div>
                                             <div className="relative bg-white rounded-lg max-w-lg py-8 px-10 z-10">
                                                 <button
                                                 className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-xl hover:text-gray-800 w-10 h-10"
