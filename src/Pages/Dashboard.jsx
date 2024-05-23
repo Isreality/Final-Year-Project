@@ -43,7 +43,7 @@ const Dashboard = () => {
                 </div>
                 
                 {/* Body */}
-                <div className=" grid grid-cols-4 px-8 gap-5">
+                <div className=" grid lg:grid-cols-4 sm:grid-cols-1 px-8 gap-5">
                   <Card className="bg-primary !important text-white" title="Total Revenue" icons={<TbCurrencyNaira className="size-10 text-white bg-primary p-2 rounded-full"/>} info="10M"/>
                   <Card className="bg-fa !important" title="Total Orders" icons={<RiListView className="size-10 text-white bg-blue p-2 rounded-full"/>} info="5K"/>
                   <Card title="Total Delivery" icons={<MdDeliveryDining className="size-10 text-white bg-success p-2 rounded-full"/>} info="50K"/>
