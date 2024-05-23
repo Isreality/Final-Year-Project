@@ -97,7 +97,7 @@ const Sidebar = () => {
                     
                     {/* Side Toggle */}
                     <div className="md:hidden">    
-                            <button onClick={()=>toggleNavbar(true)} className="text-black">{side ? <MdClose/> : <RxHamburgerMenu/>}</button>
+                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black absolute top-2 right-4"/> : <RxHamburgerMenu className="text-primary font-black absolute top-6 size-5 mr-4 left-2"/>}</button>
                             {side &&(
                             <div className="sticky h-full w-screen left-0 -translate-x-0 transition-all">
                                 <div className="flex bg-white flex-col right-0 top-0 p-2 gap-5 z-[100] w-56">
