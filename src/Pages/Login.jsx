@@ -109,7 +109,6 @@ useEffect(() => {
 
 
       if (!response.ok) {
-        // throw new Error('Failed to fetch data');
         setErrorMessage('Incorrect email or password! Please try again');
         setSuccessMessage('');
         setIsModalOpen(true);
@@ -117,13 +116,12 @@ useEffect(() => {
       } else {
         setSuccessMessage('Sign-in successful.');
         setIsModalOpen(true);
-        navigate('/Dashboard');
-        return;
       }
 
-      // setEmail('');
-      // setPassword('');
-      // setErrorMessage('');
+      setTimeout(() => {
+        navigate('/Dashboard');
+      }, 1000)
+
     } catch (error) {
       console.error('Error fetching data:', error);
       setErrorMessage('An error occurred. Please try again.');
@@ -131,11 +129,6 @@ useEffect(() => {
     finally {
       setLoading(false);
     }
-
-    // Perform action if inputs are correct
-    // setErrorMessage('');
-    // setSuccessMessage('Sign-in successful.');
-    // setIsModalOpen(true);
 
   };
 
