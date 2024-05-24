@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { TbLogout } from "react-icons/tb";
 import Skeleton from 'react-loading-skeleton';
 import { useNavigate } from 'react-router-dom';
-import { RxHamburgerMenu } from "react-icons/rx";
+import { GiHamburgerMenu } from "react-icons/gi";
 import {MdClose} from "react-icons/md";
 
 
@@ -95,7 +95,7 @@ const Sidebar = () => {
                     
                     {/* Side Toggle */}
                     <div className="md:hidden">    
-                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black absolute top-15 right-20"/> : <RxHamburgerMenu className="text-primary font-black absolute top-6 size-5 mr-4 left-2"/>}</button>
+                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black bg-disable p-2 size-8 rounded-full absolute top-15 right-20 cursor-pointer"/> : <GiHamburgerMenu className="text-primary font-black absolute top-6 size-5 mr-4 left-2"/>}</button>
                             {side &&(
                             <div className="sticky h-full w-screen left-0 top-0 -translate-x-0 transition-all px-4">
                                 <div className="flex bg-white flex-col right-0 top-0 p-2 gap-5 z-[100] w-56 ">

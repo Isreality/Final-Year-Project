@@ -102,75 +102,35 @@ useEffect(() => {
           body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) {
-        // throw new Error('Failed to fetch data');
-        setErrorMessage('Invalid email or password!');
-        setSuccessMessage('');
-        setIsModalOpen(true);
-        return;
-      }
-
       const data = await response.json();
       console.warn(data);
       console.warn(JSON.stringify(data));
       localStorage.setItem('auth', JSON.stringify(data.status));
-      setTimeout(() => {
+
+
+      if (!response.ok) {
+        // throw new Error('Failed to fetch data');
+        setErrorMessage('Incorrect email or password! Please try again');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } else {
         setSuccessMessage('Sign-in successful.');
         setIsModalOpen(true);
-        navigate('/Dashboard'); 
-        }, 1000);
-
-      // navigate('../Pages/dashboard');
-      // Check if email and password are not given correct inputs
-      // if (email !== data.email || password !== data.password) {
-      //   setErrorMessage('Invalid email or password!');
-      //   setSuccessMessage('');
-      //   setIsModalOpen(true);
-      //   return;
-      // }  else {
-      //     setSuccessMessage('Sign-in successful.');
-      //     setErrorMessage('');
-      //     setTimeout(() => {
-      //     setIsModalOpen(true);
-      //     navigate('/Dashboard'); 
-      //     }, 1000);
-      //   }
-
-      // if (email !== data.email && password !== data.password) {
-      //   setErrorMessage('Invalid email or password!');
-      //   setSuccessMessage('');
-      //   setIsModalOpen(true);
-      //   return;
-      // } else if (email !== data.email) {
-      //     setErrorMessage('You inputted the wrong email. Please try again!');
-      //     setSuccessMessage('');
-      //     setIsModalOpen(true);
-      //     return;
-      // } else if (password !== data.password){
-      //     setErrorMessage('Incorrect Password. Please try again!');
-      //     setSuccessMessage('');
-      //     setIsModalOpen(true);
-      //     return;
-      // } else {
-      //     setSuccessMessage('Sign-in successful.');
-      //     setTimeout(() => {
-      //       setIsModalOpen(true);
-      //       // history.push({Dashboard}); 
-      //   }, 1000); 
-      // }
+        navigate('/Dashboard');
+        return;
+      }
 
       // setEmail('');
       // setPassword('');
       // setErrorMessage('');
     } catch (error) {
-      // setErrorMessage('Invalid email or password');
-      // setSuccessMessage('');
-      // setIsModalOpen(true);
       console.error('Error fetching data:', error);
+      setErrorMessage('An error occurred. Please try again.');
     } 
-    // finally {
-    //   setLoading(false);
-    // }
+    finally {
+      setLoading(false);
+    }
 
     // Perform action if inputs are correct
     // setErrorMessage('');
