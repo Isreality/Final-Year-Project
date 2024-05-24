@@ -7,9 +7,6 @@ import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
-// import Dashboard from '../Pages/Dashboard';
-// import axios from 'axios';
-// import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 
 function Modal({ message, type, onClose }) {
@@ -24,7 +21,7 @@ function Modal({ message, type, onClose }) {
         <div className='ml-12'>{message}</div> 
       </div>
 
-      <button style={{ marginLeft: '470px', top: '10px'}} onClick={onClose} className='absolute text-black2 text-lg top-30 left-20 font-normal'>
+      <button style={{ marginLeft: '470px', top: '10px', overflow: 'hidden'}} onClick={onClose} className='absolute text-black2 text-lg top-30 left-20 sm:overflow-hidden font-normal'>
           &times;</button>
     </div>
           
@@ -41,8 +38,9 @@ function Login() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
-  // const [data, setData] = useState(null);
+  const [spin, setSpin] = useState(null);
   const navigate = useNavigate();
+
   const BASE_URL = 'https://1ec3-102-89-34-109.ngrok-free.app/api';
   const endpoint = '/admin/sign-in';
 
@@ -90,7 +88,7 @@ useEffect(() => {
       return;
     }
 
-
+    {/* Fetch Api */}
     try {
         const response = await fetch(BASE_URL + endpoint, {
           method: 'POST',
@@ -103,8 +101,8 @@ useEffect(() => {
       });
 
       const data = await response.json();
-      console.warn(data);
-      console.warn(JSON.stringify(data));
+      // console.warn(data);
+      // console.warn(JSON.stringify(data));
       localStorage.setItem('auth', JSON.stringify(data.status));
 
 
@@ -125,9 +123,10 @@ useEffect(() => {
     } catch (error) {
       console.error('Error fetching data:', error);
       setErrorMessage('An error occurred. Please try again.');
+      return;
     } 
     finally {
-      setLoading(false);
+      setSpin(false);
     }
 
   };
@@ -138,7 +137,7 @@ useEffect(() => {
 
 
   return (
-    <div className="grid items-center  md:py-0 md:px-0 md:block bg-fixed sm:bg-cover lg:bg-contain bg-no-repeat md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} >
+    <div className="grid items-center  md:py-0 md:px-0 md:block bg-fixed sm:object-cover lg:bg-contain bg-no-repeat md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} >
       <div className='grid justify-items-start'>
         <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0 items-center rounded-lg'>
           {isModalOpen && (
@@ -152,37 +151,35 @@ useEffect(() => {
               />
             )}
 
-          <h1 className='text-primary text-left text-3xl md:text-5xl font-black mb-2'>Sign In</h1><br/>
+          <h1 className='text-primary text-left text-4xl md:text-5xl font-black mb-0 md:mb-2'>Sign In</h1><br/>
 
           {/* Form */}
           <form  className='grid justify-items-stretch text-left' onSubmit={handleSubmit}>
             <div className='space-y-1 md:space-y-2 items-start'>
               
               {/* Email */}
-              <label htmlFor="email" className='text-xl text-left mb-8'>Email</label><br/>
+              <label htmlFor="email" className='text-md md:text-xl text-left mb-8'>Email</label><br/>
               <input 
-                className='border-2 p-4 w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
+                className='border-2 p-4 w-96 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
                 type='email' 
                 id = "email" 
                 placeholder='example@gmail.com'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                // required
                 />
                 {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}<br/><br/>
             </div>
             
             {/* Password */}
             <div className='space-y-2' style={{ position: 'relative' }}>
-              <label htmlFor="pwd" className='text-xl text-left mb-8'>Password</label><br/>
+              <label htmlFor="pwd" className='text-md md:text-xl text-left mb-8'>Password</label><br/>
               <input 
-                className='border-2 p-4 w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
+                className='border-2 p-4 w-96 md:w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
                 type= {showPassword ? 'text' : 'password'}
                 id = "pwd" 
                 placeholder='Enter your password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                // required
                 />
                 
                 {/* Eye icon switch */}
@@ -224,8 +221,8 @@ useEffect(() => {
             // disabled={loading} 
             className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
             />  */}
-            <button type="submit" onClick = {handleSubmit} disabled={loading} className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'>
-              {loading ? <><FaSpinner className="icon-spin" /> Signing In...</> : 'Sign In'}
+            <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-96 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'>
+              {spin ? <><FaSpinner className="icon-spin" /> Signing In...</> : 'Sign In'}
             </button>
           </form>
         </div>
