@@ -56,37 +56,45 @@ useEffect(() => {
     setShowPassword(!showPassword);
   };
 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // setLoading(true);
-    setSpin(true);
-    
+  const validateForm = () => {
     // Check if email and password are empty  
     if (email.trim() === '' && password.trim() === ''){
-        setErrorMessage('Email and password are required.');
-        setSuccessMessage('');
-        setIsModalOpen(true);
-        return;
-      } else if (email.trim() === '') {
-        setErrorMessage('Email is required.');
-        setSuccessMessage('');
-        setIsModalOpen(true);
-        return;
-      } else if(password.trim() === '') {
-        setErrorMessage('Password is required.');
-        setSuccessMessage('');
-        setIsModalOpen(true);
-        return;
-      } 
-
-    // Check if email is in a valid format
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setErrorMessage('Email is invalid.');
+      setErrorMessage('Email and password are required.');
       setSuccessMessage('');
       setIsModalOpen(true);
       return;
+    } else if (email.trim() === '') {
+      setErrorMessage('Email is required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    } else if(password.trim() === '') {
+      setErrorMessage('Password is required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    } 
+
+  // Check if email is in a valid format
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    setErrorMessage('Email is invalid.');
+    setSuccessMessage('');
+    setIsModalOpen(true);
+    return;
+  }
+};
+
+  const handleSubmit = async () => {
+    // e.preventDefault();
+
+    if (!validateForm()) {
+      console.warn('Form validation failed');
+      return;
     }
+    setSpin(true);
+    // setErrorMessage('');
+    // setSuccessMessage('');
+    
 
     {/* Fetch Api */}
     try {
@@ -104,7 +112,7 @@ useEffect(() => {
       // console.warn(data);
       // console.warn(JSON.stringify(data));
       localStorage.setItem('auth', JSON.stringify(data.status));
-
+      // console.log('API response status:', response.status);
 
       if (!response.ok) {
         setErrorMessage('Incorrect email or password! Please try again');
@@ -153,7 +161,7 @@ useEffect(() => {
           <h1 className='text-primary text-left text-4xl md:text-5xl font-black mb-0 md:mb-2'>Sign In</h1><br/>
 
           {/* Form */}
-          <form  className='grid justify-items-stretch text-left' onSubmit={handleSubmit}>
+          <form  className='grid justify-items-stretch text-left' onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
             <div className='space-y-1 md:space-y-2 items-start'>
               
               {/* Email */}
@@ -221,7 +229,7 @@ useEffect(() => {
             className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
             />  */}
             <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-96 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'>
-              {spin ? <><FaSpinner className="icon-spin" /> Signing In...</> : 'Sign In'}
+              {spin ? <div className="flex flex-row gap-1 items-center"><FaSpinner className="animate-spin" /> Signing In...</div> : 'Sign In'}
             </button>
           </form>
         </div>
