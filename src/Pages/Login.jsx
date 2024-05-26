@@ -41,7 +41,7 @@ function Login() {
   const [spin, setSpin] = useState(null);
   const navigate = useNavigate();
 
-  const BASE_URL = 'https://1ec3-102-89-34-109.ngrok-free.app/api';
+  const BASE_URL = 'https://35b6-102-89-23-79.ngrok-free.app/api';
   const endpoint = '/admin/sign-in';
 
 useEffect(() => {
@@ -60,7 +60,7 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setLoading(true);
-    // setError(null);
+    setSpin(true);
     
     // Check if email and password are empty  
     if (email.trim() === '' && password.trim() === ''){
@@ -123,9 +123,8 @@ useEffect(() => {
     } catch (error) {
       console.error('Error fetching data:', error);
       setErrorMessage('An error occurred. Please try again.');
-      return;
-    } 
-    finally {
+      // return;
+    } finally {
       setSpin(false);
     }
 
