@@ -87,13 +87,14 @@ useEffect(() => {
   const handleSubmit = async () => {
     // e.preventDefault();
 
-    if (!validateForm()) {
-      console.warn('Form validation failed');
-      return;
-    }
+    // if (!validateForm()) {
+    //   console.warn('Form validation failed');
+    //   return;
+    // }
+    if (!validateForm()) return;
     setSpin(true);
-    // setErrorMessage('');
-    // setSuccessMessage('');
+    setErrorMessage('');
+    setSuccessMessage('');
     
 
     {/* Fetch Api */}
