@@ -106,9 +106,9 @@ const Dashboard = () => {
                   </div>
                   
                   {/* Doughnut Charts */}
-                  <div className="bg-white border w-full border-disable p-4 rounded-md">
+                  <div className="bg-white border w-full border-disable px-3 pt-4 pb-0 rounded-md">
                     <p className="text-md text-black text-left mb-4">Order Status</p>
-                    <Doughnut className="items-center"
+                    <Doughnut className="items-center pb-0"
                       data = {{
                         labels: ['50% Delivered', '30% Pending', '20% Cancelled'],
                         datasets: [
@@ -129,11 +129,12 @@ const Dashboard = () => {
                           legend: {
                             position: 'bottom',
                             labels: {
-                              boxWidth: 15,
-                              boxHeight: 15,
-                              useBorderRadius: true,
-                              borderRadius: '100%',
+                              boxWidth: 5,
+                              boxHeight: 5,
+                              usePointStyle: true,
+                              pointStyle: 'circle',
                               font: 'Satoshi',
+                              padding: 10,
                             },
                             align: 'start',
                             fullSize: true,
