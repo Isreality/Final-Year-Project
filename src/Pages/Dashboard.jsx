@@ -9,11 +9,11 @@ import { FaUsers } from "react-icons/fa";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { MdDeliveryDining } from "react-icons/md";
 import { RiListView } from "react-icons/ri";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js/auto";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 // import Skeleton from 'react-loading-skeleton';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, ArcElement, Tooltip, Legend);
 const Dashboard = () => {
   const [loading, setLoading] = useState(false)
 
@@ -58,16 +58,24 @@ const Dashboard = () => {
                   <div className="col-span-2 md:col-span-2 bg-white border border-disable rounded-md p-4 overflow-hidden">
                     <Line
                         data = {{
-                          labels: ['50% Delivered', '30% Pending', '20% Cancelled'],
+                          labels: ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"],
                           datasets: [
                             {
                               // label: '# of Votes',
-                              data: [50, 30, 20],
-                              backgroundColor: [
-                                '#009688',
-                                '#EDBB00',
-                                '#CC4424',
-                              ],
+                              data: [50, 100, 80, 100, 150, 120, 200],
+                              fill: true,
+                              // backgroundColor: (context) => {
+                              //   const ctx = context.chart.ctx;
+                              //   const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                              //   gradient.addColorStop(0, '#481986');
+                              //   gradient.addColorStop(1, 'rgba(72, 25, 134, 0)');
+                              //   return gradient;
+                              // },
+                              borderColor: '#481986',
+                              tension: 0.3,
+                              borderWidth: 1,
+                              backgroundColor: 'rgba(72, 25, 134, 0.1)',
+                              pointRadius: 0,
                             },
                           ],
                         }}
@@ -75,11 +83,24 @@ const Dashboard = () => {
                         options = {{
                           responsive: true,
                           plugins: {
-                            legend: {
-                              position: 'top',
+                            // legend: {
+                            //   position: 'top',
+                            // },
+                            title: {
+                              display: true,
+                              text: 'Customer Order Map',
                             },
-                            tooltip: {
-                              enabled: true,
+                          },
+                          scales: {
+                            x: {
+                              grid: {
+                                display: false,
+                              },
+                            },
+                            y: {
+                              grid: {
+                                display: false,
+                              },
                             },
                           },
                         }}
