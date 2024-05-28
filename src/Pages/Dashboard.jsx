@@ -11,6 +11,8 @@ import { MdDeliveryDining } from "react-icons/md";
 import { RiListView } from "react-icons/ri";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
+import { TbMathGreater } from "react-icons/tb";
+import { Link } from 'react-router-dom';
 // import Skeleton from 'react-loading-skeleton';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, ArcElement, Tooltip, Legend, Filler);
@@ -54,7 +56,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Charts */}
-                <div className=" grid lg:grid-cols-3 px-8 gap-3">
+                <div className=" grid lg:grid-cols-3 px-8 gap-5">
                   {/* Line Chart */}
                   <div className="col-span-2 md:col-span-2 bg-white border border-disable rounded-md p-4 overflow-hidden">
                     <p className="text-md text-black text-left mb-2">Customer Order Map</p>
@@ -163,6 +165,15 @@ const Dashboard = () => {
                       }}
                     />
                   </div>
+                </div><br/>
+
+                <div className="flex flex-row justify-between px-8">
+                  <div className="text-primary text-xl font-semibold">Recent Orders</div>
+
+                  <div className=" text-black2 text-md font-medium px-4">
+                    <Link to="/OrderList" className="flex flex-row cursor-pointer gap-1 items-center">See All<TbMathGreater/></Link>
+                  </div>
+
                 </div>
                 
               </div>
