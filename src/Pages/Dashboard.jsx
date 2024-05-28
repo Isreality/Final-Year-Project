@@ -9,11 +9,11 @@ import { FaUsers } from "react-icons/fa";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { MdDeliveryDining } from "react-icons/md";
 import { RiListView } from "react-icons/ri";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 // import Skeleton from 'react-loading-skeleton';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, ArcElement, Tooltip, Legend, Filler);
 const Dashboard = () => {
   const [loading, setLoading] = useState(false)
 
@@ -54,7 +54,8 @@ const Dashboard = () => {
                 </div>
 
                 {/* Charts */}
-                <div className=" grid lg:grid-cols-3  px-8 gap-3">
+                <div className=" grid lg:grid-cols-3 px-8 gap-3">
+                  {/* Line Chart */}
                   <div className="col-span-2 md:col-span-2 bg-white border border-disable rounded-md p-4 overflow-hidden">
                     <p className="text-md text-black text-left mb-2">Customer Order Map</p>
                     <Line
@@ -62,20 +63,19 @@ const Dashboard = () => {
                           labels: ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"],
                           datasets: [
                             {
-                              // label: '# of Votes',
                               data: [50, 100, 80, 100, 150, 120, 200],
                               fill: true,
-                              // backgroundColor: (context) => {
-                              //   const ctx = context.chart.ctx;
-                              //   const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-                              //   gradient.addColorStop(0, '#481986');
-                              //   gradient.addColorStop(1, 'rgba(72, 25, 134, 0)');
-                              //   return gradient;
-                              // },
+                              backgroundColor: (context) => {
+                                const ctx = context.chart.ctx;
+                                const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+                                gradient.addColorStop(0, 'rgba(72, 25, 134, 0.2)');
+                                gradient.addColorStop(1, 'rgba(72, 25, 134, 0)');
+                                return gradient;
+                              },
                               borderColor: '#481986',
                               tension: 0.3,
                               borderWidth: 1,
-                              backgroundColor: 'rgba(72, 25, 134, 0.1)',
+                              // backgroundColor: 'rgba(72, 25, 134, 0.1)',
                               pointRadius: 0,
                             },
                           ],
@@ -104,15 +104,15 @@ const Dashboard = () => {
                         }}
                       />
                   </div>
-
-                  <div className="bg-white border w-full border-disable p-6 rounded-md">
-                    <p className="text-md text-black text-left mb-2">Order Status</p>
+                  
+                  {/* Doughnut Charts */}
+                  <div className="bg-white border w-full border-disable p-4 rounded-md">
+                    <p className="text-md text-black text-left mb-4">Order Status</p>
                     <Doughnut className="items-center"
                       data = {{
                         labels: ['50% Delivered', '30% Pending', '20% Cancelled'],
                         datasets: [
                           {
-                            // label: '# of Votes',
                             data: [50, 30, 20],
                             backgroundColor: [
                               '#009688',
@@ -128,9 +128,35 @@ const Dashboard = () => {
                         plugins: {
                           legend: {
                             position: 'bottom',
+                            labels: {
+                              boxWidth: 15,
+                              boxHeight: 15,
+                              useBorderRadius: true,
+                              borderRadius: '100%',
+                              font: 'Satoshi',
+                            },
+                            align: 'start',
+                            fullSize: true,
                           },
                           tooltip: {
                             enabled: true,
+                          },
+                          doughnutLabel: {
+                            // display: true,
+                            // enabled: true,
+                            id: 'doughnutLabel',
+                            beforeDatasetsDraw: (chart, args, pluginOptions) => {
+                              const {ctx, data} = chart;
+                              ctx.save();
+                              // const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                              // const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                              ctx.textAlign = 'center';
+                              ctx.textBaseline = 'middle';
+                              ctx.font = 'bold 30px sans-serif';
+                              ctx.fillStyle = '#48198';
+                              // ctx.fillText('100%', centerX, centerY);
+                              ctx.fillText('100%', chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y);
+                            },
                           },
                         },
                       }}
