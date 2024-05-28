@@ -56,6 +56,7 @@ const Dashboard = () => {
                 {/* Charts */}
                 <div className=" grid lg:grid-cols-3  px-8 gap-3">
                   <div className="col-span-2 md:col-span-2 bg-white border border-disable rounded-md p-4 overflow-hidden">
+                    <p className="text-md text-black text-left mb-2">Customer Order Map</p>
                     <Line
                         data = {{
                           labels: ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"],
@@ -87,10 +88,6 @@ const Dashboard = () => {
                               position: '',
                               display: false,
                             },
-                            title: {
-                              display: true,
-                              text: 'Customer Order Map',
-                            },
                           },
                           scales: {
                             x: {
@@ -109,6 +106,7 @@ const Dashboard = () => {
                   </div>
 
                   <div className="bg-white border w-full border-disable p-6 rounded-md">
+                    <p className="text-md text-black text-left mb-2">Order Status</p>
                     <Doughnut className="items-center"
                       data = {{
                         labels: ['50% Delivered', '30% Pending', '20% Cancelled'],
@@ -131,11 +129,6 @@ const Dashboard = () => {
                           legend: {
                             position: 'bottom',
                           },
-                          title: {
-                              display: true,
-                              // position: 'left',
-                              text: 'Order Status',
-                            },
                           tooltip: {
                             enabled: true,
                           },
