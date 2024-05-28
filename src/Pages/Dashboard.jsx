@@ -83,9 +83,10 @@ const Dashboard = () => {
                         options = {{
                           responsive: true,
                           plugins: {
-                            // legend: {
-                            //   position: 'top',
-                            // },
+                            legend: {
+                              position: '',
+                              display: false,
+                            },
                             title: {
                               display: true,
                               text: 'Customer Order Map',
@@ -128,8 +129,13 @@ const Dashboard = () => {
                         responsive: true,
                         plugins: {
                           legend: {
-                            position: 'top',
+                            position: 'bottom',
                           },
+                          title: {
+                              display: true,
+                              // position: 'left',
+                              text: 'Order Status',
+                            },
                           tooltip: {
                             enabled: true,
                           },
