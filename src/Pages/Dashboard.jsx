@@ -166,7 +166,8 @@ const Dashboard = () => {
                     />
                   </div>
                 </div><br/>
-
+                
+                {/* Recent Orders */}
                 <div className="flex flex-row justify-between px-8">
                   <div className="text-primary text-xl font-semibold">Recent Orders</div>
 

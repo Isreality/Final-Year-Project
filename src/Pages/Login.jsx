@@ -7,6 +7,7 @@ import success from '../icons/success.svg';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
+import axios from 'axios';
 
 
 function Modal({ message, type, onClose }) {
