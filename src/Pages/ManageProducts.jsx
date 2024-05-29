@@ -44,7 +44,7 @@ const ManageProducts = () => {
     const handleAction = (action, id) => {
         // Handle different actions here
         console.log(`${action} action on row with ID: ${id}`);
-        setDropdownRowId(null); // Close the dropdown after action
+        setDropdownRowId(null);
       };
     
       const handleSearch = (event) => {
@@ -113,6 +113,12 @@ const ManageProducts = () => {
                     >
                         Ban
                     </button>
+                    <button
+                        onClick={() => handleAction('Ban', row.id)}
+                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200"
+                    >
+                        Out of stock
+                    </button>
                     </div>
                 )}
             </div>
@@ -138,23 +144,24 @@ const ManageProducts = () => {
               <div className="w-full">
                 <div className="mb-4 items-center"><Header title="Manage Products" link="/ManageProducts"/></div>
                 
-                <div className="px-8">
+                <div className="flex flex-row justify-between items-center px-8">
                   <div className="mb-4"><Heading title="Products"/></div>
+                  <div className="mb-4">
+                        <input
+                        type="text"
+                        placeholder="Search"
+                        value={search}
+                        onChange={handleSearch}
+                        className="w-full px-3 py-2 border rounded text-black2 focus:outline-disable"
+                        />
+                    </div>
                 </div>
                 
                 {/* Body */}
                 <div className="text-left px-8 gap-5">
-                    <div className="mb-4">
-                        <input
-                        type="text"
-                        placeholder="Search by Name"
-                        value={search}
-                        onChange={handleSearch}
-                        className="w-full px-3 py-2 border rounded"
-                        />
-                    </div>
+                    
                     <DataTable
-                        title="User List"
+                        // title="User List"
                         columns={columns}
                         data={filteredData}
                         pagination

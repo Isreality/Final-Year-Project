@@ -206,13 +206,7 @@ function PushNotification () {
                                   <button 
                                     className="text-black2 bg-disable px-4 py-2 rounded-md" 
                                     onClick={handleRemoveImage}
-                                    // style={{
-                                    //   position: 'absolute',
-                                    //   bottom: 0,
-                                    //   right: 0,
-                                    //   cursor: 'pointer',
-                                    // }}
-                                    >
+                                  >
                                   Remove Image</button>
                                 </div>
                                                                 
@@ -222,7 +216,6 @@ function PushNotification () {
                               <div
                                   onDrop={handleDrop}
                                   onDragOver={handleDragOver}
-                                  // className="h-50 text-center"
                                   style={{
                                   border: '2px dashed #ccc',
                                   borderRadius: '5px',
@@ -247,8 +240,6 @@ function PushNotification () {
                                   
                               </div>
                             )}
-                            
-                            {/* {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/> */}
                         </div>
                         
                         {/* Submit Button */}

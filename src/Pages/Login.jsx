@@ -92,10 +92,10 @@ useEffect(() => {
     //   console.warn('Form validation failed');
     //   return;
     // }
-    if (!validateForm()) return;
+    // if (!validateForm()) ;
     setSpin(true);
-    setErrorMessage('');
-    setSuccessMessage('');
+    // setErrorMessage('');
+    // setSuccessMessage('');
     
 
     {/* Fetch Api */}
@@ -123,6 +123,7 @@ useEffect(() => {
         return;
       } else {
         setSuccessMessage('Sign-in successful.');
+        setErrorMessage('')
         setIsModalOpen(true);
       }
 
