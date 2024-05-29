@@ -57,42 +57,33 @@ useEffect(() => {
     setShowPassword(!showPassword);
   };
 
-  const validateForm = () => {
-    // Check if email and password are empty  
-    if (email.trim() === '' && password.trim() === ''){
-      setErrorMessage('Email and password are required.');
-      setSuccessMessage('');
-      setIsModalOpen(true);
-      return;
-    } else if (email.trim() === '') {
-      setErrorMessage('Email is required.');
-      setSuccessMessage('');
-      setIsModalOpen(true);
-      return;
-    } else if(password.trim() === '') {
-      setErrorMessage('Password is required.');
-      setSuccessMessage('');
-      setIsModalOpen(true);
-      return;
-    } 
-
-  // Check if email is in a valid format
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
-    setErrorMessage('Email is invalid.');
-    setSuccessMessage('');
-    setIsModalOpen(true);
-    return;
-  }
-};
 
   const handleSubmit = async () => {
-    // e.preventDefault();
+      // Check if email and password are empty  
+      if (email.trim() === '' && password.trim() === ''){
+        setErrorMessage('Email and password are required.');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } else if (email.trim() === '') {
+        setErrorMessage('Email is required.');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } else if(password.trim() === '') {
+        setErrorMessage('Password is required.');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } 
 
-    // if (!validateForm()) {
-    //   console.warn('Form validation failed');
-    //   return;
-    // }
-    // if (!validateForm()) ;
+    // Check if email is in a valid format
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setErrorMessage('Email is invalid.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    }
     setSpin(true);
     // setErrorMessage('');
     // setSuccessMessage('');
@@ -232,7 +223,7 @@ useEffect(() => {
             className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
             />  */}
             <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-96 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'>
-              {spin ? <div className="flex flex-row gap-1 items-center"><FaSpinner className="animate-spin" /> Signing In...</div> : 'Sign In'}
+              {spin ? <div className="flex flex-row gap-1 overflow-hidden items-center"><FaSpinner className="text-sm animate-spin" /> Signing In...</div> : 'Sign In'}
             </button>
           </form>
         </div>
