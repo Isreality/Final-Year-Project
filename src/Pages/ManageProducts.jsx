@@ -133,13 +133,13 @@ function ManageProducts () {
                 {/* Body */}
                 {empty ? (
                   <div className="flex flex-col items-center justify-center h-64">
-                    <SlSocialDropbox className="text-8xl text-c4 size-100" />
+                    <SlSocialDropbox className="text-9xl text-c4"/>
                     <div className="mt-2 text-lg text-black3">No product has been added</div>
                   </div>
                 ) : error || filteredData.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-64">
-                    <SlSocialDropbox className="text-4xl text-gray-500" />
-                    <div className="mt-2 text-lg text-gray-500">No product has been added</div>
+                    <SlSocialDropbox className="text-9xl text-c4" />
+                    <div className="mt-2 text-lg text-black3">No product has been added</div>
                   </div>
                 ) : (
                   <div className="text-left px-8 gap-5">
