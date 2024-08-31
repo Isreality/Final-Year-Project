@@ -42,7 +42,7 @@ function Login() {
   const [spin, setSpin] = useState(null);
   const navigate = useNavigate();
 
-  const BASE_URL = 'https://35b6-102-89-23-79.ngrok-free.app/api';
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const endpoint = '/admin/sign-in';
 
 useEffect(() => {
@@ -91,7 +91,7 @@ useEffect(() => {
 
     {/* Fetch Api */}
     try {
-        const response = await fetch(BASE_URL + endpoint, {
+        const response = await fetch(baseURL + endpoint, {
           method: 'POST',
           headers: {
             'app-token': 'sdksd2o32usdf239djfnasojiuhrui2h3rjknweuh4ro8q2hrjwdbfoq274hrqo8e7rgsdbasdjkfnq8uerq948ri24jrdmnfau2q8h4r8oqwhrqwy8rg8oqg623ruqyhkasdjnbq3er2wurgwebsdnbq837y2egrub',
@@ -104,7 +104,7 @@ useEffect(() => {
       const data = await response.json();
       // console.warn(data);
       // console.warn(JSON.stringify(data));
-      localStorage.setItem('auth', JSON.stringify(data.status));
+      // localStorage.setItem('auth', JSON.stringify(data.status));
       // console.log('API response status:', response.status);
 
       if (!response.ok) {
@@ -116,6 +116,7 @@ useEffect(() => {
         setSuccessMessage('Sign-in successful.');
         setErrorMessage('')
         setIsModalOpen(true);
+        sessionStorage.setItem('data', JSON.stringify(data))
       }
 
       setTimeout(() => {
@@ -138,9 +139,9 @@ useEffect(() => {
 
 
   return (
-    <div className="grid items-center  md:py-0 md:px-0 md:block bg-fixed sm:object-cover lg:bg-contain bg-no-repeat md:bg-right" style={{ backgroundImage: `url(${fisher})`, width: '100%', height: '100vh' }} >
-      <div className='grid justify-items-start'>
-        <div className='py-20 px-14 space-y-4 sm:m-12 lg:m-0 items-center rounded-lg'>
+    <div>
+      <div className='grid justify-items-center bg-white md:bg-none'>
+        <div className='py-20 px-4 w-full md:px-80 space-y-4 sm:m-12 lg:m-0 items-center rounded-lg'>
           {isModalOpen && (
               <Modal
                 message={errors || successMessage}
@@ -161,7 +162,7 @@ useEffect(() => {
               {/* Email */}
               <label htmlFor="email" className='text-md md:text-xl text-left mb-8'>Email</label><br/>
               <input 
-                className='border-2 p-4 w-96 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
+                className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
                 type='email' 
                 id = "email" 
                 placeholder='example@gmail.com'
@@ -175,7 +176,7 @@ useEffect(() => {
             <div className='space-y-2' style={{ position: 'relative' }}>
               <label htmlFor="pwd" className='text-md md:text-xl text-left mb-8'>Password</label><br/>
               <input 
-                className='border-2 p-4 w-96 md:w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
+                className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
                 type= {showPassword ? 'text' : 'password'}
                 id = "pwd" 
                 placeholder='Enter your password'
@@ -191,7 +192,7 @@ useEffect(() => {
                     style={{
                       position: 'absolute',
                       top: '60%',
-                      right: '30px', 
+                      right: '40px', 
                       transform: 'translateY(-50%)', 
                       cursor: 'pointer', 
                       color: '#c4c4c4', 
@@ -204,7 +205,7 @@ useEffect(() => {
                     style={{
                       position: 'absolute',
                       top: '60%',
-                      right: '30px', 
+                      right: '40px', 
                       transform: 'translateY(-50%)', 
                       cursor: 'pointer', 
                       color: '#c4c4c4', 
@@ -222,8 +223,8 @@ useEffect(() => {
             // disabled={loading} 
             className='w-full mt-4 py-4 px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'
             />  */}
-            <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-96 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl font-bold'>
-              {spin ? <div className="px-2 text-2xl"><FaSpinner className="animate-spin" /> </div> : 'Sign In'}
+            <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-80 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl text-center font-bold'>
+              {spin ? <div className="px-2 text-2xl text-center"><FaSpinner className="animate-spin text-center" /> </div> : 'Sign In'}
             </button>
           </form>
         </div>
