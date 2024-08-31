@@ -22,7 +22,7 @@ function Modal({ message, type, onClose }) {
         <div className='ml-12'>{message}</div> 
       </div>
 
-      <button style={{ marginLeft: '470px', top: '10px', overflow: 'hidden'}} onClick={onClose} className='absolute text-black2 text-lg top-30 left-20 sm:overflow-hidden font-normal'>
+      <button style={{ marginLeft: '470px', top: '10px', overflow: 'hidden'}} onClick={onClose} className='absolute text-black2 text-lg top-30 right-4 sm:overflow-hidden font-normal'>
           &times;</button>
     </div>
           
