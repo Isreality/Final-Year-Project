@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 // ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, ArcElement, Tooltip, Legend, Filler);
 const Dashboard = () => {
   const [loading, setLoading] = useState(false)
-  const { authToken, setStatusCode } = useAuth();
+  // const { authToken, setStatusCode } = useAuth();
   const [stat, setStat] = useState([]);
   const [error, setError] = useState(null);
 
@@ -60,7 +60,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [Atoken, setStatusCode]);
+  }, [Atoken]);
 
   useEffect(() => {
     setLoading(true)
