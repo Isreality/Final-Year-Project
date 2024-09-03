@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../Components/AuthContext';
 import { FaUsers } from "react-icons/fa";
 import BeatLoader from "react-spinners/BeatLoader";
-import { TbCurrencyNaira } from "react-icons/tb";
+// import { TbCurrencyNaira } from "react-icons/tb";
 import { MdDeliveryDining } from "react-icons/md";
 import { RiListView } from "react-icons/ri";
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler } from "chart.js";
@@ -42,7 +42,7 @@ const Dashboard = () => {
           },
         });
 
-        setStatusCode(response.status);
+        // setStatusCode(response.status);
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -99,8 +99,8 @@ const Dashboard = () => {
                 
                 {/* Body */}
                 {/* Card */}
-                <div className=" grid lg:grid-cols-4 sm:grid-cols-1 px-8 gap-5 mb-4">
-                  <Card className="bg-primary" title="Total Orders" icons={<RiListView className="size-10 text-white bg-blue p-2 rounded-full"/>} info={stat.totalOrders}/>
+                <div className=" grid lg:grid-cols-2 sm:grid-cols-1 px-8 gap-5 mb-4">
+                  <Card className="bg-primary text-white" title="Total Orders" icons={<RiListView className="size-10 text-primary bg-white p-2 rounded-full"/>} info={stat.totalOrders}/>
                   <Card title="Total Users" icons={<FaUsers className="size-10 text-white bg-pend p-2 rounded-full"/>} info={stat.totalUsers}/>
                 </div>
 

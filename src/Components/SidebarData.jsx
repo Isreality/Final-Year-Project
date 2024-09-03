@@ -13,65 +13,72 @@ const SidebarData =
     [
       {
         title: "Dashboard",
-        path: "/Dashboard",
+        path: "/dashboard",
         icons: <RxDashboard className="w-5 h-5"/>,
         id: 1
       },
   
       {
         title: "Order List",
-        path: "/OrderList",
+        path: "/orderlist",
         icons: <RiFileList3Line className="w-5 h-5"/>,
         id: 2
       },
 
       {
         title: "Staff Admins",
-        path: "/StaffAdmins",
+        path: "/staffadmins",
         icons: <LuUsers className="w-5 h-5"/>,
         id: 3
       },
 
       {
-        title: "Sellers",
-        path: "/Sellers",
+        title: "Users",
+        path: "/users",
         icons: <LuUsers className="w-5 h-5"/>,
         id: 4
       },
 
       {
-        title: "Customers",
-        path: "/Customers",
+        title: "Category",
+        path: "/category",
         icons: <LuUsers className="w-5 h-5"/>,
         id: 5
       },
 
       {
-        title: "Manage Products",
-        path: "/ManageProducts",
+        title: "Products",
+        path: "/products",
         icons: <FiBox className="w-5 h-5"/>,
         id: 6
       },
 
       {
-        title: "Push Notification",
-        path: "/PushNotification",
+        title: "Cooperative",
+        path: "/cooperative",
         icons: <RiNotification2Line className="w-5 h-5"/>,
         id: 7
       },
 
-      // {
-      //   title: "Reviews",
-      //   path: "/Reviews",
-      //   icons: <FaRegStar className="w-5 h-5"/>,
-      //   id: 8
-      // },
+      {
+        title: "Become a Seller",
+        path: "/becomeaseller",
+        icons: <LuUsers className="w-5 h-5"/>,
+        id: 8
+      },
+
+      {
+        title: "Reviews",
+        path: "/reviews",
+        icons: <FaRegStar className="w-5 h-5"/>,
+        id: 9
+      },
 
       {
         title: "Settings",
-        path: "/Settings",
+        path: "/settings",
         icons: <SlSettings className="w-5 h-5"/>,
-        id: 8
+        id: 10
       },
     ]
 
