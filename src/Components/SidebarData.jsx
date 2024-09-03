@@ -33,8 +33,8 @@ const SidebarData =
       },
 
       {
-        title: "Vendors",
-        path: "/Vendors",
+        title: "Sellers",
+        path: "/Sellers",
         icons: <LuUsers className="w-5 h-5"/>,
         id: 4
       },
@@ -60,18 +60,18 @@ const SidebarData =
         id: 7
       },
 
-      {
-        title: "Reviews",
-        path: "/Reviews",
-        icons: <FaRegStar className="w-5 h-5"/>,
-        id: 8
-      },
+      // {
+      //   title: "Reviews",
+      //   path: "/Reviews",
+      //   icons: <FaRegStar className="w-5 h-5"/>,
+      //   id: 8
+      // },
 
       {
         title: "Settings",
         path: "/Settings",
         icons: <SlSettings className="w-5 h-5"/>,
-        id: 9
+        id: 8
       },
     ]
 

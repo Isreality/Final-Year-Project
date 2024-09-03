@@ -26,15 +26,15 @@ function App() {
           <Routes>
             {/* <Route path="./Pages/Dashboard" Component={<LoginNav cmd={Dashboard}/>}></Route> */}
             <Route index path="/" Component={Login}></Route>
-            <Route exact path="/Dashboard" Component={Dashboard}></Route>
-            <Route exact path="/OrderList" Component={OrderList}></Route>
-            <Route path="/StaffAdmins" Component={StaffAdmins}></Route> 
-            <Route path="/Vendors" Component={Vendors}></Route>
-            <Route path="/Customers" Component={Customers}></Route>
-            <Route path="/ManageProducts" Component={ManageProducts}></Route>
-            <Route path="/PushNotification" Component={PushNotification}></Route>
-            <Route path="/Reviews" Component={Reviews}></Route>
-            <Route path="/Settings" Component={Settings}></Route>
+            <Route exact path="/dashboard" Component={Dashboard}></Route>
+            <Route exact path="/orderlist" Component={OrderList}></Route>
+            <Route path="/staffadmins" Component={StaffAdmins}></Route> 
+            <Route path="/sellers" Component={Vendors}></Route>
+            <Route path="/customers" Component={Customers}></Route>
+            <Route path="/manageproducts" Component={ManageProducts}></Route>
+            {/* <Route path="/PushNotification" Component={PushNotification}></Route> */}
+            <Route path="/reviews" Component={Reviews}></Route>
+            <Route path="/settings" Component={Settings}></Route>
           </Routes>
         </BrowserRouter>
       </SkeletonTheme>

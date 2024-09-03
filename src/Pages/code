@@ -1,63 +1,111 @@
-<form  className='grid justify-items-stretch text-left' onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-            <div className='space-y-1 md:space-y-2 items-start'>
-              
-              {/* Email */}
-              <label htmlFor="email" className='text-md md:text-xl text-left mb-8'>Email</label><br/>
-              <input 
-                className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
-                type='email' 
-                id = "email" 
-                placeholder='example@gmail.com'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                />
-                {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}<br/><br/>
-            </div>
-            
-            {/* Password */}
-            <div className='space-y-2' style={{ position: 'relative' }}>
-              <label htmlFor="pwd" className='text-md md:text-xl text-left mb-8'>Password</label><br/>
-              <input 
-                className='border-2 p-6 w-80 md:w-full rounded-md border-fa bg-fa focus:bg-fa focus:outline-primary' 
-                type= {showPassword ? 'text' : 'password'}
-                id = "pwd" 
-                placeholder='Enter your password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                />
-                
-                {/* Eye icon switch */}
-                {showPassword ? (
-                  <FaEye
-                    onClick={togglePasswordVisibility}
-                    size={20}
-                    style={{
-                      position: 'absolute',
-                      top: '60%',
-                      right: '30px', 
-                      transform: 'translateY(-50%)', 
-                      cursor: 'pointer', 
-                      color: '#c4c4c4', 
-                    }}
-                  />
-                ) : (
-                  <FaEyeSlash
-                    onClick={togglePasswordVisibility}
-                    size={20}
-                    style={{
-                      position: 'absolute',
-                      top: '60%',
-                      right: '30px', 
-                      transform: 'translateY(-50%)', 
-                      cursor: 'pointer', 
-                      color: '#c4c4c4', 
-                    }}
-                  />
-                )}
-                {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}<br/>
-            </div><br/>
-            
-            <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-80 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl text-center font-bold'>
-              {spin ? <div className="px-2 text-2xl"><FaSpinner className="animate-spin" /> </div> : 'Sign In'}
-            </button>
-          </form>
+// {/* Charts */}
+//                 <div className=" grid lg:grid-cols-3 px-8 gap-5">
+//                   {/* Line Chart */}
+//                   <div className="col-span-2 md:col-span-2 bg-white border border-disable rounded-md p-4 overflow-hidden">
+//                     <p className="text-md text-black text-left mb-2">Customer Order Map</p>
+//                     <Line
+//                         data = {{
+//                           labels: ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"],
+//                           datasets: [
+//                             {
+//                               data: [50, 100, 80, 100, 150, 120, 200],
+//                               fill: true,
+//                               backgroundColor: (context) => {
+//                                 const ctx = context.chart.ctx;
+//                                 const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+//                                 gradient.addColorStop(0, 'rgba(72, 25, 134, 0.2)');
+//                                 gradient.addColorStop(1, 'rgba(72, 25, 134, 0)');
+//                                 return gradient;
+//                               },
+//                               borderColor: '#481986',
+//                               tension: 0.3,
+//                               borderWidth: 1,
+//                               // backgroundColor: 'rgba(72, 25, 134, 0.1)',
+//                               pointRadius: 0,
+//                             },
+//                           ],
+//                         }}
+
+//                         options = {{
+//                           responsive: true,
+//                           plugins: {
+//                             legend: {
+//                               position: '',
+//                               display: false,
+//                             },
+//                           },
+//                           scales: {
+//                             x: {
+//                               grid: {
+//                                 display: false,
+//                               },
+//                             },
+//                             y: {
+//                               grid: {
+//                                 display: false,
+//                               },
+//                             },
+//                           },
+//                         }}
+//                       />
+//                   </div>
+                  
+//                   {/* Doughnut Charts */}
+//                   <div className="bg-white border w-full border-disable px-3 pt-4 pb-0 rounded-md">
+//                     <p className="text-md text-black text-left mb-4">Order Status</p>
+//                     <Doughnut className="items-center pb-0"
+//                       data = {{
+//                         labels: ['50% Delivered', '30% Pending', '20% Cancelled'],
+//                         datasets: [
+//                           {
+//                             data: [50, 30, 20],
+//                             backgroundColor: [
+//                               '#009688',
+//                               '#EDBB00',
+//                               '#CC4424',
+//                             ],
+//                           },
+//                         ],
+//                       }}
+
+//                       options = {{
+//                         responsive: true,
+//                         plugins: {
+//                           legend: {
+//                             position: 'bottom',
+//                             labels: {
+//                               boxWidth: 5,
+//                               boxHeight: 5,
+//                               usePointStyle: true,
+//                               pointStyle: 'circle',
+//                               font: 'Satoshi',
+//                               padding: 10,
+//                             },
+//                             align: 'start',
+//                             fullSize: true,
+//                           },
+//                           tooltip: {
+//                             enabled: true,
+//                           },
+//                           doughnutLabel: {
+//                             // display: true,
+//                             // enabled: true,
+//                             id: 'doughnutLabel',
+//                             beforeDatasetsDraw: (chart, args, pluginOptions) => {
+//                               const {ctx, data} = chart;
+//                               ctx.save();
+//                               // const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+//                               // const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+//                               ctx.textAlign = 'center';
+//                               ctx.textBaseline = 'middle';
+//                               ctx.font = 'bold 30px sans-serif';
+//                               ctx.fillStyle = '#48198';
+//                               // ctx.fillText('100%', centerX, centerY);
+//                               ctx.fillText('100%', chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y);
+//                             },
+//                           },
+//                         },
+//                       }}
+//                     />
+//                   </div>
+//                 </div><br/>

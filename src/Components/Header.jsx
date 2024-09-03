@@ -17,10 +17,10 @@ const Header = (props) => {
                 </div>
 
                 <div className="flex flex-row items-center sm:ml-96 gap-3">
-                    <button className="py-2 px-6 bg-primary text-white text-sm rounded-md">Admin</button>
+                    {/* <button className="py-2 px-6 bg-primary text-white text-sm rounded-md">Admin</button> */}
                     {/* <CgProfile className="h-8 w-8 text-black3"/> */}
-                    <div className="bg-light p-2 rounded-full"><IoNotifications className="text-primary h-5 w-5"/></div>
-                    <Link to="/Settings"><img src={fisher} alt="" className="h-8 w-8 rounded-full"/></Link>
+                    {/* <div className="bg-light p-2 rounded-full"><IoNotifications className="text-primary h-5 w-5"/></div> */}
+                    {/* <Link to="/Settings"><img src={fisher} alt="" className="h-8 w-8 rounded-full"/></Link> */}
                 </div>
             </div>
 
