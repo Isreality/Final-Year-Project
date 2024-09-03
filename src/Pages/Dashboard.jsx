@@ -77,7 +77,6 @@ const Dashboard = () => {
               <BeatLoader
                   color={'#481986'}
                   loading={loading}
-                  // cssOverride={override}
                   size={50}
                   aria-label="Loading Spinner"
                   data-testid="loader"
