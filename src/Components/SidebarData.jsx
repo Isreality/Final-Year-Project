@@ -6,8 +6,8 @@ import { FiBox } from "react-icons/fi";
 import { RiNotification2Line } from "react-icons/ri";
 import { FaRegStar } from "react-icons/fa";
 import { SlSettings } from "react-icons/sl";
-
-
+import { BiCategoryAlt } from "react-icons/bi";
+import { FaRegBuilding } from "react-icons/fa";
 
 const SidebarData =
     [
@@ -42,7 +42,7 @@ const SidebarData =
       {
         title: "Category",
         path: "/category",
-        icons: <LuUsers className="w-5 h-5"/>,
+        icons: <BiCategoryAlt className="w-5 h-5"/>,
         id: 5
       },
 
@@ -56,7 +56,7 @@ const SidebarData =
       {
         title: "Cooperative",
         path: "/cooperative",
-        icons: <RiNotification2Line className="w-5 h-5"/>,
+        icons: <FaRegBuilding className="w-5 h-5"/>,
         id: 7
       },
 

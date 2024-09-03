@@ -12,7 +12,8 @@ import ManageProducts from './Pages/ManageProducts';
 import Cooperative from './Pages/Cooperative';
 import PushNotification from './Pages/PushNotification';
 import Reviews from './Pages/Reviews';
-import Settings from './Pages/Settings';
+import Settings from './Pages/settings/Settings';
+import SettingsRoutes from './Pages/settings/SettingsRoutes';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import { SkeletonTheme } from 'react-loading-skeleton';
@@ -38,7 +39,8 @@ function App() {
             <Route path="/becomeaseller" Component={Sellers}></Route>
             {/* <Route path="/PushNotification" Component={PushNotification}></Route> */}
             <Route path="/reviews" Component={Reviews}></Route>
-            <Route path="/settings" Component={Settings}></Route>
+            <Route path="settings" element={<Settings />} />
+            <Route path="settings/*" element={<SettingsRoutes />} />
           </Routes>
         </BrowserRouter>
       </SkeletonTheme>
