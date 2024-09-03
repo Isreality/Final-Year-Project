@@ -102,7 +102,7 @@ const Dashboard = () => {
                 {/* Card */}
                 <div className=" grid lg:grid-cols-4 sm:grid-cols-1 px-8 gap-5 mb-4">
                   <Card className="bg-primary" title="Total Orders" icons={<RiListView className="size-10 text-white bg-blue p-2 rounded-full"/>} info={stat.totalOrders}/>
-                  <Card title="Total Usuers" icons={<FaUsers className="size-10 text-white bg-pend p-2 rounded-full"/>} info={stat.totalUsers}/>
+                  <Card title="Total Users" icons={<FaUsers className="size-10 text-white bg-pend p-2 rounded-full"/>} info={stat.totalUsers}/>
                 </div>
 
                                 
