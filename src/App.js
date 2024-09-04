@@ -13,7 +13,7 @@ import Cooperative from './Pages/Cooperative';
 import PushNotification from './Pages/PushNotification';
 import Reviews from './Pages/Reviews';
 import Settings from './Pages/settings/Settings';
-import SettingsRoutes from './Pages/settings/SettingsRoutes';
+import SettingRoutes from './Pages/settings/SettingRoutes';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import { SkeletonTheme } from 'react-loading-skeleton';
@@ -40,7 +40,7 @@ function App() {
             {/* <Route path="/PushNotification" Component={PushNotification}></Route> */}
             <Route path="/reviews" Component={Reviews}></Route>
             <Route path="settings" element={<Settings />} />
-            <Route path="settings/*" element={<SettingsRoutes />} />
+            <Route path="settings/*" element={<SettingRoutes />} />
           </Routes>
         </BrowserRouter>
       </SkeletonTheme>

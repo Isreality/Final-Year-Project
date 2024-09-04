@@ -9,7 +9,8 @@ import { HiUser } from "react-icons/hi2";
 import { MdPayments } from "react-icons/md";
 import { RxCaretRight } from "react-icons/rx";
 import { BiShieldQuarter } from "react-icons/bi";
-import { RiDeleteBin5Fill } from "react-icons/ri";
+import { MdEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
 import BeatLoader from "react-spinners/BeatLoader";
 import { Link } from 'react-router-dom';
 import {  useMatch } from 'react-router-dom';
@@ -18,6 +19,46 @@ import {  useMatch } from 'react-router-dom';
 const Settings = () => {
   const [loading, setLoading] = useState(false);
   const match = useMatch('/settings/*');
+  const [profile, setProfile] = useState([]);
+  const [error, setError] = useState(null);
+
+  const baseURL = process.env.REACT_APP_BASE_URL;
+  const endpoint = '/admin/account/';
+  const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(baseURL + endpoint, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${Atoken}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'ngrok-skip-browser-warning': "69420",
+            'origin': '*',
+          },
+        });
+
+        // setStatusCode(response.status);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        if (result.status) {
+          // console.log(result);
+          setProfile(result.data);
+        } else {
+          throw new Error('Data fetch unsuccessful');
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchData();
+  }, [Atoken]);
 
   useEffect(() => {
     setLoading(true)
@@ -30,15 +71,15 @@ const Settings = () => {
         <div>
           {loading ? (
             <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-            <BeatLoader
-                color={'#481986'}
-                loading={loading}
-                // cssOverride={override}
-                size={50}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-            /> 
-          </div>
+              <BeatLoader
+                  color={'#481986'}
+                  loading={loading}
+                  // cssOverride={override}
+                  size={50}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+              /> 
+            </div>
           ) : (
             <div className="flex flex-row">
               {/* Sidebar */}
@@ -65,31 +106,31 @@ const Settings = () => {
                         </div>
 
                         <div className="flex flex-row items-center sm:ml-96 gap-3">
-                          <p className="text-black2 font-medium">Administrator</p>
+                          <p className="text-black2 font-medium">{profile.accountType}</p>
                         </div>
                     </div>
 
-                    {/* Payment Details */}
+                    {/* Email */}
                     <div className="flex flex-row justify-between bg-fa p-4 lg:p-8 rounded-md cursor-pointer">
                         <div className="flex flex-row items-center text-md gap-2 text-black2">
-                            <MdPayments className="text-white font-xl size-10 bg-primary p-2 rounded-full"/>
-                            <p className="text-black2 font-medium">Payment Details</p>
+                            <MdEmail className="text-white font-xl size-10 bg-primary p-2 rounded-full"/>
+                            <p className="text-black2 font-medium">Email</p>
                         </div>
 
                         <div className="flex flex-row items-center sm:ml-96 gap-3">
-                            <RxCaretRight className="text-black2 font-medium cursor-pointer size-5"/>
+                          <p className="text-black2 font-medium">{profile.email}</p>
                         </div>
                     </div>
 
-                    {/* Change Password */}
+                    {/* Phone Number */}
                     <div className="flex flex-row justify-between bg-fa p-4 lg:p-8 rounded-md cursor-pointer">
                         <div className="flex flex-row items-center text-md gap-2 text-black2">
-                            <BiShieldQuarter className="text-white font-xl size-10 bg-primary p-2 rounded-full"/>
-                            <p className="text-black2 font-medium">Change Password</p>
+                            <FaPhoneAlt className="text-white font-xl size-10 bg-primary p-2 rounded-full"/>
+                            <p className="text-black2 font-medium">Phone Number</p>
                         </div>
 
                         <div className="flex flex-row items-center sm:ml-96 gap-3">
-                            <RxCaretRight className="text-black2 font-medium cursor-pointer size-5"/>
+                          <p className="text-black2 font-medium"></p>
                         </div>
                     </div>
                 </div>  

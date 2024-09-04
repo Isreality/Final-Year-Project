@@ -1,7 +1,7 @@
 import EditProfile from "./EditProfile";
 import { Routes, Route, useMatch } from 'react-router-dom';
 
-const SettingsRoutes = () => {
+const SettingRoutes = () => {
 
     return (
         <Routes>
@@ -11,4 +11,4 @@ const SettingsRoutes = () => {
     );
   };
   
-  export default SettingsRoutes;
+  export default SettingRoutes;
