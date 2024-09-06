@@ -2,6 +2,8 @@ import "../../style.css";
 import Sidebar from "../../Components/Sidebar";
 import Header from "../../Components/Header";
 import Heading from "../../Components/Heading";
+import Modal from "../../Components/Modal";
+import ChangePassword from "../../Components/ChangePassword";
 import { useState, useEffect } from 'react';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaSpinner } from 'react-icons/fa';
@@ -20,40 +22,24 @@ const EditProfile = () => {
   const endpoint = '/user/update-details';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData({
-//         ...formData,
-//         [name]: value
-//     });
-//   };
-
   const handleSubmit = async () => {
-    // Check if email and password are empty  
-    // if (fullName.trim() === '' && phoneNumber.trim() === ''){
-    //   setErrorMessage('Email and password are required.');
-    //   setSuccessMessage('');
-    //   setIsModalOpen(true);
-    //   return;
-    // } else if (email.trim() === '') {
-    //   setErrorMessage('Email is required.');
-    //   setSuccessMessage('');
-    //   setIsModalOpen(true);
-    //   return;
-    // } else if(password.trim() === '') {
-    //   setErrorMessage('Password is required.');
-    //   setSuccessMessage('');
-    //   setIsModalOpen(true);
-    //   return;
-    // } 
-
-    // Check if email is in a valid format
-    // if (!/^\S+@\S+\.\S+$/.test(email)) {
-    //     setErrorMessage('Email is invalid.');
-    //     setSuccessMessage('');
-    //     setIsModalOpen(true);
-    //     return;
-    // }
+    // Check if fullName and password are empty  
+    if (fullName.trim() === '' && phoneNumber.trim() === ''){
+      setErrorMessage('Name and Phone Number are required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    } else if (fullName.trim() === '') {
+      setErrorMessage('Name is required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    } else if(phoneNumber.trim() === '') {
+      setErrorMessage('Phone Number is required.');
+      setSuccessMessage('');
+      setIsModalOpen(true);
+      return;
+    } 
     setSpin(true);
     // setErrorMessage('');
     // setSuccessMessage('');
@@ -74,10 +60,6 @@ const EditProfile = () => {
         });
 
         const data = await response.json();
-        // console.warn(data);
-        // console.warn(JSON.stringify(data));
-        // localStorage.setItem('auth', JSON.stringify(data.status));
-        // console.log('API response status:', response.status);
 
         if (!response.ok) {
         setErrorMessage('There was an error! Please try again');
@@ -144,7 +126,18 @@ const EditProfile = () => {
                 <div className="px-8">
                   <div className="mb-4"><Heading title="Personal Information"/></div>
                 </div>
-                
+                {/* Modal */}
+                <div className="mx-8 mb-4">
+                  {isModalOpen && (
+                    <Modal
+                      message={errors || successMessage}
+                      type={errors ? 'error' : 'success'}
+                      onClose={closeModal}
+                      className=""
+                    />
+                  )}
+                </div>
+
                 {/* Body */}
                 <div className="border border-white md:border-disable rounded-md px-0 md:px-10 py-2 md:py-8 mx-8">
                   <form className='space-y-4' onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
@@ -164,10 +157,10 @@ const EditProfile = () => {
 
                       {/*Phone Number*/}
                       <div className='space-y-1 md:space-y-2 items-start text-left'>
-                        <label htmlFor="number" className='text-md text-black2'>Phone Number</label><br/>
+                        <label htmlFor="phoneNumber" className='text-md text-black2'>Phone Number</label><br/>
                         <input 
                             className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
-                            type='text' 
+                            type='number' 
                             id = "phoneNumber" 
                             // placeholder='example@gmail.com'
                             value={phoneNumber}
@@ -183,8 +176,8 @@ const EditProfile = () => {
                         </button>
                       </div> 
                   </form>
-                </div>
-
+                </div><br/><br/>
+                <ChangePassword/>
                 
               </div>
 

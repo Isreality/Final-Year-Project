@@ -34,7 +34,7 @@ const Settings = () => {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${Atoken}`,
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
             'Accept': 'application/json',
             'ngrok-skip-browser-warning': "69420",
             'origin': '*',
