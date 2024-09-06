@@ -119,7 +119,7 @@ function AddStaffAdmin ({ show, handleClose }) {
 
                 {/* Role */}
                 <div className='space-y-1 md:space-y-2 items-start'>
-                    <label htmlFor="role" className='text-md text-left text-black2'>Role</label><br/>
+                    <label htmlFor="role" className='text-md text-left text-black2'>Account Type</label><br/>
                     <input 
                         className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
                         // type='number' 

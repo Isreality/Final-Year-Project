@@ -4,16 +4,15 @@ import Modal from '../Components/Modal';
 import { useState, useEffect } from 'react';
 import { HiOutlineTrash } from "react-icons/hi";
 import { BiSolidEdit } from "react-icons/bi";
-import { SlSocialDropbox } from "react-icons/sl";
-import { LuUsers } from "react-icons/lu";
+import { BiCategoryAlt } from "react-icons/bi";
 import ScaleLoader from "react-spinners/ScaleLoader";
 // import { useNavigate } from 'react-router-dom';
 
-const FetchStaffAdmin = () => {
+const FetchCategory = () => {
   const [data, setData] = useState([]);
-  const [staffs, setStaffs] = useState([]);
+  const [category, setCategory] = useState([]);
   const [error, setError] = useState(null);
-  const [staffToDelete, setStaffToDelete] = useState(null);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -24,7 +23,7 @@ const FetchStaffAdmin = () => {
 
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/staff-management/fetch-all-admins';
+  const endpoint = '/admin/product-category';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   // useEffect(() => {
@@ -68,13 +67,13 @@ const FetchStaffAdmin = () => {
     fetchData();
   }, [Atoken]);
 
-  const handleDelete = (staff) => {
-    setStaffToDelete(staff);
+  const handleDelete = (category) => {
+    setCategoryToDelete(category);
     setShowModal(true);
   };
 
   const confirmDelete = async () => {
-    if (!staffToDelete) return;
+    if (!categoryToDelete) return;
 
     try {
       const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/24`, {
@@ -86,7 +85,7 @@ const FetchStaffAdmin = () => {
           'ngrok-skip-browser-warning': "69420",
           'origin': '*',
         },
-        body: JSON.stringify({ staffId: staffToDelete?.id }),
+        body: JSON.stringify({ staffId: categoryToDelete?.id }),
       });
 
       const result = await response.json();
@@ -94,12 +93,12 @@ const FetchStaffAdmin = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       } else{
-        setStaffs(staffs.filter((staff) => staff.id !== staffToDelete?.id));
+        setCategory(category.filter((category) => category.id !== categoryToDelete?.id));
         setShowModal(false);
-        setSuccessMessage(`Product "${staffToDelete?.fullname}" was successfully deleted.`);
+        setSuccessMessage(`Category "${categoryToDelete?.name}" was successfully deleted.`);
         setErrorMessage(``);
         setIsModalOpen(true);
-        setStaffToDelete(null);
+        setCategoryToDelete(null);
         // console.log('Delete Result:', result);
       }
 
@@ -139,8 +138,8 @@ const FetchStaffAdmin = () => {
   if (data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64">
-        <LuUsers className="text-9xl text-c4"/>
-        <p className="text-lg text-black2">No Staff Admin added</p>
+        <BiCategoryAlt className="text-9xl text-c4"/>
+        <p className="text-lg text-black2">No category has been added</p>
       </div>
     );
   }
@@ -162,26 +161,32 @@ const FetchStaffAdmin = () => {
 
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-sm text-left">
-                        <tr className="">
+                        <tr className="px-4 py-8">
                             {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
                             <th className="p-4 text-black2 font-normal">Name</th>
-                            <th className="p-4 text-black2 font-normal">Email</th>
-                            <th className="p-4 text-black2 font-normal">Phone</th>
-                            {/* <th className="p-4 text-black2 font-normal">Date Added</th> */}
+                            <th className="p-4 text-black2 font-normal">Description</th>
+                            <th className="p-4 text-black2 font-normal">Min Weight</th>
+                            <th className="p-4 text-black2 font-normal">Max Weight</th>
                             <th className="p-4 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
 
                         <tbody className="">
-                        {data.map((item) => (
-                            <tr key={item.id} className="text-black2 text-sm text-left border-b border-disable p-6">
+                        {data.map((cat) => (
+                            <tr key={cat.id} className="text-black2 text-sm text-left border-b border-disable px-4 py-8">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
-                                <td className="p-4">{item.fullname}</td>
-                                <td className="p-4">{item.email}</td>
-                                <td className="p-4">{item.phone.phoneNumber}</td>
-                                {/* <td className="p-4">Date</td> */}
+                                <td className="p-4">{cat.name}</td>
                                 <td className="flex flex-row gap-2 p-2 items-center text-center">
-                                    <button onClick={() => handleDelete(item)} className="cursor-pointer ">
+                                    <img src={cat.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
+                                    {cat.desc}   
+                                </td>                                
+                                <td className="p-4">{cat.minWeight}</td>
+                                <td className="p-4">{cat.maxWeight}</td>
+                                <td className="flex flex-row gap-2 p-2 items-center text-center">
+                                    {/* <button onClick={() => handleEdit(category.id)} className="cursor-pointer ">
+                                        <BiSolidEdit className="text-success size-6 cursor-pointer" />
+                                    </button> */}
+                                    <button onClick={() => handleDelete(cat)} className="cursor-pointer ">
                                         <HiOutlineTrash className="text-red size-6 cursor-pointer" />
                                     </button>
                                 </td>
@@ -194,11 +199,11 @@ const FetchStaffAdmin = () => {
                   handleClose={closeModal} 
                   onConfirm={confirmDelete} 
                   header="Delete Product" 
-                  body={`Are you sure you want to delete this staff "${staffToDelete?.name}"?`}
+                  body={`Are you sure you want to delete this staff "${categoryToDelete?.name}"?`}
                 />
       </div>
     </div>
   );
 }
 
-export default FetchStaffAdmin;
+export default FetchCategory;
