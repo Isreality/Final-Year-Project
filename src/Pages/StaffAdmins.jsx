@@ -22,9 +22,6 @@ const StaffAdmins = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/staff-management/fetch-all-admins';
-  const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   const openModal = () => {
     setShowModal(true);

@@ -77,9 +77,9 @@ function AddStaffAdmin ({ show, handleClose }) {
             <form  className='grid justify-items-stretch text-left' onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                 {/* Name */}
                 <div className='space-y-1 md:space-y-2 items-start'>
-                    <label htmlFor="fullName" className='text-md md:text-xl text-left mb-8'>Email</label><br/>
+                    <label htmlFor="fullName" className='text-md text-left text-black2'>Name</label><br/>
                     <input 
-                        className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
+                        className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
                         type='text' 
                         id = "fullName" 
                         placeholder='Enter full name'
@@ -91,9 +91,9 @@ function AddStaffAdmin ({ show, handleClose }) {
                 
                 {/* Email */}
                 <div className='space-y-1 md:space-y-2 items-start'>
-                    <label htmlFor="email" className='text-md md:text-xl text-left mb-8'>Email</label><br/>
+                    <label htmlFor="email" className='text-md text-left text-black2'>Email</label><br/>
                     <input 
-                        className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
+                        className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
                         type='email' 
                         id = "email" 
                         placeholder='example@gmail.com'
@@ -105,12 +105,12 @@ function AddStaffAdmin ({ show, handleClose }) {
 
                 {/* Phone */}
                 <div className='space-y-1 md:space-y-2 items-start'>
-                    <label htmlFor="phone_number" className='text-md md:text-xl text-left mb-8'>Phone Number</label><br/>
+                    <label htmlFor="phone_number" className='text-md text-left text-black2'>Phone Number</label><br/>
                     <input 
-                        className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
-                        type='number' 
+                        className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
+                        // type='number' 
                         id = "phone_number" 
-                        // placeholder='example@gmail.com'
+                        placeholder='+XXX XXX XXX XXXX'
                         value={phone_number}
                         onChange={(e) => setPhone_number(e.target.value)}
                     />
@@ -119,9 +119,9 @@ function AddStaffAdmin ({ show, handleClose }) {
 
                 {/* Role */}
                 <div className='space-y-1 md:space-y-2 items-start'>
-                    <label htmlFor="role" className='text-md md:text-xl text-left mb-8'>Role</label><br/>
+                    <label htmlFor="role" className='text-md text-left text-black2'>Role</label><br/>
                     <input 
-                        className='border-2 p-4 w-80 md:w-full rounded-md border-fa bg-fa focus:outline-primary focus:bg-fa' 
+                        className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
                         // type='number' 
                         id = "role" 
                         // placeholder='example@gmail.com'
@@ -133,7 +133,7 @@ function AddStaffAdmin ({ show, handleClose }) {
                 
             
                 <button type="submit" onClick = {handleSubmit} disabled={spin} className='w-80 md:w-full mt-4 py-4 px-20 md:px-64 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-xl text-center font-bold'>
-                {spin ? <div className="px-2 text-2xl text-center"><FaSpinner className="animate-spin text-center" /> </div> : 'Sign In'}
+                {spin ? <div className="px-2 text-xl text-center"><FaSpinner className="animate-spin text-center" /> </div> : 'Add'}
                 </button>
             </form>
           </div>
