@@ -6,13 +6,13 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { BiSolidEdit } from "react-icons/bi";
 import { BiCategoryAlt } from "react-icons/bi";
 import ScaleLoader from "react-spinners/ScaleLoader";
-// import { useNavigate } from 'react-router-dom';
+import { FaRegBuilding } from "react-icons/fa";
 
-const FetchCategory = () => {
+const FetchAssociation = () => {
   const [data, setData] = useState([]);
-  const [category, setCategory] = useState([]);
+  const [association, setAssociation] = useState([]);
   const [error, setError] = useState(null);
-  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [associationToDelete, setAssociationToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -24,11 +24,11 @@ const FetchCategory = () => {
 
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/product-category';
+  const endpoint = '/admin/association';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
-  const handleEdit = (productId) => {
-    setSelectedProduct(productId);
+  const handleEdit = (associationId) => {
+    setSelectedProduct(associationId);
     setShowEditModal(true);
   };
 
@@ -78,16 +78,16 @@ const FetchCategory = () => {
     fetchData();
   }, [Atoken]);
 
-  const handleDelete = (category) => {
-    setCategoryToDelete(category);
+  const handleDelete = (association) => {
+    setAssociationToDelete(association);
     setShowModal(true);
   };
 
   const confirmDelete = async () => {
-    if (!categoryToDelete) return;
+    if (!associationToDelete) return;
 
     try {
-      const response = await fetch(`${baseURL}/admin/product-category/delete/${categoryToDelete.id}`, {
+      const response = await fetch(`${baseURL}/admin/association/delete/${associationToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
@@ -96,7 +96,7 @@ const FetchCategory = () => {
           'ngrok-skip-browser-warning': "69420",
           'origin': '*',
         },
-        body: JSON.stringify({ staffId: categoryToDelete?.id }),
+        body: JSON.stringify({ associationId: associationToDelete?.id }),
       });
 
       const result = await response.json();
@@ -104,13 +104,12 @@ const FetchCategory = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       } else{
-        setCategory(category.filter((category) => category.id !== categoryToDelete?.id));
+        setAssociation(association.filter((association) => association.id !== associationToDelete?.id));
         setShowModal(false);
-        setSuccessMessage(`Category "${categoryToDelete?.name}" was successfully deleted.`);
+        setSuccessMessage(`Association "${associationToDelete?.name}" was successfully deleted.`);
         setErrorMessage(``);
         setIsModalOpen(true);
-        setCategoryToDelete(null);
-        // console.log('Delete Result:', result);
+        setAssociationToDelete(null);
       }
 
       setTimeout(() => {
@@ -149,8 +148,8 @@ const FetchCategory = () => {
   if (data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64">
-        <BiCategoryAlt className="text-9xl text-c4"/>
-        <p className="text-lg text-black2">No category has been added</p>
+        <FaRegBuilding className="text-9xl text-c4"/>
+        <p className="text-lg text-black2">No Association has been added</p>
       </div>
     );
   }
@@ -171,33 +170,27 @@ const FetchCategory = () => {
             </div>
 
                     <table className="min-w-full border-collapse border border-disable py-4">
-                        <thead className="bg-fa text-sm text-left">
+                        <thead className="bg-fa text-sm p-8 text-left">
                         <tr className="px-4 py-8">
-                            {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
                             <th className="px-4 py-6 text-black2 font-normal">Name</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Description</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Min Weight</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Max Weight</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Chairman Name</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Chairman Number</th>
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
 
-                        <tbody className="">
-                        {data.map((cat) => (
-                            <tr key={cat.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
+                        <tbody className="p-4">
+                        {data.map((ass) => (
+                            <tr key={ass.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
-                                <td className="px-4 py-6">{cat.name}</td>
-                                <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
-                                    <img src={cat.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
-                                    {cat.desc}   
-                                </td>                                
-                                <td className="px-4 py-6">{cat.minWeight}</td>
-                                <td className="px-4 py-6">{cat.maxWeight}</td>
-                                <td className="flex flex-row gap-2 px-4 py-6 items-center">
-                                    <button onClick={() => handleEdit(cat.id)} className="cursor-pointer ">
+                                <td className="px-4 py-6">{ass.name}</td>                             
+                                <td className="px-4 py-6">{ass.chairman_name}</td>
+                                <td className="px-4 py-6">{ass.chairman_number}</td>
+                                <td className="flex flex-row gap-2 items-center px-4 py-6">
+                                    <button onClick={() => handleEdit(ass.id)} className="cursor-pointer ">
                                         <BiSolidEdit className="text-success size-6 cursor-pointer" />
                                     </button>
-                                    <button onClick={() => handleDelete(cat)} className="cursor-pointer ">
+                                    <button onClick={() => handleDelete(ass)} className="cursor-pointer ">
                                         <HiOutlineTrash className="text-red size-6 cursor-pointer" />
                                     </button>
                                 </td>
@@ -209,12 +202,12 @@ const FetchCategory = () => {
                   show={showModal} 
                   handleClose={closeModal} 
                   onConfirm={confirmDelete} 
-                  header="Delete Category" 
-                  body={`Are you sure you want to delete this category "${categoryToDelete?.name}"?`}
+                  header="Delete Association" 
+                  body={`Are you sure you want to delete this category "${associationToDelete?.name}"?`}
                 />
       </div>
     </div>
   );
 }
 
-export default FetchCategory;
+export default FetchAssociation;

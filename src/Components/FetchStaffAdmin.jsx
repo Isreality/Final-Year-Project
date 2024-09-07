@@ -164,23 +164,22 @@ const FetchStaffAdmin = () => {
                         <thead className="bg-fa text-sm text-left p-4">
                         <tr className="">
                             {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
-                            <th className="p-4 text-black2 font-normal">Name</th>
-                            <th className="p-4 text-black2 font-normal">Email</th>
-                            <th className="p-4 text-black2 font-normal">Phone</th>
-                            <th className="p-4 text-black2 font-normal">Action</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Name</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Email</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Phone</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
 
                         <tbody className="p-4">
                         {data.map((item) => (
                             <tr key={item.id} className="text-black2 text-sm border-b border-disable p-6">
-                                {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
-                                <td className="p-4 text-left">{item.fullname}</td>
-                                <td className="p-4 text-left">{item.email}</td>
-                                <td className="p-4 text-left">{item.phone.phoneNumber}</td>
-                                <td className="flex flex-row gap-2 p-2 items-center ">
+                                <td className="px-4 py-6 text-left">{item.fullname}</td>
+                                <td className="px-4 py-6 text-left">{item.email}</td>
+                                <td className="px-4 py-6 text-left">{item.phone.phoneNumber}</td>
+                                <td className="flex flex-row gap-2 px-4 py-6 items-right ">
                                     <button onClick={() => handleDelete(item)} className="cursor-pointer ">
-                                        <HiOutlineTrash className="text-red text-center size-6 cursor-pointer" />
+                                        <HiOutlineTrash className="text-red text-right size-6 cursor-pointer" />
                                     </button>
                                 </td>
                             </tr>

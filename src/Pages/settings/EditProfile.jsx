@@ -160,7 +160,7 @@ const EditProfile = () => {
                         <label htmlFor="phoneNumber" className='text-md text-black2'>Phone Number</label><br/>
                         <input 
                             className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
-                            type='number' 
+                            type='text' 
                             id = "phoneNumber" 
                             // placeholder='example@gmail.com'
                             value={phoneNumber}
