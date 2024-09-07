@@ -54,8 +54,8 @@ const SidebarData =
       },
 
       {
-        title: "Cooperative",
-        path: "/cooperative",
+        title: "Association",
+        path: "/association",
         icons: <FaRegBuilding className="w-5 h-5"/>,
         id: 7
       },

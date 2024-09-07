@@ -9,7 +9,7 @@ import Sellers from './Pages/Sellers';
 import Users from './Pages/Users';
 import Category from './Pages/Category';
 import ManageProducts from './Pages/ManageProducts';
-import Cooperative from './Pages/Cooperative';
+import Association from './Pages/Association';
 import PushNotification from './Pages/PushNotification';
 import Reviews from './Pages/Reviews';
 import Settings from './Pages/settings/Settings';
@@ -35,7 +35,7 @@ function App() {
             <Route path="/users" Component={Users}></Route>
             <Route path="/category" Component={Category}></Route>
             <Route path="/products" Component={ManageProducts}></Route>
-            <Route path="/cooperative" Component={Cooperative}></Route>
+            <Route path="/association" Component={Association}></Route>
             <Route path="/becomeaseller" Component={Sellers}></Route>
             {/* <Route path="/PushNotification" Component={PushNotification}></Route> */}
             <Route path="/reviews" Component={Reviews}></Route>

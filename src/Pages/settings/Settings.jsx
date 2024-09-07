@@ -3,7 +3,6 @@ import "../../style.css";
 import Sidebar from "../../Components/Sidebar";
 import Header from "../../Components/Header";
 import Heading from "../../Components/Heading";
-// import ManageProfile from "./ManageProfile";
 import { useState, useEffect } from 'react';
 import { HiUser } from "react-icons/hi2";
 import { MdPayments } from "react-icons/md";
@@ -15,7 +14,7 @@ import { BiSolidEdit } from "react-icons/bi";
 import BeatLoader from "react-spinners/BeatLoader";
 import { Link } from 'react-router-dom';
 import {  useMatch } from 'react-router-dom';
-// import Skeleton from 'react-loading-skeleton';
+
 
 const Settings = () => {
   const [loading, setLoading] = useState(false);

@@ -1,29 +1,28 @@
-// import { Link } from "react-router-dom";
 import "../style.css";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
-import Card from "../Components/Card";
 import { useState, useEffect } from 'react';
-import { useAuth } from '../Components/AuthContext';
-import { FaUsers } from "react-icons/fa";
+import Delete from '../Components/Delete';
+import Modal from '../Components/Modal';
 import BeatLoader from "react-spinners/BeatLoader";
 import { FiStar } from "react-icons/fi";
 import { FaStar, FaRegStar } from "react-icons/fa";
-// import { TbCurrencyNaira } from "react-icons/tb";
-import { MdDeliveryDining } from "react-icons/md";
-import { RiListView } from "react-icons/ri";
-import { Doughnut, Line } from "react-chartjs-2";
-import { TbMathGreater } from "react-icons/tb";
-import { Link } from 'react-router-dom';
+import { HiOutlineTrash } from "react-icons/hi";
 
 const Reviews = () => {
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState([]);
+  const [review, setReview] = useState([]);
   const [error, setError] = useState(null);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errors, setErrorMessage] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/ratings/fetch-all-ratings-with-filter?page=1&rating=4';
+  const endpoint = '/admin/ratings/fetch-all-ratings-with-filter?page=1';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   useEffect(() => {
@@ -39,8 +38,6 @@ const Reviews = () => {
             'origin': '*',
           },
         });
-
-        // setStatusCode(response.status);
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -59,6 +56,61 @@ const Reviews = () => {
 
     fetchData();
   }, [Atoken]);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const removeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = (review) => {
+    setReviewToDelete(review);
+    setShowModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!reviewToDelete) return;
+
+    try {
+      const response = await fetch(`${baseURL}/admin/ratings/delete-rating/${reviewToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${Atoken}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'ngrok-skip-browser-warning': "69420",
+          'origin': '*',
+        },
+        body: JSON.stringify({ staffId: reviewToDelete?.id }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      } else{
+        setReview(review.filter((review) => review.id !== reviewToDelete?.id));
+        setShowModal(false);
+        setSuccessMessage(`Review "${reviewToDelete?.name}" was successfully deleted.`);
+        setErrorMessage(``);
+        setIsModalOpen(true);
+        setReviewToDelete(null);
+        // console.log('Delete Result:', result);
+      }
+
+      setTimeout(() => {
+        setSuccessMessage('');
+        setIsModalOpen(false);
+        // navigate('/product');
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      setError(error.message);
+      setShowModal(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true)
@@ -115,21 +167,51 @@ const Reviews = () => {
                 <div className="px-8">
                   <div className="mb-4"><Heading title="Reviews"/></div>
                 </div>
+
+                {/* Modal */}
+                <div className="mx-8 mb-4">
+                  {isModalOpen && (
+                    <Modal
+                      message={errors || successMessage}
+                      type={errors ? 'error' : 'success'}
+                      onClose={removeModal}
+                      className=""
+                    />
+                  )}
+                </div>
                 
                 {/* Body */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-center mx-8">
                 {rating.map((rate) => (
-                    <div key={rate.id} className="flex flex-col bg-fa rounded-md text-black2 gap-1 p-6">
-                          <h1 className="text-left text-primary text-md font-bold">{rate.user.fullname}</h1>
+                    <div key={rate.id} className="flex flex-col bg-fa rounded-md text-black2 gap-3 p-6">
+                      <div className="flex flex-row justify-between items-center">
+                        <div>
+                          <h1 className="text-left text-primary text-md font-bold">{rate.user.name}</h1>
                           <div className="flex text-xs text-left gap-1">
-                            {renderStars(rate.rating).map((star, index) => (
+                            {renderStars(rate.ratings).map((star, index) => (
                               <div key={index}>{star}</div>
                             ))}
                           </div>
-                          <h1 className="text-sm text-left text-black2">{rate.review}</h1>
+                        </div>
+                        <div>
+                          <button onClick={() => handleDelete(rate)} className="cursor-pointer ">
+                            <HiOutlineTrash className="text-red size-6 cursor-pointer" />
+                          </button>
+                        </div> 
+                      </div>
+                      
+                        <h1 className="text-sm text-left text-black2">{rate.review}</h1>
                     </div> 
                 ))}
               </div><br/>
+
+              <Delete 
+                  show={showModal} 
+                  handleClose={closeModal} 
+                  onConfirm={confirmDelete} 
+                  header="Delete Category" 
+                  body={`Are you sure you want to delete this review by "${reviewToDelete?.name}"?`}
+              />
               </div>
 
             </div>

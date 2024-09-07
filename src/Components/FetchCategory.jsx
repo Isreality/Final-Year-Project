@@ -87,7 +87,7 @@ const FetchCategory = () => {
     if (!categoryToDelete) return;
 
     try {
-      const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/24`, {
+      const response = await fetch(`${baseURL}/admin/product-category/delete/${categoryToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
