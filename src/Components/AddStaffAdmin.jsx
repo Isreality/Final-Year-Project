@@ -150,16 +150,23 @@ function AddStaffAdmin ({ show, handleClose }) {
                 </div>
 
                 {/* Account Type */}
-                <div className='space-y-1 md:space-y-2 items-start'>
+                <div className='space-y-1 md:space-y-2 items-start text-left relative mb-2'>
                     <label htmlFor="role" className='text-md text-left text-black2'>Account Type</label><br/>
-                    <input 
-                        className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
-                        // type='number' 
-                        id = "role" 
-                        // placeholder='example@gmail.com'
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                    />
+                    <select 
+                      className='block appearance-none border border-disable rounded-md w-full px-4 py-6 text-black2 leading-tight focus:outline-disable bg-white' 
+                      id="role" 
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                      name="role"
+                    >
+                      <option>Select Account</option>
+                      <option value="SUPER_ADMIN">Super Admin</option>
+                      <option value="STAFF_ADMIN">Staff Admin</option>
+                    </select>
+
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
+                      <RiArrowDropDownLine className="h-6 w-6"/>
+                    </div>
                     {errors.role && <span style={{ color: 'red' }}>{errors.role}</span>}<br/><br/>
                 </div>
                 

@@ -77,7 +77,7 @@ const FetchStaffAdmin = () => {
     if (!staffToDelete) return;
 
     try {
-      const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/24`, {
+      const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/${staffToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
@@ -161,28 +161,26 @@ const FetchStaffAdmin = () => {
             </div>
 
                     <table className="min-w-full border-collapse border border-disable py-4">
-                        <thead className="bg-fa text-sm text-left">
+                        <thead className="bg-fa text-sm text-left p-4">
                         <tr className="">
                             {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
                             <th className="p-4 text-black2 font-normal">Name</th>
                             <th className="p-4 text-black2 font-normal">Email</th>
                             <th className="p-4 text-black2 font-normal">Phone</th>
-                            {/* <th className="p-4 text-black2 font-normal">Date Added</th> */}
                             <th className="p-4 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
 
-                        <tbody className="">
+                        <tbody className="p-4">
                         {data.map((item) => (
-                            <tr key={item.id} className="text-black2 text-sm text-left border-b border-disable p-6">
+                            <tr key={item.id} className="text-black2 text-sm border-b border-disable p-6">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
-                                <td className="p-4">{item.fullname}</td>
-                                <td className="p-4">{item.email}</td>
-                                <td className="p-4">{item.phone.phoneNumber}</td>
-                                {/* <td className="p-4">Date</td> */}
-                                <td className="flex flex-row gap-2 p-2 items-center text-center">
+                                <td className="p-4 text-left">{item.fullname}</td>
+                                <td className="p-4 text-left">{item.email}</td>
+                                <td className="p-4 text-left">{item.phone.phoneNumber}</td>
+                                <td className="flex flex-row gap-2 p-2 items-center ">
                                     <button onClick={() => handleDelete(item)} className="cursor-pointer ">
-                                        <HiOutlineTrash className="text-red size-6 cursor-pointer" />
+                                        <HiOutlineTrash className="text-red text-center size-6 cursor-pointer" />
                                     </button>
                                 </td>
                             </tr>
@@ -194,7 +192,7 @@ const FetchStaffAdmin = () => {
                   handleClose={closeModal} 
                   onConfirm={confirmDelete} 
                   header="Delete Product" 
-                  body={`Are you sure you want to delete this staff "${staffToDelete?.name}"?`}
+                  body={`Are you sure you want to delete this staff "${staffToDelete?.fullname}"?`}
                 />
       </div>
     </div>

@@ -14,8 +14,6 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import BeatLoader from "react-spinners/BeatLoader";
 import { Link } from 'react-router-dom';
-import {  useMatch } from 'react-router-dom';
-// import Skeleton from 'react-loading-skeleton';
 
 const Users = () => {
   const [loading, setLoading] = useState(false);
@@ -59,15 +57,15 @@ const Users = () => {
 
               {/* Header */}
               <div className="w-full">
-                <div className="mb-4 items-center"><Header title="Users" link="/staffadmins"/></div>
+                <div className="mb-4 items-center"><Header title="Users" link="/users"/></div>
                 
                 <div className="flex md:flex-row flex-col justify-between items-left md:items-center px-8 mb-4">
                   <div className="mb-4 text-left"><Heading title="Users"/></div>
                   <div>
-                    <button onClick={openModal} className="flex flex-row w-full gap-1 items-center p-4 fa text-white text-sm text-center rounded-md">
+                    {/* <button onClick={openModal} className="flex flex-row w-full gap-1 items-center p-4 fa text-white text-sm text-center rounded-md">
                       <FaPlus/>
                       <p>Add Staff</p>
-                    </button>
+                    </button> */}
 
                     {/* <AddStaffAdmin show={showModal} handleClose={closeModal}/> */}
                   </div>
@@ -75,7 +73,7 @@ const Users = () => {
                
                 {/* Body */}               
                 <div className="mx-8">  
-                  {/* <FetchUser /> */}
+                  <FetchUser />
                 </div>
                 
               </div>
