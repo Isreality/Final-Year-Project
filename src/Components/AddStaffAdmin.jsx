@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { MdCalendarMonth } from "react-icons/md";
 
-
 function AddStaffAdmin ({ show, handleClose }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,8 +39,41 @@ function AddStaffAdmin ({ show, handleClose }) {
         return;
     } 
     setSpin(true);
-    // setErrorMessage('');
-    // setSuccessMessage('');
+
+    try {
+      const response = await fetch(baseURL + endpoint, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Atoken}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'ngrok-skip-browser-warning': "69420",
+          'origin': '*',
+        },
+        body: JSON.stringify({ fullName, email, phone_number, role }),
+      });
+
+      if (!response.ok) {
+        setErrorMessage('Admin submission unsuccessful');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } else {
+        setSuccessMessage('Admin added successfully.');
+        setErrorMessage('')
+        setIsModalOpen(true);
+        window.location.reload();
+        // console.log(result);
+      }
+
+      const result = await response.json();
+      console.log('Success:', result);
+      } catch (error) {
+          console.error('Error:', error);
+      } finally {
+        setSpin(false);
+        setIsModalOpen(true);
+      }
   };
 
   return ( 
@@ -117,7 +149,7 @@ function AddStaffAdmin ({ show, handleClose }) {
                     {errors.phone_number && <span style={{ color: 'red' }}>{errors.phone_number}</span>}<br/><br/>
                 </div>
 
-                {/* Role */}
+                {/* Account Type */}
                 <div className='space-y-1 md:space-y-2 items-start'>
                     <label htmlFor="role" className='text-md text-left text-black2'>Account Type</label><br/>
                     <input 

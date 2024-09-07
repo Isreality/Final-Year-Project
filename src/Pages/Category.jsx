@@ -4,19 +4,12 @@ import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
 import FetchCategory from "../Components/FetchCategory";
-// import AddStaffAdmin from "../Components/AddStaffAdmin";
+import AddCategory from "../Components/AddCategory";
 import { useState, useEffect } from 'react';
-import { HiUser } from "react-icons/hi2";
-import { MdPayments } from "react-icons/md";
-import { RxCaretRight } from "react-icons/rx";
-import { BiShieldQuarter } from "react-icons/bi";
-import { MdEmail } from "react-icons/md";
-import { FaPhoneAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import BeatLoader from "react-spinners/BeatLoader";
 import { Link } from 'react-router-dom';
 import {  useMatch } from 'react-router-dom';
-// import Skeleton from 'react-loading-skeleton';
 
 const Category = () => {
   const [loading, setLoading] = useState(false);
@@ -70,7 +63,7 @@ const Category = () => {
                       <p>Add Category</p>
                     </button>
 
-                    {/* <AddStaffAdmin show={showModal} handleClose={closeModal}/> */}
+                    <AddCategory show={showModal} handleClose={closeModal}/>
                   </div>
                 </div>
                

@@ -14,6 +14,7 @@ const FetchCategory = () => {
   const [error, setError] = useState(null);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,16 @@ const FetchCategory = () => {
   const baseURL = process.env.REACT_APP_BASE_URL;
   const endpoint = '/admin/product-category';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
+
+  const handleEdit = (productId) => {
+    setSelectedProduct(productId);
+    setShowEditModal(true);
+  };
+
+  const closeEditModal = () => {
+    setShowEditModal(false);
+    setSelectedProduct(null);
+  };
 
   // useEffect(() => {
     const fetchData = async () => {
@@ -173,19 +184,19 @@ const FetchCategory = () => {
 
                         <tbody className="">
                         {data.map((cat) => (
-                            <tr key={cat.id} className="text-black2 text-sm text-left border-b border-disable px-4 py-8">
+                            <tr key={cat.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
                                 <td className="p-4">{cat.name}</td>
-                                <td className="flex flex-row gap-2 p-2 items-center text-center">
+                                <td className="flex flex-row gap-2 p-4 items-center text-center">
                                     <img src={cat.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
                                     {cat.desc}   
                                 </td>                                
                                 <td className="p-4">{cat.minWeight}</td>
                                 <td className="p-4">{cat.maxWeight}</td>
-                                <td className="flex flex-row gap-2 p-2 items-center text-center">
-                                    {/* <button onClick={() => handleEdit(category.id)} className="cursor-pointer ">
+                                <td className="flex flex-row gap-2 p-1 items-center">
+                                    <button onClick={() => handleEdit(cat.id)} className="cursor-pointer ">
                                         <BiSolidEdit className="text-success size-6 cursor-pointer" />
-                                    </button> */}
+                                    </button>
                                     <button onClick={() => handleDelete(cat)} className="cursor-pointer ">
                                         <HiOutlineTrash className="text-red size-6 cursor-pointer" />
                                     </button>
@@ -198,8 +209,8 @@ const FetchCategory = () => {
                   show={showModal} 
                   handleClose={closeModal} 
                   onConfirm={confirmDelete} 
-                  header="Delete Product" 
-                  body={`Are you sure you want to delete this staff "${categoryToDelete?.name}"?`}
+                  header="Delete Category" 
+                  body={`Are you sure you want to delete this category "${categoryToDelete?.name}"?`}
                 />
       </div>
     </div>
