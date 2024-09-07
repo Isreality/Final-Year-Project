@@ -115,7 +115,7 @@ function AddStaffAdmin ({ show, handleClose }) {
                         type='text' 
                         id = "fullName" 
                         placeholder='Enter full name'
-                        value={email}
+                        value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                     />
                     {errors.fullName && <span style={{ color: 'red' }}>{errors.fullName}</span>}<br/><br/>
