@@ -1,4 +1,5 @@
 import "../style.css";   
+import "../pagination.css";
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
 import EditAssociation from '../Components/EditAssociation';
@@ -8,6 +9,8 @@ import { BiSolidEdit } from "react-icons/bi";
 import { BiCategoryAlt } from "react-icons/bi";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { FaRegBuilding } from "react-icons/fa";
+import ResponsivePagination from 'react-responsive-pagination';
+// import 'react-responsive-pagination/themes/classic.css';
 
 const FetchAssociation = () => {
   const [data, setData] = useState([]);
@@ -23,6 +26,18 @@ const FetchAssociation = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [itemsPerPage] = useState(5);
+  // const totalPages = 5;
+
+  // Pagination calculations
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
   const endpoint = '/admin/association';
@@ -165,6 +180,7 @@ const FetchAssociation = () => {
         setLoading(false)
     }, 3000)
   }, [])
+ 
 
   if (loading) {
     return (
@@ -232,23 +248,34 @@ const FetchAssociation = () => {
                             </tr>
                         ))}
                         </tbody>
-                    </table>
-                {/* Edit Modal */}
-                <EditAssociation
-                show={showEditModal}
-                handleClose={closeEditModal}
-                association={selectedAssociation}
-                onSave={handleSaveEdit}
-                />
+                    </table><br/>
 
-                {/* Edit Modal */}
-                <Delete 
-                  show={showModal} 
-                  handleClose={closeModal} 
-                  onConfirm={confirmDelete} 
-                  header="Delete Association" 
-                  body={`Are you sure you want to delete this category "${associationToDelete?.name}"?`}
-                />
+                    {/* Pagination Component */}
+                    <ResponsivePagination
+                      total={Math.ceil(data.length / itemsPerPage)}
+                      // total={totalPages}
+                      current={currentPage}
+                      onPageChange={handlePageChange}
+                      // previousLabel="Previous" 
+                      // nextLabel="Next"
+                      /><br/>
+
+                    {/* Edit Modal */}
+                    <EditAssociation
+                    show={showEditModal}
+                    handleClose={closeEditModal}
+                    association={selectedAssociation}
+                    onSave={handleSaveEdit}
+                    />
+
+                    {/* Delete Modal */}
+                    <Delete 
+                      show={showModal} 
+                      handleClose={closeModal} 
+                      onConfirm={confirmDelete} 
+                      header="Delete Association" 
+                      body={`Are you sure you want to delete this category "${associationToDelete?.name}"?`}
+                    />
       </div>
     </div>
   );

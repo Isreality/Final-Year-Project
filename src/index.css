@@ -35,3 +35,43 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Satoshi',
     monospace;
 }
+
+/* Container for the pagination component */
+.rrp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* Styling for each pagination item */
+.rrp-item {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  color: #333;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Active pagination item styling */
+.rrp-item--active {
+  background-color: #481986;
+  color: white;
+  border-color: #481986;
+}
+
+/* Disabled pagination item styling */
+.rrp-item--disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  border-color: #ddd;
+  background-color: #fafafa;
+}
+
+/* Hover effect for pagination items */
+.rrp-item:hover:not(.rrp-item--disabled):not(.rrp-item--active) {
+  background-color: #e0e0e0;
+}
+

@@ -24,7 +24,7 @@ const FetchUser = () => {
 
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/customer/?status=DISABLED';
+  const endpoint = '/admin/customer/';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   // useEffect(() => {
@@ -36,7 +36,10 @@ const FetchUser = () => {
             'Authorization': `Bearer ${Atoken}`,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'ngrok-skip-browser-warning': "69420",
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type,X-Token-Auth,Authorization',
             'origin': '*',
           },
         });

@@ -1,4 +1,5 @@
-import "../style.css";   
+import "../style.css"; 
+import "../pagination.css";  
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
 import EditCategory from '../Components/EditCategory';
@@ -7,7 +8,7 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { BiSolidEdit } from "react-icons/bi";
 import { BiCategoryAlt } from "react-icons/bi";
 import ScaleLoader from "react-spinners/ScaleLoader";
-// import { useNavigate } from 'react-router-dom';
+import ResponsivePagination from 'react-responsive-pagination';
 
 const FetchCategory = () => {
   const [data, setData] = useState([]);
@@ -23,6 +24,17 @@ const FetchCategory = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [itemsPerPage] = useState(5);
+
+  // Pagination calculations
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
   const endpoint = '/admin/product-category';
@@ -234,7 +246,14 @@ const FetchCategory = () => {
                             </tr>
                         ))}
                         </tbody>
-                    </table>
+                    </table><br/>
+                    {/* Pagination Component */}
+                    <ResponsivePagination
+                        total={Math.ceil(data.length / itemsPerPage)}
+                        // total={totalPages}
+                        current={currentPage}
+                        onPageChange={handlePageChange}
+                    /><br/>
 
                   <EditCategory
                     show={showEditModal}

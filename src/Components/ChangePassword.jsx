@@ -96,7 +96,6 @@ const ChangePassword = () => {
         setSuccessMessage('Your details has been updated successfully');
         setErrorMessage('')
         setIsModalOpen(true);
-        // sessionStorage.setItem('data', JSON.stringify(data))
         }
 
         setTimeout(() => {
