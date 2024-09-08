@@ -1,6 +1,7 @@
 import "../style.css";   
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
+import EditAssociation from '../Components/EditAssociation';
 import { useState, useEffect } from 'react';
 import { HiOutlineTrash } from "react-icons/hi";
 import { BiSolidEdit } from "react-icons/bi";
@@ -16,7 +17,7 @@ const FetchAssociation = () => {
   const [showModal, setShowModal] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedAssociation, setSelectedAssociation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
@@ -27,14 +28,48 @@ const FetchAssociation = () => {
   const endpoint = '/admin/association';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
-  const handleEdit = (associationId) => {
-    setSelectedProduct(associationId);
+  const handleEdit = (association) => {
+    setSelectedAssociation(association);
     setShowEditModal(true);
   };
 
   const closeEditModal = () => {
     setShowEditModal(false);
-    setSelectedProduct(null);
+    setSelectedAssociation(null);
+  };
+
+  const handleSaveEdit = async (updatedData) => {
+    try {
+      const response = await fetch(`${baseURL}/admin/association/edit/${selectedAssociation.id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Atoken}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'ngrok-skip-browser-warning': "69420",
+          'origin': '*',
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error('Failed to update association');
+      }
+
+      const updatedAssociations = association.map((assoc) =>
+        assoc.id === selectedAssociation.id ? { ...assoc, ...updatedData } : assoc
+      );
+
+      setAssociation(updatedAssociations);
+      setSuccessMessage(`Association "${selectedAssociation.name}" was successfully updated.`);
+      setErrorMessage('');
+      setIsModalOpen(true);
+      closeEditModal();
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
   };
 
   // useEffect(() => {
@@ -88,7 +123,7 @@ const FetchAssociation = () => {
 
     try {
       const response = await fetch(`${baseURL}/admin/association/delete/${associationToDelete.id}`, {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
           'Content-Type': 'application/json',
@@ -198,6 +233,15 @@ const FetchAssociation = () => {
                         ))}
                         </tbody>
                     </table>
+                {/* Edit Modal */}
+                <EditAssociation
+                show={showEditModal}
+                handleClose={closeEditModal}
+                association={selectedAssociation}
+                onSave={handleSaveEdit}
+                />
+
+                {/* Edit Modal */}
                 <Delete 
                   show={showModal} 
                   handleClose={closeModal} 

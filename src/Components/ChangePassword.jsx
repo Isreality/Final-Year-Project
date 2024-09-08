@@ -39,11 +39,11 @@ const ChangePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const togglePasswordVisibility1 = () => {
+  const toggleNewPasswordVisibility = () => {
     setShowNewPassword(!showNewPassword);
   };
 
-  const togglePasswordVisibility2 = () => {
+  const toggleRePasswordVisibility = () => {
     setShowRePassword(!showRePassword);
   };
 
@@ -51,26 +51,18 @@ const ChangePassword = () => {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     // Check if fullName and password are empty  
-    if (current_password.trim() === '' && new_password.trim() === '' && new_password_confirmation.trim()){
+    // if (current_password.trim() === '' && new_password.trim() === '' && new_password_confirmation.trim()){
+      if (!current_password || !new_password || !new_password_confirmation) { 
       setErrorMessage('Fill all the fields');
       setSuccessMessage('');
       setIsModalOpen(true);
       return;
-    } else if (current_password.trim() === '') {
-      setErrorMessage('Current Password is required.');
-      setSuccessMessage('');
-      setIsModalOpen(true);
-      return;
-    } else if(new_password.trim() === '') {
-      setErrorMessage('New Password is required.');
-      setSuccessMessage('');
-      setIsModalOpen(true);
-      return;
-    } else if(new_password_confirmation.trim() === '') {
-      setErrorMessage('Please confirm password.');
-      setSuccessMessage('');
+    } 
+    if (new_password !== new_password_confirmation) {
+      setErrorMessage("New passwords do not match");
+      setSuccessMessage("");
       setIsModalOpen(true);
       return;
     }
@@ -104,7 +96,7 @@ const ChangePassword = () => {
         setSuccessMessage('Your details has been updated successfully');
         setErrorMessage('')
         setIsModalOpen(true);
-        sessionStorage.setItem('data', JSON.stringify(data))
+        // sessionStorage.setItem('data', JSON.stringify(data))
         }
 
         setTimeout(() => {
@@ -209,7 +201,7 @@ const ChangePassword = () => {
                         {/* Eye icon switch */}
                         {showNewPassword ? (
                           <FaEye
-                            onClick={togglePasswordVisibility1}
+                            onClick={toggleNewPasswordVisibility}
                             size={20}
                             style={{
                               position: 'absolute',
@@ -222,7 +214,7 @@ const ChangePassword = () => {
                           />
                         ) : (
                           <FaEyeSlash
-                            onClick={togglePasswordVisibility1}
+                            onClick={toggleNewPasswordVisibility}
                             size={20}
                             style={{
                               position: 'absolute',
@@ -252,7 +244,7 @@ const ChangePassword = () => {
                         {/* Eye icon switch */}
                         {showNewPassword ? (
                           <FaEye
-                            onClick={togglePasswordVisibility2}
+                            onClick={toggleRePasswordVisibility}
                             size={20}
                             style={{
                               position: 'absolute',
@@ -265,7 +257,7 @@ const ChangePassword = () => {
                           />
                         ) : (
                           <FaEyeSlash
-                            onClick={togglePasswordVisibility2}
+                            onClick={toggleRePasswordVisibility}
                             size={20}
                             style={{
                               position: 'absolute',

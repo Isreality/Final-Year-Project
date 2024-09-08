@@ -1,6 +1,7 @@
 import "../style.css";   
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
+import EditCategory from '../Components/EditCategory';
 import { useState, useEffect } from 'react';
 import { HiOutlineTrash } from "react-icons/hi";
 import { BiSolidEdit } from "react-icons/bi";
@@ -16,7 +17,7 @@ const FetchCategory = () => {
   const [showModal, setShowModal] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
@@ -27,15 +28,6 @@ const FetchCategory = () => {
   const endpoint = '/admin/product-category';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
-  const handleEdit = (productId) => {
-    setSelectedProduct(productId);
-    setShowEditModal(true);
-  };
-
-  const closeEditModal = () => {
-    setShowEditModal(false);
-    setSelectedProduct(null);
-  };
 
   // useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +58,16 @@ const FetchCategory = () => {
       }
     };
 
+    const handleEdit = (category) => {
+      setSelectedCategory(category);
+      setShowEditModal(true);
+    };
+  
+    const closeEditModal = () => {
+      setShowEditModal(false);
+      setSelectedCategory(null);
+    };
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -77,6 +79,34 @@ const FetchCategory = () => {
   useEffect(() => {
     fetchData();
   }, [Atoken]);
+
+  const handleSaveEdit = async (updatedCategory) => {
+    try {
+      const response = await fetch(`${baseURL}/admin/product-category/edit/${updatedCategory.id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Atoken}`,
+          'ngrok-skip-browser-warning': "69420",
+        },
+        body: JSON.stringify(updatedCategory),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update category');
+      }
+
+      const result = await response.json();
+      setData((prevData) =>
+        prevData.map((cat) => (cat.id === updatedCategory.id ? result.data : cat))
+      );
+      setSuccessMessage('Category updated successfully!');
+      setShowEditModal(false);
+      setIsModalOpen(true);
+
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const handleDelete = (category) => {
     setCategoryToDelete(category);
@@ -205,6 +235,13 @@ const FetchCategory = () => {
                         ))}
                         </tbody>
                     </table>
+
+                  <EditCategory
+                    show={showEditModal}
+                    handleClose={closeEditModal}
+                    selectedCategory={selectedCategory} // Pass selected product if needed
+                    onSave={handleSaveEdit}
+                  />
                 <Delete 
                   show={showModal} 
                   handleClose={closeModal} 

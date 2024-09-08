@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { MdCalendarMonth } from "react-icons/md";
 
-function AddAssociation ({ show, handleClose }) {
+function EditAssociation ({ show, handleClose, association, onSave }) {
   const [name, setName] = useState('');
   const [chairmanName, setChairmanName] = useState('');
   const [chairmanNumber, setChairmanNumber] = useState('');
@@ -15,10 +15,6 @@ function AddAssociation ({ show, handleClose }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [spin, setSpin] = useState(null);
-
-  const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/association/add';
-  const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   useEffect(() => {
     setErrorMessage('');
@@ -29,6 +25,13 @@ function AddAssociation ({ show, handleClose }) {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    if (association) {
+      setName(association.name || '');
+      setChairmanName(association.chairmanName || '');
+      setChairmanNumber(association.chairmanNumber || '');
+    }
+  }, [association]);
 
   const handleSubmit = async (e) => { 
     if (!name || !chairmanName || !chairmanNumber) {
@@ -39,40 +42,22 @@ function AddAssociation ({ show, handleClose }) {
     } 
     setSpin(true);
 
-    try {
-      const response = await fetch(baseURL + endpoint, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${Atoken}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'ngrok-skip-browser-warning': "69420",
-          'origin': '*',
-        },
-        body: JSON.stringify({ name, chairmanName, chairmanNumber }),
-      });
+    // const updatedAssociation = {
+    //   ...association,
+    //   name,
+    //   chairmanName,
+    //   chairmanNumber,
+    // };
 
-      if (!response.ok) {
-        setErrorMessage('Association submission unsuccessful');
-        setSuccessMessage('');
-        setIsModalOpen(true);
-        return;
-      } else {
-        setSuccessMessage('Association added successfully.');
-        setErrorMessage('')
-        setIsModalOpen(true);
-        window.location.reload();
-        // console.log(result);
-      }
+    // onSave(updatedAssociation); // Trigger the parent component's save handler
+    // setSpin(false);
 
-      const result = await response.json();
-      console.log('Success:', result);
-      } catch (error) {
-          console.error('Error:', error);
-      } finally {
-        setSpin(false);
-        setIsModalOpen(true);
-      }
+    setTimeout(() => {
+      setSpin(false);
+      setSuccessMessage('Association updated successfully.');
+      setErrorMessage({});
+      setIsModalOpen(true);
+    }, 2000);
   };
 
   return ( 
@@ -101,7 +86,7 @@ function AddAssociation ({ show, handleClose }) {
             </div>
 
              {/* Heading */} 
-            <h1 className="text-primary text-2xl font-bold">Add Association</h1>
+            <h1 className="text-primary text-2xl font-bold">Edit Association</h1>
 
             
             {/* Form */}
@@ -159,4 +144,4 @@ function AddAssociation ({ show, handleClose }) {
   );
 }
 
-export default AddAssociation;
+export default EditAssociation;

@@ -36,7 +36,7 @@ const Settings = () => {
             // 'Content-Type': 'application/json',
             'Accept': 'application/json',
             'ngrok-skip-browser-warning': "69420",
-            'origin': '*',
+            // 'origin': '*',
           },
         });
 
