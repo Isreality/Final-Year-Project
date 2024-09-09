@@ -2,7 +2,8 @@ import "../style.css";
 import "../pagination.css";  
 import { useState, useEffect } from 'react';
 import { FaEye } from 'react-icons/fa';
-import { BiCategoryAlt } from "react-icons/bi";
+import { RiFileList3Line } from "react-icons/ri";
+import ViewOrders from '../Components/ViewOrders';
 import ScaleLoader from "react-spinners/ScaleLoader";
 import ResponsivePagination from 'react-responsive-pagination';
 
@@ -18,10 +19,34 @@ const FetchOrders = () => {
     const [currentPage, setCurrentPage] = useState(1); 
     const itemsPerPage = 5;
 
-  // Pagination calculations
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  // Function to assign color based on status
+  const getStatusColorClass = (status) => {
+    switch (status) {
+        case 'CANCELLED':
+            return 'bg-black'; // Red for cancelled
+        case 'ORDER_PLACED':
+            return 'bg-pend'; // Blue for order placed
+        case 'PENDING_CONFIRMATION':
+            return 'bg-orange-500'; // Yellow for pending confirmation
+        case 'WAITING_TO_BE_SHIPPED':
+            return 'bg-primary'; // Orange for waiting to be shipped
+        case 'OUT_FOR_DELIVERY':
+            return 'bg-teal-500'; // Teal for out for delivery
+        case 'SHIPPED':
+            return 'bg-success'; // Green for shipped
+        default:
+            return 'bg-gray-500'; // Default color for any unknown status
+    }
+  };
+
+  // Function to format boolean to "Yes" or "No" with color
+  const formatBooleanToYesNoWithColor = (value) => {
+    return (
+        <span className={value ? 'text-succes' : 'text-red'}>
+            {value ? 'Yes' : 'No'}
+        </span>
+    );
+};
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -30,12 +55,12 @@ const FetchOrders = () => {
     setDisplayData(data.slice(startIdx, endIdx));
   };
 
-  const openDetailsModal = (item) => {
+  const handleView = (item) => {
     setDetails(item);
     setIsDetailsModalOpen(true);
   };
 
-  const closeDetailsModal = () => {
+  const closeDetailsModal = (item) => {
     setIsDetailsModalOpen(false);
   };
 
@@ -102,7 +127,7 @@ const FetchOrders = () => {
   if (data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64">
-        <BiCategoryAlt className="text-9xl text-c4"/>
+        <RiFileList3Line className="text-9xl text-c4"/>
         <p className="text-lg text-black2">No order has been added</p>
       </div>
     );
@@ -117,7 +142,7 @@ const FetchOrders = () => {
                         <tr className="px-4 py-8">
                             <th className="px-4 py-6 text-black2 font-normal">Order Reference</th>
                             <th className="px-4 py-6 text-black2 font-normal">Total Amount</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Payment Ref.</th>
+                            {/* <th className="px-4 py-6 text-black2 font-normal">Payment Ref.</th> */}
                             <th className="px-4 py-6 text-black2 font-normal">Status</th>
                             <th className="px-4 py-6 text-black2 font-normal">Payback</th>
                             <th className="px-4 py-6 text-black2 font-normal">Date</th>
@@ -130,12 +155,15 @@ const FetchOrders = () => {
                             <tr key={item.id} className="text-black2 text-sm border-b border-disable">
                                 <td className="px-4 py-6">{item.orderItemsRef}</td>
                                 <td className="px-4 py-6">{item.product.price}</td>
-                                <td className="px-4 py-6"></td>
-                                <td className="px-4 py-6">{item.orderState}</td>
-                                <td className="px-4 py-6">{item.isPayBack}</td>
+                                {/* <td className="px-4 py-6"></td> */}
+                                <td className='flex flex-row gap-1 px-4 py-6 items-center'>
+                                    <span className={`inlline-block h-2 w-2 rounded-full ${getStatusColorClass(item.orderState)}`}></span>
+                                    {item.orderState}
+                                </td>
+                                <td className="px-4 py-6">{formatBooleanToYesNoWithColor(item.isPayBackLater)}</td>
                                 <td className="px-4 py-6">{item.createdDate}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-center">
-                                    <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => openDetailsModal(item)}/>
+                                    <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => handleView(item)}/>
                                     {/* <HiOutlineTrash className="text-red size-5 cursor-pointer" onClick={() => openModal(item.id)}/> */}
                                 </td>
                             </tr>
@@ -150,6 +178,11 @@ const FetchOrders = () => {
                           onPageChange={handlePageChange}
                         />
                     )}<br/>
+
+                  <ViewOrders
+                    show={isDetailsModalOpen}
+                    handleClose={closeDetailsModal}
+                  />
       </div>
     </div>
   );
