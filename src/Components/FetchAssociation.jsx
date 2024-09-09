@@ -14,6 +14,7 @@ import ResponsivePagination from 'react-responsive-pagination';
 
 const FetchAssociation = () => {
   const [data, setData] = useState([]);
+  const [displayData, setDisplayData] = useState([]);
   const [association, setAssociation] = useState([]);
   const [error, setError] = useState(null);
   const [associationToDelete, setAssociationToDelete] = useState(null);
@@ -27,16 +28,19 @@ const FetchAssociation = () => {
   const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1); 
-  const [itemsPerPage] = useState(5);
+  const itemsPerPage = 5;
   // const totalPages = 5;
 
   // Pagination calculations
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setDisplayData(data.slice(startIdx, endIdx));
   };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
@@ -106,8 +110,8 @@ const FetchAssociation = () => {
         }
         const result = await response.json();
         if (result.status) {
-          // console.log(result);
           setData(result.data);
+          setDisplayData(result.data.slice(0, itemsPerPage));
         } else {
           throw new Error('Data fetch unsuccessful');
         }
@@ -251,14 +255,23 @@ const FetchAssociation = () => {
                     </table><br/>
 
                     {/* Pagination Component */}
-                    <ResponsivePagination
+                    {/* <ResponsivePagination
                       total={Math.ceil(data.length / itemsPerPage)}
                       // total={totalPages}
                       current={currentPage}
                       onPageChange={handlePageChange}
                       // previousLabel="Previous" 
                       // nextLabel="Next"
-                      /><br/>
+                      /><br/> */}
+
+                    {/* Pagination Component */}
+                    {data.length > itemsPerPage && (
+                        <ResponsivePagination
+                          total={Math.ceil(data.length / itemsPerPage)}
+                          current={currentPage}
+                          onPageChange={handlePageChange}
+                        />
+                      )}<br/>
 
                     {/* Edit Modal */}
                     <EditAssociation

@@ -4,6 +4,7 @@ import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
 import Card from "../Components/Card";
+import FetchOrders from "../Components/FetchOrders";
 import { useState, useEffect } from 'react';
 import { useAuth } from '../Components/AuthContext';
 import { FaUsers } from "react-icons/fa";
@@ -11,16 +12,12 @@ import BeatLoader from "react-spinners/BeatLoader";
 // import { TbCurrencyNaira } from "react-icons/tb";
 import { MdDeliveryDining } from "react-icons/md";
 import { RiListView } from "react-icons/ri";
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 import { TbMathGreater } from "react-icons/tb";
 import { Link } from 'react-router-dom';
-// import Skeleton from 'react-loading-skeleton';
 
-// ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, ArcElement, Tooltip, Legend, Filler);
 const Dashboard = () => {
   const [loading, setLoading] = useState(false)
-  // const { authToken, setStatusCode } = useAuth();
   const [stat, setStat] = useState([]);
   const [error, setError] = useState(null);
 
@@ -42,14 +39,11 @@ const Dashboard = () => {
           },
         });
 
-        // setStatusCode(response.status);
-
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
         if (result.status) {
-          // console.log(result);
           setStat(result.data);
         } else {
           throw new Error('Data fetch unsuccessful');
@@ -106,15 +100,18 @@ const Dashboard = () => {
 
                                 
                 {/* Recent Orders */}
-                <div className="flex flex-row justify-between px-8">
+                <div className="flex flex-row justify-between px-8 mb-4">
                   <div className="text-primary text-xl font-semibold">Recent Orders</div>
 
                   <div className=" text-black2 text-md font-medium px-4">
-                    <Link to="/OrderList" className="flex flex-row cursor-pointer gap-1 items-center">See All<TbMathGreater/></Link>
+                    <Link to="/orders" className="flex flex-row cursor-pointer gap-1 items-center">See All<TbMathGreater/></Link>
                   </div>
-
                 </div>
-                
+
+                {/* Order Table */}
+                <div className="px-8">
+                  <FetchOrders/>
+                </div>                
               </div>
 
             </div>

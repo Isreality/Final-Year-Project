@@ -19,8 +19,8 @@ const SidebarData =
       },
   
       {
-        title: "Order List",
-        path: "/orderlist",
+        title: "Orders",
+        path: "/orders",
         icons: <RiFileList3Line className="w-5 h-5"/>,
         id: 2
       },

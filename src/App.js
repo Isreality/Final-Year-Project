@@ -30,7 +30,7 @@ function App() {
             {/* <Route path="./Pages/Dashboard" Component={<LoginNav cmd={Dashboard}/>}></Route> */}
             <Route index path="/" Component={Login}></Route>
             <Route exact path="/dashboard" Component={Dashboard}></Route>
-            <Route exact path="/orderlist" Component={OrderList}></Route>
+            <Route exact path="/orders" Component={OrderList}></Route>
             <Route path="/staffadmins" Component={StaffAdmins}></Route> 
             <Route path="/users" Component={Users}></Route>
             <Route path="/category" Component={Category}></Route>
