@@ -22,7 +22,7 @@ const FetchOrders = () => {
     const [details, setDetails] = useState({});
     const [searchTerm, setSearchTerm] = useState(""); 
     const [selectedStatus, setSelectedStatus] = useState(""); 
-    const [payBack, setPayBack] = useState("");
+    // const [payBack, setPayBack] = useState("");
     const [currentPage, setCurrentPage] = useState(1); 
     const [dateRange, setDateRange] = useState([{ startDate: null, endDate: null, key: 'selection' }]);
     // const [dateRange, setDateRange] = useState([{ startDate: new Date(), endDate: new Date(), key: 'selection' }]);
@@ -79,9 +79,9 @@ const FetchOrders = () => {
         setSelectedStatus(e.target.value);
     };
 
-    const handlePayBackChange = (e) => {
-        setPayBack(e.target.value);
-    };
+    // const handlePayBackChange = (e) => {
+    //     setPayBack(e.target.value);
+    // };
 
     const handleDateRangeChange = (ranges) => {
         setDateRange([ranges.selection]);
@@ -139,15 +139,15 @@ const FetchOrders = () => {
             const isWithinDateRange = startDate && endDate ? (orderDate >= startDate && orderDate <= endDate) : true;
             const matchesSearchTerm = item.orderItemsRef.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesStatus = selectedStatus === "" || item.orderState === selectedStatus;
-            const matchesPayBack = payBack === "" || item.isPayBackLater === payBack;
+            // const matchesPayBack = payBack === "" || item.isPayBackLater === payBack;
             
-            return matchesSearchTerm && matchesStatus && matchesPayBack && isWithinDateRange;
+            return matchesSearchTerm && matchesStatus && isWithinDateRange;
         });
 
         const startIdx = (currentPage - 1) * itemsPerPage;
         const endIdx = startIdx + itemsPerPage;
         setDisplayData(filteredData.slice(startIdx, endIdx));
-    }, [searchTerm, selectedStatus, payBack, dateRange, currentPage, data]);
+    }, [searchTerm, selectedStatus, dateRange, currentPage, data]);
 
     if (loading) {
         return (
@@ -221,23 +221,6 @@ const FetchOrders = () => {
                             <option className="text-md" value="WAITING_TO_BE_SHIPPED">Waiting to be shipped</option>
                             <option className="text-md" value="OUT_FOR_DELIVERY">Out for Delivery</option>
                             <option className="text-md" value="SHIPPED">Shipped</option>
-                        </select>
-
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
-                            <RiArrowDropDownLine className="h-6 w-6"/>
-                        </div>
-                    </div>
-
-                    {/* Filter by Payback */}
-                    <div className='relative'>
-                        <select
-                            value={payBack}
-                            onChange={handlePayBackChange}
-                            className="block appearance-none py-4 px-8 bg-fa rounded focus:outline-primary cursor-pointer"
-                        >
-                            <option className="text-md" value="">Payback</option>
-                            <option className="text-md" value="Yes">Yes</option>
-                            <option className="text-md" value="No">No</option>
                         </select>
 
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
