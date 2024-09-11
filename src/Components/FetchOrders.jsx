@@ -3,10 +3,14 @@ import "../pagination.css";
 import { useState, useEffect } from 'react';
 import { FaEye } from 'react-icons/fa';
 import { RiFileList3Line } from "react-icons/ri";
+import { DateRange } from 'react-date-range';
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { FaRegCalendarDays } from "react-icons/fa6";
 import ViewOrders from '../Components/ViewOrders';
 import ScaleLoader from "react-spinners/ScaleLoader";
 import ResponsivePagination from 'react-responsive-pagination';
+import 'react-date-range/dist/styles.css'; 
+import 'react-date-range/dist/theme/default.css'; 
 
 const FetchOrders = () => {
     const [data, setData] = useState([]);
@@ -17,29 +21,32 @@ const FetchOrders = () => {
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [details, setDetails] = useState({});
     const [searchTerm, setSearchTerm] = useState(""); 
-    const [selectedStatus, setSelectedStatus] = useState("");
+    const [selectedStatus, setSelectedStatus] = useState(""); 
     const [payBack, setPayBack] = useState("");
     const [currentPage, setCurrentPage] = useState(1); 
+    const [dateRange, setDateRange] = useState([{ startDate: null, endDate: null, key: 'selection' }]);
+    // const [dateRange, setDateRange] = useState([{ startDate: new Date(), endDate: new Date(), key: 'selection' }]);
+    const [showDatePicker, setShowDatePicker] = useState(false);
     const itemsPerPage = 5;
 
     // Function to assign color based on status
     const getStatusColorClass = (status) => {
-      switch (status) {
-          case 'CANCELLED':
-              return 'bg-black'; // Black for cancelled
-          case 'ORDER_PLACED':
-              return 'bg-pend'; // Yellow for order placed
-          case 'PENDING_CONFIRMATION':
-              return 'bg-orange-500'; // Orange for pending confirmation
-          case 'WAITING_TO_BE_SHIPPED':
-              return 'bg-primary'; // Purple for waiting to be shipped
-          case 'OUT_FOR_DELIVERY':
-              return 'bg-teal-500'; // Teal for out for delivery
-          case 'SHIPPED':
-              return 'bg-success'; // Green for shipped
-          default:
-              return 'bg-gray-500'; // Default color for any unknown status
-      }
+              switch (status) {
+                  case 'CANCELLED':
+                      return 'bg-black'; // Black for cancelled
+                  case 'ORDER_PLACED':
+                      return 'bg-pend'; // Yellow for order placed
+                  case 'PENDING_CONFIRMATION':
+                      return 'bg-orange-500'; // Orange for pending confirmation
+                  case 'WAITING_TO_BE_SHIPPED':
+                      return 'bg-primary'; // Purple for waiting to be shipped
+                  case 'OUT_FOR_DELIVERY':
+                      return 'bg-teal-500'; // Teal for out for delivery
+                  case 'SHIPPED':
+                      return 'bg-success'; // Green for shipped
+                  default:
+                      return 'bg-gray-500'; // Default color for any unknown status
+              }
     };
 
     // Function to format boolean to "Yes" or "No" with color
@@ -65,8 +72,7 @@ const FetchOrders = () => {
     };
 
     const handleSearchChange = (e) => {
-        const term = e.target.value;
-        setSearchTerm(term);
+        setSearchTerm(e.target.value);
     };
 
     const handleStatusChange = (e) => {
@@ -75,6 +81,10 @@ const FetchOrders = () => {
 
     const handlePayBackChange = (e) => {
         setPayBack(e.target.value);
+    };
+
+    const handleDateRangeChange = (ranges) => {
+        setDateRange([ranges.selection]);
     };
 
     const baseURL = process.env.REACT_APP_BASE_URL;
@@ -121,18 +131,23 @@ const FetchOrders = () => {
     }, []);
 
     useEffect(() => {
-        // Filter data based on both search term and selected status
-        const filteredData = data.filter(item =>
-            item.orderItemsRef.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            (selectedStatus === "" || item.orderState === selectedStatus) &&
-            (payBack === "" || item.isPayBackLater === payBack)
-        );
+        const filteredData = data.filter(item => {
+            const orderDate = new Date(item.createdDate);
+            const startDate = dateRange[0].startDate;
+            const endDate = dateRange[0].endDate;
+            // Check if filters are applied; if not, display all data
+            const isWithinDateRange = startDate && endDate ? (orderDate >= startDate && orderDate <= endDate) : true;
+            const matchesSearchTerm = item.orderItemsRef.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesStatus = selectedStatus === "" || item.orderState === selectedStatus;
+            const matchesPayBack = payBack === "" || item.isPayBackLater === payBack;
+            
+            return matchesSearchTerm && matchesStatus && matchesPayBack && isWithinDateRange;
+        });
 
         const startIdx = (currentPage - 1) * itemsPerPage;
         const endIdx = startIdx + itemsPerPage;
         setDisplayData(filteredData.slice(startIdx, endIdx));
-    }, [searchTerm, selectedStatus, payBack, currentPage, data]);
-
+    }, [searchTerm, selectedStatus, payBack, dateRange, currentPage, data]);
 
     if (loading) {
         return (
@@ -169,7 +184,29 @@ const FetchOrders = () => {
                     className="p-4 border border-f2 rounded focus:bg-white focus:outline-primary"
                 />
 
-                <div className="flex flex-row gap-2 items-center">
+                <div className="relative flex flex-row gap-2 items-center">
+                    <div className="relative">
+                        {/* Button to Toggle Date Picker */}
+                            <button onClick={() => setShowDatePicker(!showDatePicker)} className="flex flex-row gap-1 items-center py-4 px-8 bg-fa rounded cursor-pointer">
+                                <FaRegCalendarDays className="text-primary size-4"/>
+                                Date
+                            </button>
+
+                        {/* Date Range Picker Dropdown */}
+                        {showDatePicker && (
+                            // <div className="relative z-10 mt-2 p-2  rounded ">
+                            <div className="custom-date-range-picker bg-white top-[120%] absolute trasform translate-x-[-23%]">
+                                <DateRange
+                                    ranges={dateRange}
+                                    onChange={handleDateRangeChange}
+                                    moveRangeOnFirstSelection={false}
+                                    rangeColors={['#481986']}
+                                    className="date-range"
+                                />
+                            </div>
+                        )}
+                    </div>
+
                     {/* Filter by Status */}
                     <div className='relative'>
                         <select
@@ -207,9 +244,9 @@ const FetchOrders = () => {
                             <RiArrowDropDownLine className="h-6 w-6"/>
                         </div>
                     </div>
-                </div>
+                </div>              
             </div>
-
+            
             {/* Table */}
             <div>
                 <table className="min-w-full border-collapse border border-disable py-4">
@@ -223,16 +260,14 @@ const FetchOrders = () => {
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                     </thead>
-
-                    {/* Table body */}
                     <tbody className="text-left">
                         {displayData.map((item) => (
                             <tr key={item.id} className="text-black2 text-sm border-b border-disable">
                                 <td className="px-4 py-6">{item.orderItemsRef}</td>
                                 <td className="px-4 py-6">{item.product.price}</td>
-                                <td className="px-4 py-6 flex items-center">
-                                    <span 
-                                        className={`inline-block w-2 h-2 rounded-full mr-2 ${getStatusColorClass(item.orderState)}`}
+                                <td className="flex flex-row items-center px-4 py-6">
+                                    <span
+                                        className={`w-2 h-2 rounded-full mr-2 ${getStatusColorClass(item.orderState)}`}
                                     ></span>
                                     {item.orderState}
                                 </td>
@@ -244,22 +279,17 @@ const FetchOrders = () => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table>        
 
-                {/* Pagination */}
-                {data.length > itemsPerPage && (
+                {/* Pagination Component */}
+                {displayData.length > itemsPerPage && (
                     <ResponsivePagination
-                        total={Math.ceil(data.filter(item => 
-                            item.orderItemsRef.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                            (selectedStatus === "" || item.orderState === selectedStatus) &&
-                            (payBack === "" || item.isPayBackLater === payBack)
-                        ).length / itemsPerPage)}
+                        total={Math.ceil(displayData.length / itemsPerPage)}
                         current={currentPage}
                         onPageChange={handlePageChange}
                     />
-                )}<br/>
+                )}
 
-                {/* View Order */}
                 <ViewOrders
                     show={isDetailsModalOpen}
                     handleClose={closeDetailsModal}
@@ -270,3 +300,4 @@ const FetchOrders = () => {
 }
 
 export default FetchOrders;
+
