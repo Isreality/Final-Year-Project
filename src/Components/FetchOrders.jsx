@@ -276,6 +276,7 @@ const FetchOrders = () => {
                 <ViewOrders
                     show={isDetailsModalOpen}
                     handleClose={closeDetailsModal}
+                    orderDetails={details}
                 />
             </div>
         </div>
