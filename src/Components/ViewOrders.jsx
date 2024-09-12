@@ -10,6 +10,35 @@ function ViewOrders ({ show, handleClose, orderDetails }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [spin, setSpin] = useState(null);
 
+  // Function to assign color based on status
+  const getStatusColorClass = (status) => {
+    switch (status) {
+        case 'CANCELLED':
+            return 'bg-black'; // Black for cancelled
+        case 'ORDER_PLACED':
+            return 'bg-pend'; // Yellow for order placed
+        case 'PENDING_CONFIRMATION':
+            return 'bg-orange-500'; // Orange for pending confirmation
+        case 'WAITING_TO_BE_SHIPPED':
+            return 'bg-primary'; // Purple for waiting to be shipped
+        case 'OUT_FOR_DELIVERY':
+            return 'bg-teal-500'; // Teal for out for delivery
+        case 'SHIPPED':
+            return 'bg-success'; // Green for shipped
+        default:
+            return 'bg-gray-500'; // Default color for any unknown status
+    }
+};
+
+  // Function to format boolean to "Yes" or "No" with color
+  const formatBooleanToYesNoWithColor = (value) => {
+    return (
+        <span className={value ? 'text-success' : 'text-red'}>
+            {value ? 'Yes' : 'No'}
+        </span>
+    );
+};
+
   return ( 
     <div>
         {show && (
@@ -38,14 +67,20 @@ function ViewOrders ({ show, handleClose, orderDetails }) {
                         <hr/>
 
                         <div className="flex items-center justify-between">
-                          <p>Status</p> 
-                          {orderDetails.orderState}
+                          <p>Status</p>
+                          <div className="flex flex-row items-center">
+                            <span
+                              className={`w-2 h-2 rounded-full mr-2 ${getStatusColorClass(orderDetails.orderState)}`}
+                            ></span> 
+                            {orderDetails.orderState}
+                          </div>
                         </div>
                         <hr/>
 
                         <div className="flex items-center justify-between">
                           <p>Payback</p> 
-                          {orderDetails.isPayBackLater ? 'Yes' : 'No'}
+                          {/* {orderDetails.isPayBackLater ? 'Yes' : 'No'} */}
+                          {formatBooleanToYesNoWithColor(orderDetails.isPayBackLater)}
                         </div>
                         <hr/>
                         

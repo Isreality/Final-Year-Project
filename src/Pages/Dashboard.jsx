@@ -13,7 +13,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { MdDeliveryDining } from "react-icons/md";
 import { RiListView } from "react-icons/ri";
 import { Doughnut, Line } from "react-chartjs-2";
-import { TbMathGreater } from "react-icons/tb";
+import { RxCaretRight } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -104,7 +104,7 @@ const Dashboard = () => {
                   <div className="text-primary text-xl font-semibold">Recent Orders</div>
 
                   <div className=" text-black2 text-md font-medium px-4">
-                    <Link to="/orders" className="flex flex-row cursor-pointer gap-1 items-center">See All<TbMathGreater/></Link>
+                    <Link to="/orders" className="flex flex-row cursor-pointer gap-1 items-center">See All<RxCaretRight/></Link>
                   </div>
                 </div>
 

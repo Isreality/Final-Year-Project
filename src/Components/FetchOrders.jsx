@@ -189,7 +189,7 @@ const FetchOrders = () => {
                         {/* Button to Toggle Date Picker */}
                             <button onClick={() => setShowDatePicker(!showDatePicker)} className="flex flex-row gap-1 items-center py-4 px-8 bg-fa rounded cursor-pointer">
                                 <FaRegCalendarDays className="text-primary size-4"/>
-                                Date
+                                Filter by Date
                             </button>
 
                         {/* Date Range Picker Dropdown */}
