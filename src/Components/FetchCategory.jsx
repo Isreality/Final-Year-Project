@@ -12,6 +12,7 @@ import ResponsivePagination from 'react-responsive-pagination';
 
 const FetchCategory = () => {
   const [data, setData] = useState([]);
+  const [displayData, setDisplayData] = useState([]);
   const [category, setCategory] = useState([]);
   const [error, setError] = useState(null);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
@@ -25,15 +26,18 @@ const FetchCategory = () => {
   const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1); 
-  const [itemsPerPage] = useState(5);
+  const itemsPerPage = 5;
 
   // Pagination calculations
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setDisplayData(data.slice(startIdx, endIdx));
   };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
@@ -60,8 +64,8 @@ const FetchCategory = () => {
         }
         const result = await response.json();
         if (result.status) {
-          // console.log(result);
           setData(result.data);
+          setDisplayData(result.data.slice(0, itemsPerPage));
         } else {
           throw new Error('Data fetch unsuccessful');
         }
@@ -152,13 +156,11 @@ const FetchCategory = () => {
         setErrorMessage(``);
         setIsModalOpen(true);
         setCategoryToDelete(null);
-        // console.log('Delete Result:', result);
       }
 
       setTimeout(() => {
         setSuccessMessage('');
         setIsModalOpen(false);
-        // navigate('/product');
         window.location.reload();
       }, 3000);
     } catch (error) {
@@ -215,7 +217,6 @@ const FetchCategory = () => {
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-sm text-left">
                         <tr className="px-4 py-8">
-                            {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
                             <th className="px-4 py-6 text-black2 font-normal">Name</th>
                             <th className="px-4 py-6 text-black2 font-normal">Description</th>
                             <th className="px-4 py-6 text-black2 font-normal">Min Weight</th>
@@ -227,7 +228,6 @@ const FetchCategory = () => {
                         <tbody className="">
                         {data.map((cat) => (
                             <tr key={cat.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
-                                {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
                                 <td className="px-4 py-6">{cat.name}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
                                     <img src={cat.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
@@ -247,27 +247,30 @@ const FetchCategory = () => {
                         ))}
                         </tbody>
                     </table><br/>
+                    
                     {/* Pagination Component */}
-                    <ResponsivePagination
-                        total={Math.ceil(data.length / itemsPerPage)}
-                        // total={totalPages}
-                        current={currentPage}
-                        onPageChange={handlePageChange}
-                    /><br/>
+                    {data.length > itemsPerPage && (
+                        <ResponsivePagination
+                          total={Math.ceil(data.length / itemsPerPage)}
+                          current={currentPage}
+                          onPageChange={handlePageChange}
+                        />
+                    )}<br/>
 
                   <EditCategory
                     show={showEditModal}
                     handleClose={closeEditModal}
-                    selectedCategory={selectedCategory} // Pass selected product if needed
+                    selectedCategory={selectedCategory}
                     onSave={handleSaveEdit}
                   />
-                <Delete 
-                  show={showModal} 
-                  handleClose={closeModal} 
-                  onConfirm={confirmDelete} 
-                  header="Delete Category" 
-                  body={`Are you sure you want to delete this category "${categoryToDelete?.name}"?`}
-                />
+
+                  <Delete 
+                    show={showModal} 
+                    handleClose={closeModal} 
+                    onConfirm={confirmDelete} 
+                    header="Delete Category" 
+                    body={`Are you sure you want to delete this category "${categoryToDelete?.name}"?`}
+                  />
       </div>
     </div>
   );
