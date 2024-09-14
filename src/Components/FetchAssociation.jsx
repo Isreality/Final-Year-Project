@@ -65,10 +65,13 @@ const FetchAssociation = () => {
           'Authorization': `Bearer ${Atoken}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'ngrok-skip-browser-warning': "69420",
           'origin': '*',
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify({
+          name: updatedData.name,
+          chairmanName: updatedData.chairmanName,
+          chairmanNumber: updatedData.chairmanNumber
+        }),
       });
 
       const result = await response.json();
@@ -82,10 +85,11 @@ const FetchAssociation = () => {
       );
 
       setAssociation(updatedAssociations);
-      setSuccessMessage(`Association "${selectedAssociation.name}" was successfully updated.`);
+      setSuccessMessage(`Update was successful.`);
       setErrorMessage('');
       setIsModalOpen(true);
       closeEditModal();
+      window.location.reload();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -242,7 +246,7 @@ const FetchAssociation = () => {
                                 <td className="px-4 py-6">{ass.chairman_name}</td>
                                 <td className="px-4 py-6">{ass.chairman_number}</td>
                                 <td className="flex flex-row gap-2 items-center px-4 py-6">
-                                    <button onClick={() => handleEdit(ass.id)} className="cursor-pointer ">
+                                    <button onClick={() => handleEdit(ass)} className="cursor-pointer ">
                                         <BiSolidEdit className="text-success size-6 cursor-pointer" />
                                     </button>
                                     <button onClick={() => handleDelete(ass)} className="cursor-pointer ">

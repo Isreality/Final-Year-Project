@@ -180,7 +180,7 @@ const FetchUser = () => {
 
                         <tbody className="">
                         {data.map((item) => (
-                            <tr key={item.id} className="text-black2 text-sm text-left border-b border-disable p-6">
+                            <tr key={item._id} className="text-black2 text-sm text-left border-b border-disable p-6">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
                                 <td className="p-4">{item.name}</td>
                                 <td className="p-4">{item.email}</td>
