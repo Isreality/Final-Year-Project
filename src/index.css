@@ -17,7 +17,7 @@ body {
 
 .active{
   border-radius: 6px;
-  background-color: #481986;
+  background-color: #A020F0;
   color: #ffffff !important; 
   /* margin-left: 0.5rem; */
   /* padding: 16px 80px 16px 16px; */
@@ -25,7 +25,7 @@ body {
 
 .active:hover{
   border-radius: 6px;
-  background-color: #481986 !important;
+  background-color: #A020F0 !important;
   color: #ffffff !important;
   /* padding: 16px 100px 16px 16px;  */
   /* margin: 0.5rem; */
@@ -37,15 +37,15 @@ code {
 }
 
 /* Container for the pagination component */
-.rrp-container {
+/* .rrp-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-}
+} */
 
 /* Styling for each pagination item */
-.rrp-item {
+/* .rrp-item {
   margin: 0 5px;
   padding: 8px 12px;
   border: 1px solid #ddd;
@@ -53,25 +53,26 @@ code {
   background-color: #f8f8f8;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-}
+} */
 
 /* Active pagination item styling */
-.rrp-item--active {
+/* .rrp-item--active {
   background-color: #481986;
   color: white;
   border-color: #481986;
-}
+  border-radius: 6px;
+} */
 
 /* Disabled pagination item styling */
-.rrp-item--disabled {
+/* .rrp-item--disabled {
   color: #ccc;
   cursor: not-allowed;
   border-color: #ddd;
   background-color: #fafafa;
-}
+} */
 
 /* Hover effect for pagination items */
-.rrp-item:hover:not(.rrp-item--disabled):not(.rrp-item--active) {
+/* .rrp-item:hover:not(.rrp-item--disabled):not(.rrp-item--active) {
   background-color: #e0e0e0;
-}
+} */
 

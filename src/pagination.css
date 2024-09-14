@@ -36,6 +36,7 @@
     font-weight: 700;
     color: #ffffff;
     background-color: #481986;
+    border-radius: 5px;
   }
   
   .page-item.disabled .page-link {
