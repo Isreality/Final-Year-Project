@@ -2,7 +2,9 @@ import "../style.css";
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
 import { useState, useEffect } from 'react';
-import { HiOutlineTrash } from "react-icons/hi";
+import { FaCircleCheck } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
+import { FiMoreVertical } from "react-icons/fi";
 import { BiSolidEdit } from "react-icons/bi";
 import { SlSocialDropbox } from "react-icons/sl";
 import { LuUsers } from "react-icons/lu";
@@ -176,17 +178,29 @@ const PendingRequest = () => {
 
                         <tbody className="p-4">
                         {data.map((sell) => (
-                            <tr key={sell._id} className="text-black2 text-sm border-b border-disable p-6">
-                                <td className="px-6 py-6 text-left">{sell.name}</td>
+                            <tr key={sell._id} className="text-black2 text-sm border-b items-center border-disable p-6">
+                                {/* <td className="px-6 py-6 text-left">{sell.name}</td> */}
+                                <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
+                                    <img src={sell.profile_image_url} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
+                                    {sell.name}   
+                                </td>
                                 <td className="px-4 py-6 text-left">{sell.email}</td>
                                 <td className="px-4 py-6 text-left">{sell.phone_number}</td>
                                 <td className="px-4 py-6 text-left">{sell.cooperative_name}</td>
                                 <td className="px-4 py-6 text-left">{sell.chairman_name}</td>
                                 <td className="px-4 py-6 text-left">{sell.chairman_number}</td>
-                                <td className="flex flex-row gap-2 px-4 py-6 items-right ">
+                                <td className=" items-right ">
                                     <button className="cursor-pointer ">
-                                        <HiOutlineTrash className="text-red text-right size-6 cursor-pointer" />
+                                        <FiMoreVertical className="text-black2 text-right size-5 cursor-pointer" />
                                     </button>
+
+                                    {/* <button className="cursor-pointer ">
+                                        <FaCircleCheck className="text-success text-right size-6 cursor-pointer" />
+                                    </button>
+
+                                    <button className="cursor-pointer ">
+                                        <MdCancel className="text-red text-right size-6 cursor-pointer" />
+                                    </button> */}
                                 </td>
                             </tr>
                         ))}
