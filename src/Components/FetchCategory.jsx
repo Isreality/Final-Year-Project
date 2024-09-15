@@ -98,27 +98,40 @@ const FetchCategory = () => {
 
   const handleSaveEdit = async (updatedCategory) => {
     try {
-      const response = await fetch(`${baseURL}/admin/product-category/edit/${updatedCategory.id}`, {
+      const formData = new FormData();
+      formData.append('name', updatedCategory.name);
+      formData.append('desc', updatedCategory.desc);
+      formData.append('minimumWeight', updatedCategory.minimumWeight);
+      formData.append('maximumWeight', updatedCategory.maximumWeight);
+      formData.append('price', updatedCategory.price);
+
+      if (updatedCategory.image) {
+        formData.append('image', updatedCategory.image); // Append image if it exists
+      }
+
+      const response = await fetch(`${baseURL}/admin/product-category/edit/${selectedCategory.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
           'ngrok-skip-browser-warning': "69420",
         },
-        body: JSON.stringify(updatedCategory),
+        body: formData,
       });
+
+      const result = await response.json();
 
       if (!response.ok) {
         throw new Error('Failed to update category');
       }
-
-      const result = await response.json();
-      setData((prevData) =>
-        prevData.map((cat) => (cat.id === updatedCategory.id ? result.data : cat))
-      );
-      setSuccessMessage('Category updated successfully!');
-      setShowEditModal(false);
-      setIsModalOpen(true);
-
+        
+        setCategory((prevData) =>
+          prevData.map((cat) => (cat.id === selectedCategory.id ? result.data : cat))
+        );
+        setSuccessMessage('Category updated successfully!');
+        setErrorMessage('');
+        setIsModalOpen(true);
+        closeEditModal(false);
+        window.location.reload();
     } catch (error) {
       setError(error.message);
     }
@@ -236,7 +249,7 @@ const FetchCategory = () => {
                                 <td className="px-4 py-6">{cat.minWeight}</td>
                                 <td className="px-4 py-6">{cat.maxWeight}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-center">
-                                    <button onClick={() => handleEdit(cat.id)} className="cursor-pointer ">
+                                    <button onClick={() => handleEdit(cat)} className="cursor-pointer ">
                                         <BiSolidEdit className="text-success size-6 cursor-pointer" />
                                     </button>
                                     <button onClick={() => handleDelete(cat)} className="cursor-pointer ">

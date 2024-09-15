@@ -32,7 +32,6 @@ function AddCategory ({ show, handleClose }) {
     });
   };
 
-
   const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -54,7 +53,6 @@ function AddCategory ({ show, handleClose }) {
   };
 
   const handleRemoveImage = (e) => {
-    // setImage(null);
     setFormData({
       ...formData,
       image: e.target.files[0]

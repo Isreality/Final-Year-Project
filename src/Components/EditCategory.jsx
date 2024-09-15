@@ -20,21 +20,33 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
     price: '',
   });
 
+  useEffect(() => {
+    if (selectedCategory) {
+      setFormData({
+        name: selectedCategory.name,
+        desc: selectedCategory.desc,
+        image: selectedCategory.imageUrl, 
+        minimumWeight: selectedCategory.minWeight,
+        maximumWeight: selectedCategory.maxWeight,
+        price: selectedCategory.price,
+      });
+    }
+  }, [selectedCategory]);
+  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const handleImageChange = (e) => {
     setFormData({
         ...formData,
         image: e.target.files[0]
     });
-  };
-
-
-  const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
   };
 
   const handleDrop = (e) => {
@@ -49,14 +61,6 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
     e.preventDefault();
   };
 
-  const handleRemoveImage = (e) => {
-    // setImage(null);
-    setFormData({
-      ...formData,
-      image: e.target.files[0]
-    });
-  };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -64,6 +68,7 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
+    
 
     const weightRegex = /^(?=.*(kg|g)).*$/i;
     if (!weightRegex.test(formData.minimumWeight)) {
@@ -89,54 +94,9 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
       return;
     }
 
-    // if (formData.desc.length < 100) {
-    //   setErrorMessage('Description must be at least 100 characters.');
-    //   setSuccessMessage('');
-    //   setIsModalOpen(true);
-    //   return;
-    // }
-
     setSpin(true);
- 
-    const formPayload = new FormData();
-        formPayload.append('name', formData.name);
-        formPayload.append('desc', formData.desc);
-        formPayload.append('image', formData.image);
-        formPayload.append('minimumWeight', formData.minimumWeight);
-        formPayload.append('maximumWeight', formData.maximumWeight);
-        formPayload.append('price', formData.price);
-
-    // try {
-    //   const response = await fetch(baseURL + endpoint, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Authorization': `Bearer ${Atoken}`,
-    //       'ngrok-skip-browser-warning': "69420",
-    //     },
-    //     body: formPayload,
-    //   });
-
-    //   if (!response.ok) {
-    //     setErrorMessage('Category submission unsuccessful');
-    //     setSuccessMessage('');
-    //     setIsModalOpen(true);
-    //     return;
-    //   } else {
-    //     setSuccessMessage('Category added successfully.');
-    //     setErrorMessage('')
-    //     setIsModalOpen(true);
-    //     window.location.reload();
-    //     // console.log(result);
-    //   }
-
-    //   const result = await response.json();
-    //   console.log('Success:', result);
-    //   } catch (error) {
-    //       console.error('Error:', error);
-    //   } finally {
-    //     setSpin(false);
-    //     setIsModalOpen(true);
-    //   }
+    onSave(formData);
+    setSpin(false);
   };
 
   return ( 
@@ -146,7 +106,6 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
           <div className="absolute inset-0 bg-black opacity-50"></div>
           <div className="relative bg-white rounded-lg w-3/4 md:w-3/4 lg:w-3/4 py-8 px-4 lg:px-16 z-10 max-h-[470px] overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-white">
             <button
-              // className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
               className="fixed top-10 right-8 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
               onClick={handleClose}>
               &times;
@@ -199,10 +158,65 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
               {/* Image */}
               <div className='space-y-2 text-left mb-4'>
                 <label htmlFor="image" className='text-md text-left text-black2'>Upload Image</label><br/>
-                {formData.image ? (
+                {formData.image && typeof formData.image === 'object' ? (
+                  // Use URL.createObjectURL only if formData.image is a File object
+                  <div>
+                    <img
+                      src={URL.createObjectURL(formData.image)} // Create object URL for preview
+                      alt="Selected Image"
+                      style={{ maxHeight: '300px', borderRadius: '6px' }}
+                      className="w-full"
+                    />
+                    <div className="flex flex-row gap-5 justify-items-start">
+                      <input
+                        type="file"
+                        accept=".jpg, .png"
+                        onChange={handleImageChange}
+                        style={{ display: 'none' }}
+                        id="imageInput"
+                      /><br/>
+                      <label
+                        htmlFor="imageInput"
+                        className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer"
+                      >
+                        Change Image
+                      </label>
+                    </div>
+                  </div>
+                ) : (
+                  formData.image && typeof formData.image === 'string' ? (
+                    // If the image is a URL, display the image without createObjectURL
+                    <div>
+                      <img
+                        src={formData.image}
+                        alt="Selected Image"
+                        style={{ maxHeight: '300px', borderRadius: '6px' }}
+                        className="w-full"
+                      />
+                      <input
+                        type="file"
+                        accept=".jpg, .png"
+                        onChange={handleImageChange}
+                        style={{ display: 'none' }}
+                        id="imageInput"
+                      /><br/>
+                      <label
+                        htmlFor="imageInput"
+                        className="text-white bg-primary px-4 py-2 rounded-md cursor-pointer"
+                      >
+                        Change Image
+                      </label>
+                    </div>
+                  ) : (
+                    // No image or new image hasn't been selected yet
+                    <input type="file" accept=".jpg, .png" onChange={handleImageChange} />
+                  )
+                )}
+
+                {/* {formData.image ? (
                   <div style={{ display: 'inline-block' }}>
                     <img
-                      src={URL.createObjectURL(formData.image)}
+                      src={formData.image}
                       alt="Selected Image"
                       style={{ maxHeight: '300px', borderRadius: '6px' }}
                       className="w-full"
@@ -211,7 +225,7 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
                       <input
                         type="file"
                         accept=".jpg, .png"
-                        onChange={handleImageChange}
+                        onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}
                         style={{ display: 'none' }}
                         id="imageInput"
                       />
@@ -222,16 +236,16 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
                       >
                         Change Image
                       </label> 
-                      <button 
+                      {/* <button 
                         className="text-black2 bg-disable px-4 py-2 rounded-md" 
                         onClick={handleRemoveImage}
                       >
                         Remove Image
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div
+                      </button> */}
+                    {/* </div>
+                  </div> */}
+                 {/* ) : ( */}
+                  {/* <div
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                     style={{
@@ -254,17 +268,17 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
                       Drag and drop files, or <b className="text-primary">Browse</b><br/>
                       <p className="text-xs">JPG, PNG - Max file size (10MB)</p>
                     </label>
-                  </div>
-                )}
+                  </div> */}
+                 {/* )}  */}
               </div>
 
               {/* Minimum Weight */}
               <div className='space-y-2 text-left'>
-                <label htmlFor="minimumWeight" className='text-md text-left text-black2'>Minimum Weight(in g or kg)</label><br/> 
+                <label htmlFor="minWeight" className='text-md text-left text-black2'>Minimum Weight(in g or kg)</label><br/> 
                 <input 
                   className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black' 
                   type='text' 
-                  id="minimumWeight" 
+                  id="minWeight" 
                   value={formData.minimumWeight}
                   onChange={handleChange}
                   placeholder=""
@@ -275,11 +289,11 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
 
               {/* Maximum Weight */}
               <div className='space-y-2 text-left'>
-                <label htmlFor="maximumWeight" className='text-md text-left text-black2'>Maximum Weight(in g or kg)</label><br/> 
+                <label htmlFor="maxWeight" className='text-md text-left text-black2'>Maximum Weight(in g or kg)</label><br/> 
                 <input 
                   className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black' 
                   type='text' 
-                  id="maximumWeight" 
+                  id="maxWeight" 
                   value={formData.maximumWeight}
                   onChange={handleChange}
                   placeholder=""
@@ -306,7 +320,7 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
               {/* Submit Button */}
               <div className="grid justify-items-end">
                 <button type="submit"  disabled={spin} className='mt-4 w-full md:w-64 py-4 px-20 rounded-md border-fa bg-primary hover:bg-black cursor-pointer text-white text-md font-medium'>
-                  {spin ? <div className="px-2 text-md"><FaSpinner className="animate-spin" /> </div> : 'Add'}
+                  {spin ? <div className="px-2 text-md"><FaSpinner className="animate-spin" /> </div> : 'Update'}
                 </button>
               </div> 
             </form>
