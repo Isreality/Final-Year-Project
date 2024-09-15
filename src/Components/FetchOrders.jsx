@@ -235,7 +235,7 @@ const FetchOrders = () => {
                 <table className="min-w-full border-collapse border border-disable py-4">
                     <thead className="bg-fa text-sm text-left">
                         <tr className="px-4 py-8">
-                            <th className="px-4 py-6 text-black2 font-normal">Order Reference</th>
+                            <th className="px-6 py-6 text-black2 font-normal">Order Reference</th>
                             <th className="px-4 py-6 text-black2 font-normal">Total Amount</th>
                             <th className="px-4 py-6 text-black2 font-normal">Status</th>
                             <th className="px-4 py-6 text-black2 font-normal">Payback</th>
@@ -246,7 +246,7 @@ const FetchOrders = () => {
                     <tbody className="text-left">
                         {displayData.map((item) => (
                             <tr key={item.id} className="text-black2 text-sm border-b border-disable">
-                                <td className="px-4 py-6">{item.orderItemsRef}</td>
+                                <td className="px-6 py-6">{item.orderItemsRef}</td>
                                 <td className="px-4 py-6">{item.product.price}</td>
                                 <td className="flex flex-row items-center px-4 py-6">
                                     <span

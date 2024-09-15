@@ -9,13 +9,13 @@ import { LuUsers } from "react-icons/lu";
 import ScaleLoader from "react-spinners/ScaleLoader";
 // import { useNavigate } from 'react-router-dom';
 
-const FetchStaffAdmin = () => {
+const PendingRequest = () => {
   const [data, setData] = useState([]);
-  const [staffs, setStaffs] = useState([]);
+  const [seller, setSeller] = useState([]);
   const [error, setError] = useState(null);
   const [staffToDelete, setStaffToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeclineModal, setDeclineModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
@@ -24,7 +24,7 @@ const FetchStaffAdmin = () => {
 
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/staff-management/fetch-all-admins';
+  const endpoint = '/admin/customer/fetch-become-a-seller-requests';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   // useEffect(() => {
@@ -68,52 +68,52 @@ const FetchStaffAdmin = () => {
     fetchData();
   }, [Atoken]);
 
-  const handleDelete = (staff) => {
-    setStaffToDelete(staff);
-    setShowModal(true);
-  };
+//   const handleDelete = (staff) => {
+//     setStaffToDelete(staff);
+//     setShowModal(true);
+//   };
 
-  const confirmDelete = async () => {
-    if (!staffToDelete) return;
+//   const confirmDelete = async () => {
+//     if (!staffToDelete) return;
 
-    try {
-      const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/${staffToDelete.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${Atoken}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'ngrok-skip-browser-warning': "69420",
-          'origin': '*',
-        },
-        body: JSON.stringify({ staffId: staffToDelete?.id }),
-      });
+//     try {
+//       const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/${staffToDelete.id}`, {
+//         method: 'DELETE',
+//         headers: {
+//           'Authorization': `Bearer ${Atoken}`,
+//           'Content-Type': 'application/json',
+//           'Accept': 'application/json',
+//           'ngrok-skip-browser-warning': "69420",
+//           'origin': '*',
+//         },
+//         body: JSON.stringify({ staffId: staffToDelete?.id }),
+//       });
 
-      const result = await response.json();
+//       const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      } else{
-        setStaffs(staffs.filter((staff) => staff.id !== staffToDelete?.id));
-        setShowModal(false);
-        setSuccessMessage(`Product "${staffToDelete?.fullname}" was successfully deleted.`);
-        setErrorMessage(``);
-        setIsModalOpen(true);
-        setStaffToDelete(null);
-        // console.log('Delete Result:', result);
-      }
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       } else{
+//         setStaffs(staffs.filter((staff) => staff.id !== staffToDelete?.id));
+//         setShowModal(false);
+//         setSuccessMessage(`Product "${staffToDelete?.fullname}" was successfully deleted.`);
+//         setErrorMessage(``);
+//         setIsModalOpen(true);
+//         setStaffToDelete(null);
+//         // console.log('Delete Result:', result);
+//       }
 
-      setTimeout(() => {
-        setSuccessMessage('');
-        setIsModalOpen(false);
-        // navigate('/product');
-        window.location.reload();
-      }, 3000);
-    } catch (error) {
-      setError(error.message);
-      setShowModal(false);
-    }
-  };
+//       setTimeout(() => {
+//         setSuccessMessage('');
+//         setIsModalOpen(false);
+//         // navigate('/product');
+//         window.location.reload();
+//       }, 3000);
+//     } catch (error) {
+//       setError(error.message);
+//       setShowModal(false);
+//     }
+//   };
 
   useEffect(() => {
     setLoading(true)
@@ -140,7 +140,7 @@ const FetchStaffAdmin = () => {
     return (
       <div className="flex flex-col items-center justify-center h-64">
         <LuUsers className="text-9xl text-c4"/>
-        <p className="text-lg text-black2">No Staff Admin added</p>
+        <p className="text-lg text-black2">No Request Yet</p>
       </div>
     );
   }
@@ -164,21 +164,27 @@ const FetchStaffAdmin = () => {
                         <thead className="bg-fa text-sm text-left p-4">
                         <tr className="">
                             {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
-                            <th className="px-8 py-6 text-black2 font-normal">Name</th>
+                            <th className="px-6 py-6 text-black2 font-normal">Name</th>
                             <th className="px-4 py-6 text-black2 font-normal">Email</th>
                             <th className="px-4 py-6 text-black2 font-normal">Phone</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Association</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Chairman Name</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Chairman Number</th>
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
 
                         <tbody className="p-4">
-                        {data.map((item) => (
-                            <tr key={item.id} className="text-black2 text-sm border-b border-disable p-6">
-                                <td className="px-8 py-6 text-left">{item.fullname}</td>
-                                <td className="px-4 py-6 text-left">{item.email}</td>
-                                <td className="px-4 py-6 text-left">{item.phone.phoneNumber}</td>
+                        {data.map((sell) => (
+                            <tr key={sell._id} className="text-black2 text-sm border-b border-disable p-6">
+                                <td className="px-6 py-6 text-left">{sell.name}</td>
+                                <td className="px-4 py-6 text-left">{sell.email}</td>
+                                <td className="px-4 py-6 text-left">{sell.phone_number}</td>
+                                <td className="px-4 py-6 text-left">{sell.cooperative_name}</td>
+                                <td className="px-4 py-6 text-left">{sell.chairman_name}</td>
+                                <td className="px-4 py-6 text-left">{sell.chairman_number}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-right ">
-                                    <button onClick={() => handleDelete(item)} className="cursor-pointer ">
+                                    <button className="cursor-pointer ">
                                         <HiOutlineTrash className="text-red text-right size-6 cursor-pointer" />
                                     </button>
                                 </td>
@@ -186,16 +192,16 @@ const FetchStaffAdmin = () => {
                         ))}
                         </tbody>
                     </table>
-                <Delete 
+                {/* <Delete 
                   show={showModal} 
                   handleClose={closeModal} 
                   onConfirm={confirmDelete} 
                   header="Delete Product" 
                   body={`Are you sure you want to delete this staff "${staffToDelete?.fullname}"?`}
-                />
+                /> */}
       </div>
     </div>
   );
 }
 
-export default FetchStaffAdmin;
+export default PendingRequest;

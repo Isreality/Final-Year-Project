@@ -2,6 +2,7 @@ import "../style.css";
 import Sidebar from "../Components/Sidebar";
 import Header from "../Components/Header";
 import Heading from "../Components/Heading";
+import PendingRequest from "../Components/PendingRequest";
 import { useState, useEffect } from 'react';
 import { FaUsers } from "react-icons/fa";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -50,7 +51,9 @@ const Seller = () => {
                 </div>
                 
                 {/* Body */}
-
+                <div className="mx-8">
+                  <PendingRequest/>
+                </div>
                                            
               </div>
 

@@ -229,7 +229,7 @@ const FetchCategory = () => {
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-sm text-left">
                         <tr className="px-4 py-8">
-                            <th className="px-4 py-6 text-black2 font-normal">Name</th>
+                            <th className="px-6 py-6 text-black2 font-normal">Name</th>
                             <th className="px-4 py-6 text-black2 font-normal">Description</th>
                             <th className="px-4 py-6 text-black2 font-normal">Min Weight</th>
                             <th className="px-4 py-6 text-black2 font-normal">Max Weight</th>
@@ -240,7 +240,7 @@ const FetchCategory = () => {
                         <tbody className="">
                         {data.map((cat) => (
                             <tr key={cat.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
-                                <td className="px-4 py-6">{cat.name}</td>
+                                <td className="px-6 py-6">{cat.name}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
                                     <img src={cat.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
                                     {cat.desc}   

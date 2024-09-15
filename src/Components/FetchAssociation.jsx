@@ -231,9 +231,9 @@ const FetchAssociation = () => {
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-sm p-8 text-left">
                         <tr className="px-4 py-8">
-                            <th className="px-4 py-6 text-black2 font-normal">Name</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Chairman Name</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Chairman Number</th>
+                            <th className="px-8 py-6 text-black2 font-normal">Name</th>
+                            <th className="px-8 py-6 text-black2 font-normal">Chairman Name</th>
+                            <th className="px-8 py-6 text-black2 font-normal">Chairman Number</th>
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
@@ -242,9 +242,9 @@ const FetchAssociation = () => {
                         {data.map((ass) => (
                             <tr key={ass.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
-                                <td className="px-4 py-6">{ass.name}</td>                             
-                                <td className="px-4 py-6">{ass.chairman_name}</td>
-                                <td className="px-4 py-6">{ass.chairman_number}</td>
+                                <td className="px-8 py-6">{ass.name}</td>                             
+                                <td className="px-8 py-6">{ass.chairman_name}</td>
+                                <td className="px-8 py-6">{ass.chairman_number}</td>
                                 <td className="flex flex-row gap-2 items-center px-4 py-6">
                                     <button onClick={() => handleEdit(ass)} className="cursor-pointer ">
                                         <BiSolidEdit className="text-success size-6 cursor-pointer" />
