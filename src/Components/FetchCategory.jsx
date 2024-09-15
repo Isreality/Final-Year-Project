@@ -106,14 +106,13 @@ const FetchCategory = () => {
       formData.append('price', updatedCategory.price);
 
       if (updatedCategory.image) {
-        formData.append('image', updatedCategory.image); // Append image if it exists
+        formData.append('image', updatedCategory.image);
       }
 
       const response = await fetch(`${baseURL}/admin/product-category/edit/${selectedCategory.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
-          'ngrok-skip-browser-warning': "69420",
         },
         body: formData,
       });

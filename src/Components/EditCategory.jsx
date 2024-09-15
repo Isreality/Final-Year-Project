@@ -274,11 +274,11 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
 
               {/* Minimum Weight */}
               <div className='space-y-2 text-left'>
-                <label htmlFor="minWeight" className='text-md text-left text-black2'>Minimum Weight(in g or kg)</label><br/> 
+                <label htmlFor="minimumWeight" className='text-md text-left text-black2'>Minimum Weight(in g or kg)</label><br/> 
                 <input 
                   className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black' 
                   type='text' 
-                  id="minWeight" 
+                  id="minimumWeight" 
                   value={formData.minimumWeight}
                   onChange={handleChange}
                   placeholder=""
@@ -289,11 +289,11 @@ function EditCategory ({ show, handleClose, selectedCategory, onSave }) {
 
               {/* Maximum Weight */}
               <div className='space-y-2 text-left'>
-                <label htmlFor="maxWeight" className='text-md text-left text-black2'>Maximum Weight(in g or kg)</label><br/> 
+                <label htmlFor="maximumWeight" className='text-md text-left text-black2'>Maximum Weight(in g or kg)</label><br/> 
                 <input 
                   className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black' 
                   type='text' 
-                  id="maxWeight" 
+                  id="maximumWeight" 
                   value={formData.maximumWeight}
                   onChange={handleChange}
                   placeholder=""
