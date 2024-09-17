@@ -1,6 +1,8 @@
 import "../style.css";   
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
+import ViewPendingRequest from '../Components/ViewPendingRequest';
+import DeclineRequest from '../Components/DeclineRequest';
 import { useState, useEffect } from 'react';
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
@@ -15,10 +17,14 @@ const PendingRequest = () => {
   const [data, setData] = useState([]);
   const [seller, setSeller] = useState([]);
   const [error, setError] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(null);
   const [staffToDelete, setStaffToDelete] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [details, setDetails] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [showDeclineModal, setDeclineModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [declineReason, setDeclineReason] = useState('');
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
@@ -29,6 +35,29 @@ const PendingRequest = () => {
   const endpoint = '/admin/customer/fetch-become-a-seller-requests';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
+  const displayValue = (value) => {
+    return value ? value : 'N/A';
+  };
+
+  const toggleDropdown = (id) => {
+    setIsDropdownOpen((prev) => (prev === id ? null : id));
+  };
+
+  const handleView = (sell) => {
+    setDetails(sell);
+    setIsDetailsModalOpen(true);
+    setIsDropdownOpen();
+  };
+
+  const closeDetailsModal = () => {
+    setIsDetailsModalOpen(false);
+  };
+
+  const handleAccept = (id) => {
+    console.log("Accept clicked for id:", id);
+  };
+
+
   // useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,7 +67,6 @@ const PendingRequest = () => {
             'Authorization': `Bearer ${Atoken}`,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'ngrok-skip-browser-warning': "69420",
             'origin': '*',
           },
         });
@@ -70,52 +98,56 @@ const PendingRequest = () => {
     fetchData();
   }, [Atoken]);
 
-//   const handleDelete = (staff) => {
-//     setStaffToDelete(staff);
-//     setShowModal(true);
-//   };
+  const handleDecline = (sell) => {
+    setSelectedRequest(sell);
+    setShowDeclineModal(true);
+    setIsDropdownOpen();
+  };
 
-//   const confirmDelete = async () => {
-//     if (!staffToDelete) return;
+  const closeDeclineModal = () => {
+    setShowDeclineModal(false);
+  };
 
-//     try {
-//       const response = await fetch(`${baseURL}/admin/staff-management/delete-admin/${staffToDelete.id}`, {
-//         method: 'DELETE',
-//         headers: {
-//           'Authorization': `Bearer ${Atoken}`,
-//           'Content-Type': 'application/json',
-//           'Accept': 'application/json',
-//           'ngrok-skip-browser-warning': "69420",
-//           'origin': '*',
-//         },
-//         body: JSON.stringify({ staffId: staffToDelete?.id }),
-//       });
+  // const onSubmitDecline = async () => {
+  //   // if (!selectedRequest) {
+  //   //   // alert('Please provide a reason for declining the request.');
+  //   //   setErrorMessage('Please provide a reason for declining the request.');
+  //   //   setSuccessMessage('');
+  //   //   return;
+  //   // }
 
-//       const result = await response.json();
-
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       } else{
-//         setStaffs(staffs.filter((staff) => staff.id !== staffToDelete?.id));
-//         setShowModal(false);
-//         setSuccessMessage(`Product "${staffToDelete?.fullname}" was successfully deleted.`);
-//         setErrorMessage(``);
-//         setIsModalOpen(true);
-//         setStaffToDelete(null);
-//         // console.log('Delete Result:', result);
-//       }
-
-//       setTimeout(() => {
-//         setSuccessMessage('');
-//         setIsModalOpen(false);
-//         // navigate('/product');
-//         window.location.reload();
-//       }, 3000);
-//     } catch (error) {
-//       setError(error.message);
-//       setShowModal(false);
-//     }
-//   };
+  //   if (!selectedRequest) return;
+  
+  //   try {
+  //     const response = await fetch(`${baseURL}/admin/customer/decline-become-a-seller-request/${selectedRequest._id}`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Authorization': `Bearer ${Atoken}`,
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json',
+  //       },
+  //       body: JSON.stringify({ reason: selectedRequest?._id }),
+  //     });
+  
+  //     const result = await response.json();
+  
+  //     if (!response.ok) {
+  //       throw new Error(result.message || 'Something went wrong');
+  //     }
+  
+  //     setSuccessMessage('Request declined successfully');
+  //     setShowDeclineModal(false);
+  //     // setSelectedRequest('');
+  //     setIsModalOpen(true);
+  
+  //     // Optionally, refresh the data or update the UI
+  //     fetchData();
+  //   } catch (error) {
+  //     setError(error.message);
+  //     setShowDeclineModal(false);
+  //   }
+  // };
+  
 
   useEffect(() => {
     setLoading(true)
@@ -123,6 +155,9 @@ const PendingRequest = () => {
         setLoading(false)
     }, 3000)
   }, [])
+
+  
+  
 
   if (loading) {
     return (
@@ -166,7 +201,8 @@ const PendingRequest = () => {
                         <thead className="bg-fa text-sm text-left p-4">
                         <tr className="">
                             {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
-                            <th className="px-6 py-6 text-black2 font-normal">Name</th>
+                            <th className="px-4 py-6 text-black2 font-normal">ID</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Name</th>
                             <th className="px-4 py-6 text-black2 font-normal">Email</th>
                             <th className="px-4 py-6 text-black2 font-normal">Phone</th>
                             <th className="px-4 py-6 text-black2 font-normal">Association</th>
@@ -179,40 +215,60 @@ const PendingRequest = () => {
                         <tbody className="p-4">
                         {data.map((sell) => (
                             <tr key={sell._id} className="text-black2 text-sm border-b items-center border-disable p-6">
-                                {/* <td className="px-6 py-6 text-left">{sell.name}</td> */}
+                                <td className="px-6 py-6 text-left">{sell.association_id}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
                                     <img src={sell.profile_image_url} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
                                     {sell.name}   
                                 </td>
                                 <td className="px-4 py-6 text-left">{sell.email}</td>
                                 <td className="px-4 py-6 text-left">{sell.phone_number}</td>
-                                <td className="px-4 py-6 text-left">{sell.cooperative_name}</td>
-                                <td className="px-4 py-6 text-left">{sell.chairman_name}</td>
-                                <td className="px-4 py-6 text-left">{sell.chairman_number}</td>
-                                <td className=" items-right ">
-                                    <button className="cursor-pointer ">
-                                        <FiMoreVertical className="text-black2 text-right size-5 cursor-pointer" />
-                                    </button>
-
-                                    {/* <button className="cursor-pointer ">
-                                        <FaCircleCheck className="text-success text-right size-6 cursor-pointer" />
-                                    </button>
-
-                                    <button className="cursor-pointer ">
-                                        <MdCancel className="text-red text-right size-6 cursor-pointer" />
-                                    </button> */}
+                                <td className="px-4 py-6 text-left">{displayValue(sell.cooperative_name)}</td>
+                                <td className="px-4 py-6 text-left">{displayValue(sell.chairman_name)}</td>
+                                <td className="px-4 py-6 text-left">{displayValue(sell.chairman_number)}</td>
+                                <td className="relative items-right">
+                                  <button
+                                    onClick={() => toggleDropdown(sell)} 
+                                    className="cursor-pointer">
+                                    <FiMoreVertical className="text-black2 text-right size-5 cursor-pointer" />
+                                  </button>
+                                  {isDropdownOpen === sell && (
+                                    <div className="absolute right-0 bg-white border border-gray-200 shadow-md rounded-md mt-2 w-32">
+                                      <ul>
+                                        <li 
+                                          className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                          onClick={() => handleView(sell)}>
+                                          View
+                                        </li>
+                                        <li 
+                                          className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                          onClick={() => handleAccept(sell)}>
+                                          Accept
+                                        </li>
+                                        <li 
+                                          className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                          onClick={() => handleDecline(sell)}>
+                                          Decline
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  )}
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                {/* <Delete 
-                  show={showModal} 
-                  handleClose={closeModal} 
-                  onConfirm={confirmDelete} 
-                  header="Delete Product" 
-                  body={`Are you sure you want to delete this staff "${staffToDelete?.fullname}"?`}
-                /> */}
+
+                    <ViewPendingRequest
+                      show={isDetailsModalOpen}
+                      handleClose={closeDetailsModal}
+                      pendingDetails={details}
+                    />
+
+                    <DeclineRequest
+                      show={showDeclineModal}
+                      handleClose={closeDeclineModal}
+                      // onSubmit={onSubmitDecline}
+                    />
       </div>
     </div>
   );
