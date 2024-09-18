@@ -2,6 +2,7 @@ import "../style.css";
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
 import ViewPendingRequest from '../Components/ViewPendingRequest';
+import ApproveRequest from '../Components/ApproveRequest';
 import DeclineRequest from '../Components/DeclineRequest';
 import { useState, useEffect } from 'react';
 import { FaCircleCheck } from "react-icons/fa6";
@@ -15,15 +16,13 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 const PendingRequest = () => {
   const [data, setData] = useState([]);
-  const [seller, setSeller] = useState([]);
+  const [request, setRequest] = useState('');
   const [error, setError] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(null);
-  const [staffToDelete, setStaffToDelete] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [details, setDetails] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
-  const [declineReason, setDeclineReason] = useState('');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
@@ -53,12 +52,30 @@ const PendingRequest = () => {
     setIsDetailsModalOpen(false);
   };
 
-  const handleAccept = (id) => {
-    console.log("Accept clicked for id:", id);
+  const handleAccept = (sell) => {
+    setRequest(sell);
+    setShowModal(true);
+    setIsDropdownOpen();
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
-  // useEffect(() => {
+  const handleDecline = (sell) => {
+    setSelectedRequest(sell);
+    setShowDeclineModal(true);
+    setIsDropdownOpen();
+  };
+
+  const closeDeclineModal = () => {
+    setShowDeclineModal(false);
+  };
+
+  const removeModal = () => {
+    setIsModalOpen(false);
+  };
+
     const fetchData = async () => {
       try {
         const response = await fetch(baseURL + endpoint, {
@@ -86,27 +103,9 @@ const PendingRequest = () => {
       }
     };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const removeModal = () => {
-    setIsModalOpen(false);
-  };
-
   useEffect(() => {
     fetchData();
   }, [Atoken]);
-
-  const handleDecline = (sell) => {
-    setSelectedRequest(sell);
-    setShowDeclineModal(true);
-    setIsDropdownOpen();
-  };
-
-  const closeDeclineModal = () => {
-    setShowDeclineModal(false);
-  };
 
   useEffect(() => {
     setLoading(true)
@@ -220,11 +219,16 @@ const PendingRequest = () => {
                       pendingDetails={details}
                     />
 
+                    <ApproveRequest
+                      show={showModal}
+                      handleClose={closeModal}
+                      request={request}
+                    />
+
                     <DeclineRequest
                       show={showDeclineModal}
                       handleClose={closeDeclineModal}
                       selectedRequest={selectedRequest}
-                      // onSubmit={onSubmitDecline}
                     />
       </div>
     </div>

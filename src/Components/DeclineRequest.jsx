@@ -104,15 +104,15 @@ function DeclineRequest ({ show, handleClose, selectedRequest }) {
 
             
             {/* Form */}
-            <form  className='grid justify-items-stretch text-left' onSubmit={handleSubmit}>
+            <form  onSubmit={handleSubmit}>
                 <textarea
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Enter the reason for declining"
-                  className="border p-4 w-full h-32 rounded-md border-disable bg-white focus:outline-disable text-normal text-black2"
+                  className="border p-4 w-full h-32 rounded-md border-disable bg-white focus:outline-disable text-normal text-left text-black2"
                   rows="4"
                 ></textarea>               
-                {errors.reason && <span style={{ color: 'red' }}>{errors.reason}</span>}<br/>
+                {errors.reason && <span style={{ color: 'red' }}>{errors.reason}</span>}<br/><br/>
 
                 {/* Button */}
                 <div className="flex flex-row gap-3 justify-items-end">
