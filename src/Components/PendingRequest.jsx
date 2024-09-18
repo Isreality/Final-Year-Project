@@ -108,56 +108,12 @@ const PendingRequest = () => {
     setShowDeclineModal(false);
   };
 
-  // const onSubmitDecline = async () => {
-  //   // if (!selectedRequest) {
-  //   //   // alert('Please provide a reason for declining the request.');
-  //   //   setErrorMessage('Please provide a reason for declining the request.');
-  //   //   setSuccessMessage('');
-  //   //   return;
-  //   // }
-
-  //   if (!selectedRequest) return;
-  
-  //   try {
-  //     const response = await fetch(`${baseURL}/admin/customer/decline-become-a-seller-request/${selectedRequest._id}`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Authorization': `Bearer ${Atoken}`,
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json',
-  //       },
-  //       body: JSON.stringify({ reason: selectedRequest?._id }),
-  //     });
-  
-  //     const result = await response.json();
-  
-  //     if (!response.ok) {
-  //       throw new Error(result.message || 'Something went wrong');
-  //     }
-  
-  //     setSuccessMessage('Request declined successfully');
-  //     setShowDeclineModal(false);
-  //     // setSelectedRequest('');
-  //     setIsModalOpen(true);
-  
-  //     // Optionally, refresh the data or update the UI
-  //     fetchData();
-  //   } catch (error) {
-  //     setError(error.message);
-  //     setShowDeclineModal(false);
-  //   }
-  // };
-  
-
   useEffect(() => {
     setLoading(true)
     setTimeout(() => {
         setLoading(false)
     }, 3000)
   }, [])
-
-  
-  
 
   if (loading) {
     return (
@@ -267,6 +223,7 @@ const PendingRequest = () => {
                     <DeclineRequest
                       show={showDeclineModal}
                       handleClose={closeDeclineModal}
+                      selectedRequest={selectedRequest}
                       // onSubmit={onSubmitDecline}
                     />
       </div>
