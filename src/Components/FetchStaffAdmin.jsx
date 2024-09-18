@@ -100,13 +100,11 @@ const FetchStaffAdmin = () => {
         setErrorMessage(``);
         setIsModalOpen(true);
         setStaffToDelete(null);
-        // console.log('Delete Result:', result);
       }
 
       setTimeout(() => {
         setSuccessMessage('');
         setIsModalOpen(false);
-        // navigate('/product');
         window.location.reload();
       }, 3000);
     } catch (error) {

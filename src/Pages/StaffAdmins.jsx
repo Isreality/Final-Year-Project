@@ -6,17 +6,8 @@ import Heading from "../Components/Heading";
 import FetchStaffAdmin from "../Components/FetchStaffAdmin";
 import AddStaffAdmin from "../Components/AddStaffAdmin";
 import { useState, useEffect } from 'react';
-import { HiUser } from "react-icons/hi2";
-import { MdPayments } from "react-icons/md";
-import { RxCaretRight } from "react-icons/rx";
-import { BiShieldQuarter } from "react-icons/bi";
-import { MdEmail } from "react-icons/md";
-import { FaPhoneAlt } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import BeatLoader from "react-spinners/BeatLoader";
-import { Link } from 'react-router-dom';
-import {  useMatch } from 'react-router-dom';
-// import Skeleton from 'react-loading-skeleton';
 
 const StaffAdmins = () => {
   const [loading, setLoading] = useState(false);

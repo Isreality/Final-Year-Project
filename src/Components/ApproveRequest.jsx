@@ -1,10 +1,9 @@
 import "../style.css";
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 
 function ApproveRequest ({ show, handleClose, request }) {
   const [approve, setApprove] = useState('');
-  // const [request, setRequest] = useState('');
+  
   const [errors, setErrorMessage] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -46,7 +45,6 @@ function ApproveRequest ({ show, handleClose, request }) {
         setIsModalOpen(true);
         return;
       } else {
-        // setApprove(approve.filter((approve) => approve.id !== request?._id));
         setSuccessMessage('Request approved successfully');
         setErrorMessage('')
         setIsModalOpen(true);
