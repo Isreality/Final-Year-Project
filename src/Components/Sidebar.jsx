@@ -44,27 +44,29 @@ const Sidebar = () => {
                 </div>
             )}
                 <div>
-                    <div className="hidden md:flex md:flex-col sticky h-fit left-0 w-60 text-left border-r border-disable p-4 bg-primary md:show">
+                    <div className="hidden md:flex md:flex-col sticky h-full left-0 w-60 text-left border-r border-disable p-4 bg-primary md:show">
                         <div className="flex flex-col justify-items-start mb-4 pl-2">                
                         <h1 className="mb-4 mt-4 font-extrabold text-white text-2xl">Market Access</h1>
                         </div>
                         
-                        {/* Nav */}
-                        <div className="flex justify-between flex-col md:flex-col lg:flex-col space-y-1">
-                            {SidebarData.map((nav) => (
-                                <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-white hover:text-white hover:bg-secondary font-normal  hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
-                                    {nav.icons || <Skeleton circle width={20} height={20}/>}
-                                    {/* <NavLink to={nav.path} className="nav">{nav.title}</NavLink> */}
-                                    {nav.title || <Skeleton/>}
-                                </NavLink> 
-                            ))}
-                        </div><br/>
+                        <div className="flex flex-col justify-between gap-20">
+                            {/* Nav */}
+                            <div className="flex justify-between flex-col md:flex-col lg:flex-col space-y-1">
+                                {SidebarData.map((nav) => (
+                                    <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-white hover:text-white hover:bg-secondary font-normal  hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
+                                        {nav.icons || <Skeleton circle width={20} height={20}/>}
+                                        {/* <NavLink to={nav.path} className="nav">{nav.title}</NavLink> */}
+                                        {nav.title || <Skeleton/>}
+                                    </NavLink> 
+                                ))}
+                            </div><br/><br/><br/>
 
-                        {/* Logout */}   
-                        <button type="submit" onClick={openModal} className="flex flex-row justify-items-center mb-4 pl-4 py-4 gap-3 cursor-pointer text-sm text-white hover:text-white hover:bg-secondary font-normal  hover:rounded-md hover:border-primary">
-                            <TbLogout className="h-5 w-5"/>
-                            <p >Logout</p>
-                        </button>
+                            {/* Logout */}   
+                            <button type="submit" onClick={openModal} className="flex flex-row justify-items-center mb-4 pl-4 py-4 gap-3 cursor-pointer text-sm text-white hover:text-white hover:bg-secondary font-normal  hover:rounded-md hover:border-primary">
+                                <TbLogout className="h-5 w-5"/>
+                                <p >Logout</p>
+                            </button>
+                        </div>
                         
                         
                         
