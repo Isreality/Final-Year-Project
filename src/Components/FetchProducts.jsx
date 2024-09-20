@@ -4,40 +4,43 @@ import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
 import EditCategory from '../Components/EditCategory';
 import { useState, useEffect } from 'react';
-import { HiOutlineTrash } from "react-icons/hi";
-import { BiSolidEdit } from "react-icons/bi";
-import { BiCategoryAlt } from "react-icons/bi";
-import { FaEllipsisV } from 'react-icons/fa';
-import { FiBox } from "react-icons/fi";
+import { FiMoreVertical } from "react-icons/fi";
 import { SlSocialDropbox } from 'react-icons/sl';
 import ScaleLoader from "react-spinners/ScaleLoader";
 import ResponsivePagination from 'react-responsive-pagination';
 
 const FetchProducts = () => {
   const [data, setData] = useState([]);
+  const [displayData, setDisplayData] = useState([]);
   const [product, setProduct] = useState([]);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [error, setError] = useState(null);
-//   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [accept, setAccept] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [decline, setDecline] = useState(null);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [ban, setBan] = useState(null);
+  const [showBanModal, setShowBanModal] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [dropdownRowId, setDropdownRowId] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1); 
-  const [itemsPerPage] = useState(5);
+  const itemsPerPage = 5;
 
   // Pagination calculations
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setDisplayData(data.slice(startIdx, endIdx));
   };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
@@ -63,6 +66,7 @@ const FetchProducts = () => {
         if (result.status) {
           // console.log(result);
           setData(result.data);
+          setDisplayData(result.data.slice(0, itemsPerPage));
         } else {
           throw new Error('Data fetch unsuccessful');
         }
@@ -71,24 +75,54 @@ const FetchProducts = () => {
       }
     };
 
+  const toggleDropdown = (id) => {
+    setDropdownRowId(dropdownRowId === id ? null : id);
+  };  
+
+  const handleView = (pro) => {
+    setProduct(pro);
+    setIsProductModalOpen(true);
+    setDropdownRowId();
+  };
+  
+  const closeDetailsModal = () => {
+    setIsProductModalOpen(false);
+  };
+
+  const handleAccept = (pro) => {
+    setAccept(pro);
+    setShowModal(true);
+    setDropdownRowId();
+  };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const handleDecline = (pro) => {
+    setDecline(pro);
+    setShowDeclineModal(true);
+    setDropdownRowId();
+  };
+
+  const closeDeclineModal = () => {
+    setShowDeclineModal(false);
+  };
+
+  const handleBan = (pro) => {
+    setDecline(pro);
+    setShowBanModal(true);
+    setDropdownRowId();
+  };
+
+  const closeBanModal = () => {
+    setShowBanModal(false);
   };
 
   const removeModal = () => {
     setIsModalOpen(false);
   };
 
-  const toggleDropdown = (id) => {
-    setDropdownRowId(dropdownRowId === id ? null : id);
-  };
-
-  const handleAction = (action, id) => {
-    // Handle different actions here
-    console.log(`${action} action on row with ID: ${id}`);
-    setDropdownRowId(null);
-};
 
   useEffect(() => {
     fetchData();
@@ -164,31 +198,40 @@ const FetchProducts = () => {
                                 <td className="px-4 py-6">{pro.inventory.quantity}</td>                                
                                 <td className="px-4 py-6">{pro.price}</td>
                                 <td className="px-4 py-6">{pro.dateOfHarvest}</td>
-                                <td className="flex flex-row gap-2 p-2 items-center">
+                                <td className="relative items-right">
                                     <div className="relative">
-                                      <button onClick={() => toggleDropdown(pro.id)} className="focus:outline-none">
-                                        <FaEllipsisV />
+                                      <button onClick={() => toggleDropdown(pro)} 
+                                        className="cursor-pointer">
+                                        <FiMoreVertical className="text-black2 text-right size-5 cursor-pointer" />
                                       </button>
-                                      {dropdownRowId === pro.id && (
-                                        <div className="absolute right-0 z-10 w-40 py-2 mt-2 bg-white rounded shadow-xl">
-                                          <button
-                                            onClick={() => handleAction('Accept', pro.id)}
-                                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200"
-                                          >
-                                            Accept
-                                          </button>
-                                          <button
-                                            onClick={() => handleAction('Decline', pro.id)}
-                                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200"
-                                          >
-                                            Decline
-                                          </button>
-                                          <button
-                                            onClick={() => handleAction('Ban', pro.id)}
-                                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-200"
-                                          >
-                                            Ban
-                                          </button>
+                                      {dropdownRowId === pro && (
+                                        <div className="absolute right-0 bg-white border border-gray-200 shadow-md rounded-md mt-2 w-32">
+                                          <ul>
+                                            <li
+                                              onClick={() => handleView(pro)}
+                                              className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                            >
+                                              View
+                                            </li>
+                                            <li
+                                              onClick={() => handleAccept(pro)}
+                                              className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                            >
+                                              Accept
+                                            </li>
+                                            <li
+                                              onClick={() => handleDecline(pro)}
+                                              className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                            >
+                                              Decline
+                                            </li>
+                                            <li
+                                              onClick={() => handleBan(pro)}
+                                              className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
+                                            >
+                                              Ban
+                                            </li>
+                                          </ul>
                                         </div>
                                       )}
                                     </div>

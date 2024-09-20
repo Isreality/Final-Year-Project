@@ -17,6 +17,7 @@ import {  useMatch } from 'react-router-dom';
 
 
 const Settings = () => {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const match = useMatch('/settings/*');
   const [profile, setProfile] = useState([]);
@@ -33,14 +34,11 @@ const Settings = () => {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${Atoken}`,
-            // 'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'ngrok-skip-browser-warning': "69420",
-            // 'origin': '*',
+            'origin': '*',
           },
         });
-
-        // setStatusCode(response.status);
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -48,7 +46,7 @@ const Settings = () => {
         const result = await response.json();
         if (result.status) {
           // console.log(result);
-          setProfile(result.data);
+          setData(result.data);
         } else {
           throw new Error('Data fetch unsuccessful');
         }
@@ -112,7 +110,7 @@ const Settings = () => {
                         </div>
 
                         <div className="flex flex-row items-center text-sm md:text-md sm:ml-96 gap-3">
-                          <p className="text-black2 font-normal">{profile.fullname}</p>
+                          <p className="text-black2 font-normal">{data.fullname}</p>
                         </div>
                     </div>
 
@@ -124,7 +122,7 @@ const Settings = () => {
                         </div>
 
                         <div className="flex flex-row items-center text-sm md:text-md sm:ml-96 gap-3">
-                          <p className="text-black2 font-normal">{profile.accountType}</p>
+                          <p className="text-black2 font-normal">{data.accountType}</p>
                         </div>
                     </div>
 
@@ -136,7 +134,7 @@ const Settings = () => {
                         </div>
 
                         <div className="flex flex-row text-sm md:text-md items-center sm:ml-96 gap-3">
-                          <p className="text-black2 font-normal">{profile.email}</p>
+                          <p className="text-black2 font-normal">{data.email}</p>
                         </div>
                     </div>
 
