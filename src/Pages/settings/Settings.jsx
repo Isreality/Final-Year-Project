@@ -24,7 +24,7 @@ const Settings = () => {
   const [error, setError] = useState(null);
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/account/';
+  const endpoint = '/admin/info/fetch';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
   useEffect(() => {
@@ -36,7 +36,11 @@ const Settings = () => {
             'Authorization': `Bearer ${Atoken}`,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'origin': '*',
+            // 'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+            // 'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Methods': 'GET',
+            // 'origin': '*',
           },
         });
 

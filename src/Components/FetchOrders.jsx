@@ -181,7 +181,7 @@ const FetchOrders = () => {
                     placeholder="Search by Order Ref."
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    className="p-4 border border-f2 rounded focus:bg-white focus:outline-primary"
+                    className="p-4 text-sm text-black2 border border-f2 rounded focus:bg-white focus:outline-primary"
                 />
 
                 <div className="relative flex flex-row gap-2 items-center">
@@ -189,7 +189,7 @@ const FetchOrders = () => {
                         {/* Button to Toggle Date Picker */}
                             <button onClick={() => setShowDatePicker(!showDatePicker)} className="flex flex-row gap-1 items-center py-4 px-8 bg-fa rounded cursor-pointer">
                                 <FaRegCalendarDays className="text-primary size-4"/>
-                                Filter by Date
+                                <p className="text-sm text-black2">Filter by Date</p>
                             </button>
 
                         {/* Date Range Picker Dropdown */}
@@ -212,7 +212,7 @@ const FetchOrders = () => {
                         <select
                             value={selectedStatus}
                             onChange={handleStatusChange}
-                            className="block appearance-none py-4 px-8 bg-fa rounded focus:outline-primary cursor-pointer"
+                            className="block appearance-none py-4 px-8 text-sm text-black2 bg-fa rounded focus:outline-primary cursor-pointer"
                         >
                             <option className="text-md" value="">All Statuses</option>
                             <option className="text-md" value="CANCELLED">Cancelled</option>

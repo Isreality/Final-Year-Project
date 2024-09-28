@@ -13,23 +13,16 @@ function ViewUsers ({ show, handleClose, userDetails }) {
   // Function to assign color based on status
   const getStatusColorClass = (value) => {
     return (
-        <span className={value ? 'text-success' : 'text-red'}>
-            {value ? 'Enabled' : 'Disabled'}
-        </span>
+      <span className="flex items-center gap-1">
+        <span
+          className={`h-2 w-2 rounded-full ${
+            value === 1 ? 'bg-success' : 'bg-red'
+          }`}
+        ></span>
+        {value === 1 ? 'Enabled' : 'Disabled'}
+      </span>
     );
   };
-
-  // Function to assign color based on status
-//   const getStatusColorClass = (status) => {
-//     switch (status) {
-//         case 1:
-//             return 'bg-success'; // green for enabled
-//         case 0:
-//             return 'bg-red'; // red for order disabled
-//         default:
-//             return 'bg-gray-500'; // Default color for any unknown status
-//     }
-//   };
 
   return ( 
     <div>
@@ -45,7 +38,7 @@ function ViewUsers ({ show, handleClose, userDetails }) {
 
                     <h2 className="text-2xl text-primary text-center font-semibold mb-4">User Details</h2>
                     {userDetails ? (
-                      <div className="flex flex-col gap-5 text-left text-lg">
+                      <div className="flex flex-col gap-5 text-left text-md">
                         <div className="flex items-center justify-between">
                           <p>Name</p> 
                           {userDetails.name}
@@ -67,10 +60,7 @@ function ViewUsers ({ show, handleClose, userDetails }) {
                         <div className="flex items-center justify-between">
                           <p>Status</p>
                           <div className="flex flex-row items-center">
-                            <span
-                              className={`w-2 h-2 rounded-full mr-2 ${getStatusColorClass(userDetails.is_active)}`}
-                            ></span> 
-                            {userDetails.is_active}
+                            {getStatusColorClass(userDetails.is_active)}
                           </div>
                         </div>
                         <hr/>

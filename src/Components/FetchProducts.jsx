@@ -44,7 +44,7 @@ const FetchProducts = () => {
   };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/product/?minPrice=&maxPrice=&ratings=&page=1';
+  const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?minPrice=&maxPrice=&ratings=&page=1';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
     const fetchData = async () => {
@@ -177,7 +177,7 @@ const FetchProducts = () => {
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-sm text-left">
                         <tr className="px-4 py-8">
-                            <th className="px-4 py-6 text-black2 font-normal">Product</th>
+                            <th className="px-6 py-6 text-black2 font-normal">Product</th>
                             <th className="px-4 py-6 text-black2 font-normal">Available</th>
                             <th className="px-4 py-6 text-black2 font-normal">Price</th>
                             <th className="px-4 py-6 text-black2 font-normal">Date</th>
@@ -188,11 +188,11 @@ const FetchProducts = () => {
                         <tbody className="">
                         {data.map((pro) => (
                             <tr key={pro.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
-                                <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
+                                <td className="flex flex-row gap-2 px-6 py-6 items-center text-center">
                                     <img src={pro.category.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
                                     <div className="flex flex-col gap-1 text-left">
-                                        {pro.category.name}
-                                        {pro.category.desc}
+                                        <p className="text-md font-medium">{pro.category.name}</p>
+                                        <p className="text-sm">{pro.category.desc}</p>
                                     </div>       
                                 </td>
                                 <td className="px-4 py-6">{pro.inventory.quantity}</td>                                

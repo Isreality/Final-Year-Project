@@ -248,7 +248,7 @@ const FetchCategory = () => {
                                 <td className="px-4 py-6">{cat.minWeight}</td>
                                 <td className="px-4 py-6">{cat.maxWeight}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-center">
-                                    <button onClick={() => handleEdit(cat)} className="cursor-pointer ">
+                                    <button onClick={() => handleEdit(cat)} className="cursor-pointer">
                                         <BiSolidEdit className="text-success size-6 cursor-pointer" />
                                     </button>
                                     <button onClick={() => handleDelete(cat)} className="cursor-pointer ">

@@ -28,16 +28,21 @@ const FetchUser = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 5;
-
+  
   // Function to assign color based on status
   const getStatusColorClass = (value) => {
     return (
-        <span className={value ? 'text-success' : 'text-red'}>
-            {value ? 'Enabled' : 'Disabled'}
-        </span>
+      <span className="flex items-center gap-1">
+        <span
+          className={`h-2 w-2 rounded-full ${
+            value === 1 ? 'bg-success' : 'bg-red'
+          }`}
+        ></span>
+        {value === 1 ? 'Enabled' : 'Disabled'}
+      </span>
     );
   };
-
+  
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -73,7 +78,7 @@ const FetchUser = () => {
 
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/customer/';
+  const endpoint = '/admin/user-customer/fetch-all-customers?status=ENABLED&search=';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
     const fetchData = async () => {
@@ -84,10 +89,6 @@ const FetchUser = () => {
             'Authorization': `Bearer ${Atoken}`,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // 'Access-Control-Allow-Origin': '*',
-            // 'Access-Control-Allow-Methods': 'GET',
-            // 'Access-Control-Allow-Credentials': 'true',
-            // 'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type,X-Token-Auth,Authorization',
             'origin': '*',
           },
         });
@@ -108,17 +109,29 @@ const FetchUser = () => {
     };
 
     useEffect(() => {
-      const filteredData = data.filter(item => {
-          const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.email.toLowerCase().includes(searchTerm.toLowerCase()) || item.phone_number.toLowerCase().includes(searchTerm.toLowerCase());
-          const matchesAccount = selectedAccount === "" || item.account_type === selectedAccount;
-          const matchesStatus = selectedStatus === "" || item.is_active === selectedStatus;
-          return matchesSearchTerm && matchesAccount && matchesStatus;
+      const filteredData = data.filter((item) => {
+        const matchesSearchTerm =
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.phone_number.toLowerCase().includes(searchTerm.toLowerCase());
+    
+        const matchesAccount =
+          selectedAccount === "" || item.account_type === selectedAccount;
+        // const matchesStatus =
+          // selectedStatus === "" || item.is_active.toString() === selectedStatus;
+          // const matchesStatus = selectedStatus === "" || (item.is_active ? "Enabled" : "Disabled") === selectedStatus;
+        const matchesStatus =
+          selectedStatus === '' ||
+          (item.is_active === 1 && selectedStatus === 'Enabled') ||
+          (item.is_active === 0 && selectedStatus === 'Disabled');
+    
+        return matchesSearchTerm && matchesAccount && matchesStatus;
       });
 
       const startIdx = (currentPage - 1) * itemsPerPage;
       const endIdx = startIdx + itemsPerPage;
       setDisplayData(filteredData.slice(startIdx, endIdx));
-    }, [searchTerm, selectedAccount, selectedStatus, data]);
+    }, [searchTerm, selectedAccount, selectedStatus, data, currentPage, itemsPerPage]);
 
   useEffect(() => {
     fetchData();
@@ -218,10 +231,10 @@ const FetchUser = () => {
             <div className=" flex flex-row justify-between text-left mb-4">
                 <input
                     type="text"
-                    placeholder="Search by Order Ref."
+                    placeholder="name, phone, email.."
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    className="p-4 border border-f2 rounded focus:bg-white focus:outline-primary"
+                    className="p-4 border border-f2 text-sm rounded focus:bg-white focus:outline-primary"
                 />
 
                 <div className="relative flex flex-row gap-2 items-center">
@@ -230,11 +243,11 @@ const FetchUser = () => {
                         <select
                             value={selectedAccount}
                             onChange={handleAccountChange}
-                            className="block appearance-none py-4 px-8 bg-fa rounded focus:outline-primary cursor-pointer"
+                            className="block appearance-none py-4 px-8 text-sm text-black2 bg-fa rounded focus:outline-primary cursor-pointer"
                         >
-                            <option className="text-md" value="">Account Type</option>
-                            <option className="text-md" value="SELLER">Seller</option>
-                            <option className="text-md" value="CUSTOMER">Customer</option>
+                            <option className="text-sm" value="">Account Type</option>
+                            <option className="text-sm" value="SELLER">Seller</option>
+                            <option className="text-sm" value="CUSTOMER">Customer</option>
                         </select>
 
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
@@ -247,11 +260,11 @@ const FetchUser = () => {
                         <select
                             value={selectedStatus}
                             onChange={handleStatusChange}
-                            className="block appearance-none py-4 px-8 bg-fa rounded focus:outline-primary cursor-pointer"
+                            className="block appearance-none py-4 px-8 text-sm text-black2 bg-fa rounded focus:outline-primary cursor-pointer"
                         >
-                            <option className="text-md" value="">All Statuses</option>
-                            <option className="text-md" value="Enabled">Enabled</option>
-                            <option className="text-md" value="Disabled">Disabled</option>
+                            <option className="text-sm" value="">All Statuses</option>
+                            <option className="text-sm" value="Enabled">Enabled</option>
+                            <option className="text-sm" value="Disabled">Disabled</option>
                         </select>
 
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
@@ -261,7 +274,7 @@ const FetchUser = () => {
                 </div>              
             </div>
                     <table className="min-w-full border-collapse border border-disable py-4">
-                        <thead className="bg-fa text-sm text-left">
+                        <thead className="bg-fa text-xs text-left">
                         <tr className="">
                             {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
                             <th className="px-6 py-6 text-black2 font-normal">Name</th>
@@ -277,22 +290,25 @@ const FetchUser = () => {
 
                         <tbody className="">
                         {data.map((item) => (
-                            <tr key={item._id} className="text-black2 text-sm text-left border-b border-disable p-6">
+                            <tr key={item._id} className="text-black2 text-xs text-left border-b border-disable p-6">
                                 {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
                                 <td className="px-6 py-6">{item.name}</td>
                                 <td className="px-4 py-6">{item.email}</td>
                                 <td className="px-4 py-6">{item.phone_number}</td>
-                                <td className="flex flex-row items-center px-4 py-6">
-                                    <span
-                                        className={`w-2 h-2 rounded-full mr-2 ${getStatusColorClass(item.is_active)}`}
-                                    ></span>
-                                    {item.is_active}</td>
+                                <td className="px-4 py-6">
+                                  {getStatusColorClass(item.is_active)}
+                                </td>
                                 <td className="px-4 py-6">{item.account_type}</td>
                                 <td className="px-4 py-6">{item.address}</td>
                                 <td className="px-4 py-6">{item.created_at}</td>
-                                <td className="flex flex-row gap-2 px-4 py-6 items-center text-center">
-                                   <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => handleView(item)}/>
-                                   <HiOutlineTrash onClick={() => handleDelete(item)} className="text-red size-6 cursor-pointer" />  
+                                <td className="flex flex-row gap-1 px-4 py-6 items-center text-center">
+                                  <button onClick={() => handleView(item)} className="cursor-pointer">
+                                    <FaEye className="text-c4 size-5 cursor-pointer"/>
+                                  </button>
+
+                                  <button onClick={() => handleDelete(item)} className="cursor-pointer">
+                                    <HiOutlineTrash className="text-red size-5 cursor-pointer" />  
+                                  </button>
                                 </td>
                             </tr>
                         ))}
