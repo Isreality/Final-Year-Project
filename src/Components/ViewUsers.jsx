@@ -39,6 +39,18 @@ function ViewUsers ({ show, handleClose, userDetails }) {
                     <h2 className="text-2xl text-primary text-center font-semibold mb-4">User Details</h2>
                     {userDetails ? (
                       <div className="flex flex-col gap-5 text-left text-md">
+
+                        {/* Display profile image if account type is "seller" */}
+                        {userDetails.account_type === "SELLER" && userDetails.profile_image_url && (
+                          <div className="flex items-center mb-4">
+                            <img 
+                              src={userDetails.profile_image_url} 
+                              alt={`${userDetails.name}'s profile`}
+                              className="h-10 w-10 md:h-40 md:w-40 rounded-full"
+                            />
+                          </div>
+                        )}
+
                         <div className="flex items-center justify-between">
                           <p>Name</p> 
                           {userDetails.name}
@@ -78,7 +90,7 @@ function ViewUsers ({ show, handleClose, userDetails }) {
                         <hr/>
                         
                         <div className="flex items-center justify-between">
-                          <p>Date</p> 
+                          <p>Date Created</p> 
                           {userDetails.created_at}
                         </div>
                       </div>

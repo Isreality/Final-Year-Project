@@ -26,7 +26,7 @@ function ViewPendingRequest ({ show, handleClose, pendingDetails }) {
                     <h2 className="text-2xl text-primary text-center font-semibold mb-4">Request Details</h2>
                     {pendingDetails ? (
                       <div className="flex flex-col gap-5 text-left text-lg">
-                        <img src={pendingDetails.profile_image_url} alt="" className=" h-10 w-10 md:h-40 md:w-40 rounded-lg"/>
+                        <img src={pendingDetails.profile_image_url} alt="" className="h-10 w-10 md:h-40 md:w-40 rounded-lg"/>
                         <div className="flex items-center justify-between">
                           <p>ID</p> 
                           {pendingDetails.association_id}

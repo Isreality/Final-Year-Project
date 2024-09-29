@@ -137,8 +137,8 @@ const FetchUser = () => {
     fetchData();
   }, [Atoken]);
 
-  const handleDelete = (user) => {
-    setUserToDelete(user);
+  const handleDelete = (users) => {
+    setUserToDelete(users);
     setShowModal(true);
   };
 
@@ -146,7 +146,7 @@ const FetchUser = () => {
     if (!userToDelete) return;
 
     try {
-      const response = await fetch(`${baseURL}/admin/customer/${userToDelete.id}`, {
+      const response = await fetch(`${baseURL}/admin/customer/${userToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
@@ -155,7 +155,7 @@ const FetchUser = () => {
           'ngrok-skip-browser-warning': "69420",
           'origin': '*',
         },
-        body: JSON.stringify({ userId: userToDelete?.id }),
+        body: JSON.stringify({ userId: userToDelete?._id }),
       });
 
       const result = await response.json();
@@ -163,7 +163,7 @@ const FetchUser = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       } else{
-        setUsers(users.filter((user) => user.id !== userToDelete?.id));
+        setUsers(users.filter((user) => users._id !== userToDelete?._id));
         setShowModal(false);
         setSuccessMessage(`User "${userToDelete?.name}" was successfully deleted.`);
         setErrorMessage(``);
@@ -283,7 +283,7 @@ const FetchUser = () => {
                             <th className="px-4 py-6 text-black2 font-normal">Status</th>
                             <th className="px-4 py-6 text-black2 font-normal">Account</th>
                             <th className="px-4 py-6 text-black2 font-normal">Location</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Date</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Date Created</th>
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
