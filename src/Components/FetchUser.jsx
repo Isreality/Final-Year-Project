@@ -146,13 +146,12 @@ const FetchUser = () => {
     if (!userToDelete) return;
 
     try {
-      const response = await fetch(`${baseURL}/admin/customer/${userToDelete._id}`, {
+      const response = await fetch(`${baseURL}/admin/user-customer/${userToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'ngrok-skip-browser-warning': "69420",
           'origin': '*',
         },
         body: JSON.stringify({ userId: userToDelete?._id }),
