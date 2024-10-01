@@ -6,8 +6,12 @@ import EditCategory from '../Components/EditCategory';
 import { useState, useEffect } from 'react';
 import { FiMoreVertical } from "react-icons/fi";
 import { SlSocialDropbox } from 'react-icons/sl';
+import { FaRegCalendarDays } from "react-icons/fa6";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import ResponsivePagination from 'react-responsive-pagination';
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; 
+import 'react-date-range/dist/theme/default.css'; 
 
 const FetchProducts = () => {
   const [data, setData] = useState([]);
@@ -27,7 +31,10 @@ const FetchProducts = () => {
   const [errors, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(true);
-
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [dateRange, setDateRange] = useState([{ startDate: null, endDate: null, key: 'selection' }]);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  
   const [currentPage, setCurrentPage] = useState(1); 
   const itemsPerPage = 5;
 
@@ -36,15 +43,28 @@ const FetchProducts = () => {
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  //   const startIdx = (page - 1) * itemsPerPage;
+  //   const endIdx = startIdx + itemsPerPage;
+  //   setDisplayData(data.slice(startIdx, endIdx));
+  // };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    const startIdx = (page - 1) * itemsPerPage;
-    const endIdx = startIdx + itemsPerPage;
-    setDisplayData(data.slice(startIdx, endIdx));
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleDateRangeChange = (ranges) => {
+    setDateRange([ranges.selection]);
   };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?minPrice=&maxPrice=&ratings=&page=1';
+  const endpoint = '/admin/buyers-product/fetch-all-product-with-filter';
+  // const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?minPrice=&maxPrice=&ratings=&page=1';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
     const fetchData = async () => {
@@ -66,7 +86,8 @@ const FetchProducts = () => {
         if (result.status) {
           // console.log(result);
           setData(result.data);
-          setDisplayData(result.data.slice(0, itemsPerPage));
+          setDisplayData(result.data);
+          // setDisplayData(result.data.slice(0, itemsPerPage));
         } else {
           throw new Error('Data fetch unsuccessful');
         }
@@ -136,6 +157,23 @@ const FetchProducts = () => {
     }, 3000)
   }, [])
 
+  useEffect(() => {
+    const filteredData = data.filter(pro => {
+        const orderDate = new Date(pro.createdDate);
+        const startDate = dateRange[0].startDate;
+        const endDate = dateRange[0].endDate;
+        // Check if filters are applied; if not, display all data
+        const isWithinDateRange = startDate && endDate ? (orderDate >= startDate && orderDate <= endDate) : true;
+        const matchesSearchTerm = pro.category.name.toLowerCase().includes(searchTerm.toLowerCase());
+        // const matchesStatus = selectedStatus === "" || item.orderState === selectedStatus;
+        return matchesSearchTerm && isWithinDateRange;
+    });
+
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setDisplayData(filteredData.slice(startIdx, endIdx));
+  }, [searchTerm, dateRange, currentPage, data]);
+
   if (loading) {
     return (
       <div>
@@ -174,6 +212,41 @@ const FetchProducts = () => {
             )}
             </div>
 
+            {/* Search Input */}
+            <div className=" flex flex-row justify-between text-left mb-4">
+                <input
+                    type="text"
+                    placeholder="Search by name"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="p-4 text-sm text-black2 border border-f2 rounded focus:bg-white focus:outline-primary"
+                />
+
+                <div className="relative">
+                    {/* <div className="relative"> */}
+                        {/* Button to Toggle Date Picker */}
+                            <button onClick={() => setShowDatePicker(!showDatePicker)} className="flex flex-row gap-1 items-center py-4 px-8 bg-fa rounded cursor-pointer">
+                                <FaRegCalendarDays className="text-primary size-4"/>
+                                <p className="text-sm text-black2">Filter by Date</p>
+                            </button>
+
+                        {/* Date Range Picker Dropdown */}
+                        {showDatePicker && (
+                            // <div className="relative z-10 mt-2 p-2  rounded ">
+                            <div className="custom-date-range-picker bg-white top-[120%] absolute trasform translate-x-[-23%]">
+                                <DateRange
+                                    ranges={dateRange}
+                                    onChange={handleDateRangeChange}
+                                    moveRangeOnFirstSelection={false}
+                                    rangeColors={['#481986']}
+                                    className="date-range"
+                                />
+                            </div>
+                        )}
+                    {/* </div> */}
+                </div>              
+            </div>
+
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-sm text-left">
                         <tr className="px-4 py-8">
@@ -199,9 +272,9 @@ const FetchProducts = () => {
                                 <td className="px-4 py-6">{pro.price}</td>
                                 <td className="px-4 py-6">{pro.dateOfHarvest}</td>
                                 <td className="relative items-right">
-                                    <div className="relative">
+                                    {/* <div className="relative"> */}
                                       <button onClick={() => toggleDropdown(pro)} 
-                                        className="cursor-pointer">
+                                        className="cursor-pointer px-6">
                                         <FiMoreVertical className="text-black2 text-right size-5 cursor-pointer" />
                                       </button>
                                       {dropdownRowId === pro && (
@@ -234,7 +307,7 @@ const FetchProducts = () => {
                                           </ul>
                                         </div>
                                       )}
-                                    </div>
+                                    {/* </div> */}
                                       {/* <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => openDetailsModal(pro)}/>
                                       <HiOutlineTrash className="text-red size-5 cursor-pointer" onClick={() => openModal(pro.id)}/> */}
                                 </td>
@@ -244,8 +317,7 @@ const FetchProducts = () => {
                     </table><br/>
                     {/* Pagination Component */}
                     <ResponsivePagination
-                        total={Math.ceil(data.length / itemsPerPage)}
-                        // total={totalPages}
+                        total={Math.ceil(displayData.length / itemsPerPage)}
                         current={currentPage}
                         onPageChange={handlePageChange}
                     /><br/>

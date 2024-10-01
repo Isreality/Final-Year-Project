@@ -31,15 +31,15 @@ function ManageProducts () {
     //     setDropdownRowId(null);
     // };
     
-      const handleSearch = (event) => {
-        const value = event.target.value;
-        setSearch(value);
-        const filteredItems = data.filter((item) =>
-          item.name.toLowerCase().includes(value.toLowerCase())
-        );
-        setFilteredData(filteredItems);
-        // setCurrentPage(1);
-      };
+      // const handleSearch = (event) => {
+      //   const value = event.target.value;
+      //   setSearch(value);
+      //   const filteredItems = data.filter((item) =>
+      //     item.name.toLowerCase().includes(value.toLowerCase())
+      //   );
+      //   setFilteredData(filteredItems);
+      //   setCurrentPage(1);
+      // };
     
       // const toggleDropdown = (id) => {
       //   setDropdownRowId(dropdownRowId === id ? null : id);
@@ -79,7 +79,7 @@ function ManageProducts () {
                 
                 <div className="flex flex-row justify-between items-center px-8">
                   <div className="mb-4"><Heading title="Manage Products"/></div>
-                  <div className="mb-4">
+                  {/* <div className="mb-4">
                         <input
                         type="text"
                         placeholder="Search"
@@ -87,7 +87,7 @@ function ManageProducts () {
                         onChange={handleSearch}
                         className="w-full px-3 py-2 border rounded text-black2 focus:outline-disable"
                         />
-                    </div>
+                  </div> */}
                 </div>
 
                 <div className="mx-8">

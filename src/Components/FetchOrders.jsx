@@ -88,7 +88,8 @@ const FetchOrders = () => {
     };
 
     const baseURL = process.env.REACT_APP_BASE_URL;
-    const endpoint = '/admin/order/fetch-order-items?page=1';
+    // const endpoint = '/admin/order/fetch-order-items?page=1';
+    const endpoint = '/admin/order/fetch-order-items';
     const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
     const fetchData = async () => {

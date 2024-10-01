@@ -21,7 +21,7 @@ const FetchUser = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); 
   const [selectedAccount, setSelectedAccount] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState(""); 
+  const [selectedStatus, setSelectedStatus] = useState("ENABLED"); // Default to ENABLED
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrorMessage] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
@@ -55,9 +55,9 @@ const FetchUser = () => {
     setSelectedAccount(e.target.value);
   };
 
-  const handleStatusChange = (e) => {
-    setSelectedStatus(e.target.value);
-  };
+  // const handleStatusChange = (e) => {
+  //   setSelectedStatus(e.target.value);
+  // };
 
   const closeModal = () => {
     setShowModal(false);
@@ -81,9 +81,12 @@ const FetchUser = () => {
   const endpoint = '/admin/user-customer/fetch-all-customers?status=ENABLED&search=';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
-    const fetchData = async () => {
+    const fetchData = async (searchTerm = '', selectedStatus = 'ENABLED') => {
       try {
-        const response = await fetch(baseURL + endpoint, {
+        const searchParam = searchTerm ? `${searchTerm}` : '';  // Append search term directly
+        const fullEndpoint = `${baseURL}${endpoint}${searchParam}`;
+
+        const response = await fetch(fullEndpoint, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${Atoken}`,
@@ -99,7 +102,6 @@ const FetchUser = () => {
         const result = await response.json();
         if (result.status) {
           setData(result.data);
-          setDisplayData(result.data);
         } else {
           throw new Error('Data fetch unsuccessful');
         }
@@ -108,34 +110,26 @@ const FetchUser = () => {
       }
     };
 
+    
+    // Filtered display data based on search term and selected account type
+    const getFilteredData = () => {
+      return data
+        .filter(item => 
+          (selectedAccount === '' || item.account_type === selectedAccount) && // Filter by account type
+          (item.name.toLowerCase().includes(searchTerm.toLowerCase()) || // Search by name
+          item.email.toLowerCase().includes(searchTerm.toLowerCase()) || // Search by email
+          item.phone_number.includes(searchTerm) // Search by phone
+          )
+        )
+        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage); // Pagination
+    };
+
+    // Fetch data on component mount and when filters or pagination change
     useEffect(() => {
-      const filteredData = data.filter((item) => {
-        const matchesSearchTerm =
-          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.phone_number.toLowerCase().includes(searchTerm.toLowerCase());
-    
-        const matchesAccount =
-          selectedAccount === "" || item.account_type === selectedAccount;
-        // const matchesStatus =
-          // selectedStatus === "" || item.is_active.toString() === selectedStatus;
-          // const matchesStatus = selectedStatus === "" || (item.is_active ? "Enabled" : "Disabled") === selectedStatus;
-        const matchesStatus =
-          selectedStatus === '' ||
-          (item.is_active === 1 && selectedStatus === 'Enabled') ||
-          (item.is_active === 0 && selectedStatus === 'Disabled');
-    
-        return matchesSearchTerm && matchesAccount && matchesStatus;
-      });
+      fetchData(searchTerm, selectedStatus);
+    }, [searchTerm, selectedStatus, selectedAccount, currentPage]);
 
-      const startIdx = (currentPage - 1) * itemsPerPage;
-      const endIdx = startIdx + itemsPerPage;
-      setDisplayData(filteredData.slice(startIdx, endIdx));
-    }, [searchTerm, selectedAccount, selectedStatus, data, currentPage, itemsPerPage]);
-
-  useEffect(() => {
-    fetchData();
-  }, [Atoken]);
+    const filteredData = getFilteredData(); // Get the filtered data
 
   const handleDelete = (users) => {
     setUserToDelete(users);
@@ -227,7 +221,7 @@ const FetchUser = () => {
             </div>
 
             {/* Search Input */}
-            <div className=" flex flex-row justify-between text-left mb-4">
+            <div className=" flex flex-row justify-start gap-2 text-left mb-4">
                 <input
                     type="text"
                     placeholder="name, phone, email.."
@@ -255,27 +249,26 @@ const FetchUser = () => {
                     </div>
 
                     {/* Filter by Status */}
-                    <div className='relative'>
+                    {/* <div className='relative'>
                         <select
                             value={selectedStatus}
                             onChange={handleStatusChange}
                             className="block appearance-none py-4 px-8 text-sm text-black2 bg-fa rounded focus:outline-primary cursor-pointer"
                         >
                             <option className="text-sm" value="">All Statuses</option>
-                            <option className="text-sm" value="Enabled">Enabled</option>
-                            <option className="text-sm" value="Disabled">Disabled</option>
+                            <option className="text-sm" value="ENABLED">Enabled</option>
+                            <option className="text-sm" value="DISABLED">Disabled</option>
                         </select>
 
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
                             <RiArrowDropDownLine className="h-6 w-6"/>
                         </div>
-                    </div>
+                    </div> */}
                 </div>              
             </div>
                     <table className="min-w-full border-collapse border border-disable py-4">
                         <thead className="bg-fa text-xs text-left">
                         <tr className="">
-                            {/* <div className="p-2 text-left items-center"><th className="p-4 text-black2 font-normal">S/N</th></div> */}
                             <th className="px-6 py-6 text-black2 font-normal">Name</th>
                             <th className="px-4 py-6 text-black2 font-normal">Email</th>
                             <th className="px-4 py-6 text-black2 font-normal">Phone</th>
@@ -288,16 +281,16 @@ const FetchUser = () => {
                         </thead>
 
                         <tbody className="">
-                        {data.map((item) => (
-                            <tr key={item._id} className="text-black2 text-xs text-left border-b border-disable p-6">
-                                {/* <div className="bg-white p-4 text-left text-sm items-center"><td className="bg-fa px-4 py-2 rounded-sm">{item.id}</td></div> */}
+                          {filteredData.length > 0 ? (
+                            filteredData.map((item) => (
+                              <tr key={item._id} className="text-black2 text-xs text-left border-b border-disable p-6">
                                 <td className="px-6 py-6">{item.name}</td>
                                 <td className="px-4 py-6">{item.email}</td>
                                 <td className="px-4 py-6">{item.phone_number}</td>
                                 <td className="px-4 py-6">
                                   {getStatusColorClass(item.is_active)}
                                 </td>
-                                <td className="px-4 py-6">{item.account_type}</td>
+                                <td className="px-4 py-6">{item.account_type === 'SELLER' ? 'Seller' : 'Customer'}</td>
                                 <td className="px-4 py-6">{item.address}</td>
                                 <td className="px-4 py-6">{item.created_at}</td>
                                 <td className="flex flex-row gap-1 px-4 py-6 items-center text-center">
@@ -309,8 +302,15 @@ const FetchUser = () => {
                                     <HiOutlineTrash className="text-red size-5 cursor-pointer" />  
                                   </button>
                                 </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="7" className="text-center py-4 text-gray-500">
+                                No users found.
+                              </td>
                             </tr>
-                        ))}
+                          )}
                         </tbody>
                     </table>
 
