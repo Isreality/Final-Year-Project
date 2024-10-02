@@ -2,9 +2,7 @@ import "../style.css";
 import { useState, useEffect } from 'react';
 import Modal from "../Components/Modal";
 
-function ApproveRequest ({ show, handleClose, request }) {
-  const [approve, setApprove] = useState('');
-  
+function ApproveProduct ({ show, handleClose, accept }) {
   const [errors, setErrorMessage] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -24,12 +22,12 @@ function ApproveRequest ({ show, handleClose, request }) {
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
-    if (!request) return;   
+    if (!accept) return;   
 
     setSpin(true);
 
     try {
-      const response = await fetch(`${baseURL}/admin/customer/accept-become-a-seller-request/${request._id}`, {
+      const response = await fetch(`${baseURL}/admin/buyers-product/approve/${accept.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
@@ -37,16 +35,16 @@ function ApproveRequest ({ show, handleClose, request }) {
           'Accept': 'application/json',
           'origin': '*',
         },
-        body: JSON.stringify({ requestId: request?._id }),
+        body: JSON.stringify({ acceptId: accept?.id }),
       });
 
       if (!response.ok) {
-        setErrorMessage('Request not approved');
+        setErrorMessage('Product not approved');
         setSuccessMessage('');
         setIsModalOpen(true);
         return;
       } else {
-        setSuccessMessage('Request approved successfully');
+        setSuccessMessage('Product approved successfully');
         setErrorMessage('')
         setIsModalOpen(true);
         window.location.reload();
@@ -88,8 +86,8 @@ function ApproveRequest ({ show, handleClose, request }) {
                             )}
                           </div>
 
-                          <h2 className="text-lg md:text-xl text-primary text-center font-bold mb-4">Approve Request</h2>
-                          <p className="mb-4 text-md md:text-lg text-center">Do you want to approve this request</p>
+                          <h2 className="text-lg md:text-xl text-primary text-center font-bold mb-4">Approve Product</h2>
+                          <p className="mb-4 text-md md:text-lg text-center">Do you want to approve this product</p>
                           <div className=" flex flex-col-reverse md:flex-row justify-items-stretch gap-4 mr-2">
                             <button className="bg-disable text-black2 py-3 px-16 rounded-md" onClick={handleClose}>Cancel</button>
                             <button className="bg-primary text-white py-3 px-16 rounded-md" onClick={handleSubmit}>Approve</button>
@@ -103,4 +101,4 @@ function ApproveRequest ({ show, handleClose, request }) {
      );
 }
  
-export default ApproveRequest;
+export default ApproveProduct;

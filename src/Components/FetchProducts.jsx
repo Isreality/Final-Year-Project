@@ -2,7 +2,8 @@ import "../style.css";
 import "../pagination.css";  
 import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
-import EditCategory from '../Components/EditCategory';
+import ViewProduct from '../Components/ViewProduct';
+import ApproveProduct from '../Components/ApproveProduct';
 import { useState, useEffect } from 'react';
 import { FiMoreVertical } from "react-icons/fi";
 import { SlSocialDropbox } from 'react-icons/sl';
@@ -16,6 +17,7 @@ import 'react-date-range/dist/theme/default.css';
 const FetchProducts = () => {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
+  // const [request, setRequest] = useState('');
   const [product, setProduct] = useState([]);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [error, setError] = useState(null);
@@ -213,7 +215,7 @@ const FetchProducts = () => {
             </div>
 
             {/* Search Input */}
-            <div className=" flex flex-row justify-between text-left mb-4">
+            <div className=" flex flex-row justify-start gap-2 text-left mb-4">
                 <input
                     type="text"
                     placeholder="Search by name"
@@ -251,9 +253,9 @@ const FetchProducts = () => {
                         <thead className="bg-fa text-sm text-left">
                         <tr className="px-4 py-8">
                             <th className="px-6 py-6 text-black2 font-normal">Product</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Available</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Available Stock</th>
                             <th className="px-4 py-6 text-black2 font-normal">Price</th>
-                            <th className="px-4 py-6 text-black2 font-normal">Date</th>
+                            <th className="px-4 py-6 text-black2 font-normal">Date Created</th>
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                         </thead>
@@ -278,7 +280,7 @@ const FetchProducts = () => {
                                         <FiMoreVertical className="text-black2 text-right size-5 cursor-pointer" />
                                       </button>
                                       {dropdownRowId === pro && (
-                                        <div className="absolute right-0 bg-white border border-gray-200 shadow-md rounded-md mt-2 w-32">
+                                        <div className="absolute right-0 bg-white border border-gray-200 shadow-md z-10 rounded-md mt-2 w-32">
                                           <ul>
                                             <li
                                               onClick={() => handleView(pro)}
@@ -290,7 +292,7 @@ const FetchProducts = () => {
                                               onClick={() => handleAccept(pro)}
                                               className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
                                             >
-                                              Accept
+                                              Approve
                                             </li>
                                             <li
                                               onClick={() => handleDecline(pro)}
@@ -321,6 +323,18 @@ const FetchProducts = () => {
                         current={currentPage}
                         onPageChange={handlePageChange}
                     /><br/>
+
+                    <ViewProduct
+                      show={isProductModalOpen}
+                      handleClose={closeDetailsModal}
+                      productDetails={product}
+                    />
+
+                    <ApproveProduct
+                      show={showModal}
+                      handleClose={closeModal}
+                      accept={accept}
+                    />
       </div>
     </div>
   );
