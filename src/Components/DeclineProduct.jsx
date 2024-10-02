@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import Modal from "../Components/Modal";
 import { FaSpinner } from 'react-icons/fa';
 
-function DeclineRequest ({ show, handleClose, selectedRequest }) {
-  const [reason, setReason] = useState('');
+function DeclineProduct ({ show, handleClose, decline }) {
+  const [message, setMessage] = useState('');
   const [errors, setErrorMessage] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -25,22 +25,22 @@ function DeclineRequest ({ show, handleClose, selectedRequest }) {
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
-    if (!reason) {
-        setErrorMessage('Please provide a reason for declining the request.');
+    if (!message) {
+        setErrorMessage('Please provide a reason for declining this product.');
         setSuccessMessage('');
         setIsModalOpen(true);
         return;
     }     
 
-    if (!selectedRequest) {
-      setErrorMessage('No request selected.');
+    if (!decline) {
+      setErrorMessage('No product selected.');
       setIsModalOpen(true);
       return;
     }
     setSpin(true);
 
     try {
-      const response = await fetch(`${baseURL}/admin/customer/decline-become-a-seller-request/${selectedRequest._id}`, {
+      const response = await fetch(`${baseURL}/admin/buyers-product/decline/${decline.id}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${Atoken}`,
@@ -48,7 +48,7 @@ function DeclineRequest ({ show, handleClose, selectedRequest }) {
           'Accept': 'application/json',
           'origin': '*',
         },
-        body: JSON.stringify({ reason }),
+        body: JSON.stringify({ message }),
       });
 
       if (!response.ok) {
@@ -57,7 +57,7 @@ function DeclineRequest ({ show, handleClose, selectedRequest }) {
         setIsModalOpen(true);
         return;
       } else {
-        setSuccessMessage('Request declined successfully');
+        setSuccessMessage('Product declined successfully');
         setErrorMessage('')
         setIsModalOpen(true);
         window.location.reload();
@@ -100,19 +100,19 @@ function DeclineRequest ({ show, handleClose, selectedRequest }) {
             </div>
 
              {/* Heading */} 
-            <h1 className="text-red text-2xl font-bold mb-4">Decline Request</h1>
+            <h1 className="text-red text-2xl font-bold mb-4">Decline Product</h1>
 
             
             {/* Form */}
             <form  onSubmit={handleSubmit}>
                 <textarea
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder="Enter the reason for declining"
                   className="border p-4 w-full h-32 rounded-md border-disable bg-white focus:outline-disable text-normal text-left text-black2"
                   rows="4"
                 ></textarea>               
-                {errors.reason && <span style={{ color: 'red' }}>{errors.reason}</span>}<br/><br/>
+                {errors.message && <span style={{ color: 'red' }}>{errors.message}</span>}<br/><br/>
 
                 {/* Button */}
                 <div className="flex flex-row gap-3 justify-end">
@@ -130,6 +130,6 @@ function DeclineRequest ({ show, handleClose, selectedRequest }) {
   );
 }
 
-export default DeclineRequest;
+export default DeclineProduct;
 
   

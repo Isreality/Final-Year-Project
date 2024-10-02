@@ -4,6 +4,7 @@ import Delete from '../Components/Delete';
 import Modal from '../Components/Modal';
 import ViewProduct from '../Components/ViewProduct';
 import ApproveProduct from '../Components/ApproveProduct';
+import DeclineProduct from '../Components/DeclineProduct';
 import { useState, useEffect } from 'react';
 import { FiMoreVertical } from "react-icons/fi";
 import { SlSocialDropbox } from 'react-icons/sl';
@@ -17,7 +18,6 @@ import 'react-date-range/dist/theme/default.css';
 const FetchProducts = () => {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
-  // const [request, setRequest] = useState('');
   const [product, setProduct] = useState([]);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [error, setError] = useState(null);
@@ -334,6 +334,12 @@ const FetchProducts = () => {
                       show={showModal}
                       handleClose={closeModal}
                       accept={accept}
+                    />
+
+                    <DeclineProduct
+                      show={showDeclineModal}
+                      handleClose={closeDeclineModal}
+                      decline={decline}
                     />
       </div>
     </div>
