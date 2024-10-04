@@ -6,9 +6,15 @@ import Modal from "../Components/Modal";
 import { Link } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 
-function ViewOrders ({ show, handleClose, orderDetails }) {
+function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
+  const [selectedStatus, setSelectedStatus] = useState(orderDetails?.orderState || '');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [spin, setSpin] = useState(null);
+  const [error, setError] = useState(null);
+  const [errors, setErrorMessage] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // Function to assign color based on status
   const getStatusColorClass = (status) => {
@@ -28,7 +34,7 @@ function ViewOrders ({ show, handleClose, orderDetails }) {
         default:
             return 'bg-gray-500'; // Default color for any unknown status
     }
-};
+  };
 
   // Function to format boolean to "Yes" or "No" with color
   const formatBooleanToYesNoWithColor = (value) => {
@@ -37,7 +43,73 @@ function ViewOrders ({ show, handleClose, orderDetails }) {
             {value ? 'Yes' : 'No'}
         </span>
     );
-};
+  };
+
+  // Handle status change in the dropdown
+  const handleStatusChange = (event) => {
+    const newStatus = event.target.value;
+    setSelectedStatus(newStatus);
+    setShowConfirmModal(true); // Show confirmation modal when a new status is selected
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Handle status change in the dropdown
+  const confirmStatusUpdate = async () => {
+    setLoading(true);
+    setError(null);
+    setShowConfirmModal(false);
+
+    try {
+      const response = await fetch(`${baseURL}/admin/order/update-order-item-state/${orderDetails.id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: selectedStatus }),
+      });
+
+      // if (!response.ok) {
+      //   throw new Error('Failed to update status');
+      // }
+
+      if (!response.ok) {
+        setErrorMessage('Failed to update status');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } else {
+        setSuccessMessage('Status updated successfully');
+        setErrorMessage('')
+        setIsModalOpen(true);
+        window.location.reload();
+      }
+
+      const result = await response.json();
+      console.log('Success:', result);
+      } catch (error) {
+          console.error('Error:', error);
+      } finally {
+        setSpin(false);
+        setIsModalOpen(true);
+      }
+
+    //   const result = await response.json();
+
+    //   if (result.success) {
+    //     console.log('Status updated successfully');
+    //   } else {
+    //     throw new Error('Failed to update status');
+    //   }
+    // } catch (err) {
+    //   setError(err.message);
+    // } finally {
+    //   setLoading(false);
+    // }
+  };
 
   return ( 
     <div>
@@ -50,6 +122,18 @@ function ViewOrders ({ show, handleClose, orderDetails }) {
                     onClick={handleClose}>
                     &times;
                     </button>
+
+                    {/* Modal */}
+                      <div className="fixed top-4 left-4 md:left-44 w-72 md:w-3/4 mb-4">
+                            {isModalOpen && (
+                              <Modal
+                                message={errors || successMessage}
+                                type={errors ? 'error' : 'success'}
+                                onClose={closeModal}
+                                className=""
+                              />
+                            )}
+                          </div>
 
                     <h2 className="text-2xl text-primary text-center font-semibold mb-4">Order Details</h2>
                     {orderDetails ? (
@@ -87,10 +171,77 @@ function ViewOrders ({ show, handleClose, orderDetails }) {
                         <div className="flex items-center justify-between">
                           <p>Date</p> 
                           {orderDetails.createdDate}
+                        </div><br/>
+
+                        {/* Dropdown to change status */}
+                        <div className="flex flex-col gap-1 relative">
+                          <label>Update Status</label>
+                          
+                            <select
+                              value={selectedStatus}
+                              onChange={handleStatusChange}
+                              className="block appearance-none border border-disable rounded-md w-full px-4 py-6 text-black leading-tight focus:outline-disable bg-white"
+                              disabled={loading}
+                            >
+                              <option value="" disabled>Select Status</option>
+                              <option value="CANCELLED">Cancelled</option>
+                              <option value="ORDER_PLACED">Order Placed</option>
+                              <option value="PENDING_CONFIRMATION">Pending Confirmation</option>
+                              <option value="WAITING_TO_BE_SHIPPED">Waiting to be shipped</option>
+                              <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                              <option value="SHIPPED">Shipped</option>
+                            </select>
+
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black2">
+                              <RiArrowDropDownLine className="h-6 w-6"/>
+                            </div>
                         </div>
                       </div>
                     ) : (
                       <p>No details available.</p>
+                    )}
+
+                    {/* Confirmation Modal */}
+                    {showConfirmModal && (
+                      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-80">
+                        <div className="bg-white rounded-lg w-3/4 max-w-lg py-8 px-4 lg:px-16 z-10 max-h-screen">
+                          <button
+                          className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
+                          onClick={() => setShowConfirmModal(false)}>
+                          &times;
+                          </button>
+
+                          {/* Modal */}
+                          {/* <div className="fixed top-4 left-4 md:left-44 w-72 md:w-3/4 mb-4">
+                            {isModalOpen && (
+                              <Modal
+                                message={errors || successMessage}
+                                type={errors ? 'error' : 'success'}
+                                onClose={closeModal}
+                                className=""
+                              />
+                            )}
+                          </div> */}
+
+                          <h3 className="text-lg md:text-xl text-primary text-center font-bold mb-4">Confirm Status Update</h3>
+                          <p className="mb-4 text-md md:text-lg text-center">Are you sure you want to update the status to "{selectedStatus}"?</p>
+                          <div className="flex flex-col-reverse md:flex-row justify-items-stretch gap-4 mr-2">
+                            <button
+                              className="bg-disable text-black2 py-3 px-16 rounded-md"
+                              onClick={() => setShowConfirmModal(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="bg-primary text-white py-3 px-16 rounded-md"
+                              onClick={confirmStatusUpdate}
+                              disabled={loading}
+                            >
+                              Confirm
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     )}
                                                         
                 </div>

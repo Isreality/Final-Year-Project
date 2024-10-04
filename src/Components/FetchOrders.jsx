@@ -278,6 +278,8 @@ const FetchOrders = () => {
                     show={isDetailsModalOpen}
                     handleClose={closeDetailsModal}
                     orderDetails={details}
+                    baseURL={baseURL}
+                    token={Atoken}
                 />
             </div>
         </div>
