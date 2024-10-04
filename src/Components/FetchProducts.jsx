@@ -5,6 +5,7 @@ import Modal from '../Components/Modal';
 import ViewProduct from '../Components/ViewProduct';
 import ApproveProduct from '../Components/ApproveProduct';
 import DeclineProduct from '../Components/DeclineProduct';
+import BanProduct from '../Components/BanProduct';
 import { useState, useEffect } from 'react';
 import { FiMoreVertical } from "react-icons/fi";
 import { SlSocialDropbox } from 'react-icons/sl';
@@ -133,7 +134,7 @@ const FetchProducts = () => {
   };
 
   const handleBan = (pro) => {
-    setDecline(pro);
+    setBan(pro);
     setShowBanModal(true);
     setDropdownRowId();
   };
@@ -261,7 +262,7 @@ const FetchProducts = () => {
                         </thead>
 
                         <tbody className="">
-                        {data.map((pro) => (
+                        {displayData.map((pro) => (
                             <tr key={pro.id} className="text-black2 text-sm text-left items-center border-b border-disable px-4 py-8">
                                 <td className="flex flex-row gap-2 px-6 py-6 items-center text-center">
                                     <img src={pro.category.imageUrl} alt="" className=" h-10 w-10 md:h-12 md:w-12 rounded-md"/>
@@ -317,12 +318,15 @@ const FetchProducts = () => {
                         ))}
                         </tbody>
                     </table><br/>
+                    
                     {/* Pagination Component */}
-                    <ResponsivePagination
-                        total={Math.ceil(displayData.length / itemsPerPage)}
-                        current={currentPage}
-                        onPageChange={handlePageChange}
-                    /><br/>
+                    {displayData.length > itemsPerPage && (
+                        <ResponsivePagination
+                            total={Math.ceil(displayData.length / itemsPerPage)}
+                            current={currentPage}
+                            onPageChange={handlePageChange}
+                        />
+                    )}
 
                     <ViewProduct
                       show={isProductModalOpen}
@@ -340,6 +344,12 @@ const FetchProducts = () => {
                       show={showDeclineModal}
                       handleClose={closeDeclineModal}
                       decline={decline}
+                    />
+
+                    <BanProduct
+                      show={showBanModal}
+                      handleClose={closeBanModal}
+                      ban={ban}
                     />
       </div>
     </div>

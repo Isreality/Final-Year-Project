@@ -93,7 +93,7 @@ const Dashboard = () => {
                 
                 {/* Body */}
                 {/* Card */}
-                <div className=" grid lg:grid-cols-2 sm:grid-cols-1 px-8 gap-5 mb-4">
+                <div className="grid lg:grid-cols-2 sm:grid-cols-1 px-8 gap-5 mb-4">
                   <Card className="bg-primary text-white" title="Total Orders" icons={<RiListView className="size-10 text-primary bg-white p-2 rounded-full"/>} info={stat.totalOrders}/>
                   <Card title="Total Users" icons={<FaUsers className="size-10 text-white bg-pend p-2 rounded-full"/>} info={stat.totalUsers}/>
                 </div>
