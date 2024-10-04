@@ -15,6 +15,8 @@ function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState('');
 
   // Function to assign color based on status
   const getStatusColorClass = (status) => {
@@ -49,7 +51,11 @@ function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
   const handleStatusChange = (event) => {
     const newStatus = event.target.value;
     setSelectedStatus(newStatus);
-    setShowConfirmModal(true); // Show confirmation modal when a new status is selected
+    if (newStatus === 'CANCELLED') {
+      setShowCancelModal(true); // Show cancellation reason modal if CANCELLED is selected
+    } else {
+      setShowConfirmModal(true); // Show regular confirmation modal for other statuses
+    }
   };
 
   const closeModal = () => {
@@ -72,10 +78,6 @@ function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
         body: JSON.stringify({ status: selectedStatus }),
       });
 
-      // if (!response.ok) {
-      //   throw new Error('Failed to update status');
-      // }
-
       if (!response.ok) {
         setErrorMessage('Failed to update status');
         setSuccessMessage('');
@@ -96,19 +98,50 @@ function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
         setSpin(false);
         setIsModalOpen(true);
       }
+  };
 
-    //   const result = await response.json();
+  // Function to confirm cancellation with reason
+  const confirmCancellation = async () => {
+    setLoading(true);
+    setError(null);
+    setShowCancelModal(false); // Close cancellation reason modal
 
-    //   if (result.success) {
-    //     console.log('Status updated successfully');
-    //   } else {
-    //     throw new Error('Failed to update status');
-    //   }
-    // } catch (err) {
-    //   setError(err.message);
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      const response = await fetch(
+        `${baseURL}/admin/order/update-order-item-state/${orderDetails.id}?status=CANCELLED&reason=${encodeURIComponent(cancelReason)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        setErrorMessage('Failed to cancel the order');
+        setSuccessMessage('');
+        setIsModalOpen(true);
+        return;
+      } else {
+        setSuccessMessage('Status updated successfully');
+        setErrorMessage('')
+        setIsModalOpen(true);
+        window.location.reload();
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        window.location.reload(); // Reload the page for the changes to take effect
+      } else {
+        throw new Error('Failed to cancel the order');
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return ( 
@@ -211,18 +244,6 @@ function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
                           &times;
                           </button>
 
-                          {/* Modal */}
-                          {/* <div className="fixed top-4 left-4 md:left-44 w-72 md:w-3/4 mb-4">
-                            {isModalOpen && (
-                              <Modal
-                                message={errors || successMessage}
-                                type={errors ? 'error' : 'success'}
-                                onClose={closeModal}
-                                className=""
-                              />
-                            )}
-                          </div> */}
-
                           <h3 className="text-lg md:text-xl text-primary text-center font-bold mb-4">Confirm Status Update</h3>
                           <p className="mb-4 text-md md:text-lg text-center">Are you sure you want to update the status to "{selectedStatus}"?</p>
                           <div className="flex flex-col-reverse md:flex-row justify-items-stretch gap-4 mr-2">
@@ -236,6 +257,42 @@ function ViewOrders ({ show, handleClose, orderDetails, baseURL, token }) {
                               className="bg-primary text-white py-3 px-16 rounded-md"
                               onClick={confirmStatusUpdate}
                               disabled={loading}
+                            >
+                              Confirm
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Cancellation Modal with Reason */}
+                    {showCancelModal && (
+                      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <div className="bg-white rounded-lg w-3/4 md:w-3/4 lg:w-3/4 py-8 px-4 lg:px-16 z-10 max-h-screen">
+                          <button
+                          className="absolute top-0 right-0 m-4 bg-disable rounded-full text-gray-600 text-2xl hover:text-gray-800 w-10 h-10"
+                          onClick={() => setShowCancelModal(false)}>
+                          &times;
+                          </button>
+
+                          <h3 className="text-red text-2xl font-bold mb-4">Cancel Order</h3>
+                          <textarea
+                            value={cancelReason}
+                            onChange={(e) => setCancelReason(e.target.value)}
+                            className="border p-4 w-full h-32 rounded-md border-disable bg-white focus:outline-disable text-normal text-left text-black2"
+                            rows="3"
+                            placeholder="Enter cancellation reason..."
+                          />
+                          <div className="flex flex-row gap-3 justify-end">
+                            <button
+                              className="bg-disable text-black2 py-3 px-16 rounded-md cursor-pointer"
+                              onClick={() => setShowCancelModal(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="bg-red text-white py-3 px-16 rounded-md cursor-pointer"
+                              onClick={confirmCancellation}
                             >
                               Confirm
                             </button>
