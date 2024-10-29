@@ -79,7 +79,7 @@ const Dashboard = () => {
           ) : (
             <div className="flex flex-row">
               {/* Sidebar */}
-              <div>
+              <div className="bg-none md:bg-none lg:bg-primary">
                 <Sidebar/>
               </div>
 
