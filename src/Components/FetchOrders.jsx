@@ -75,6 +75,12 @@ const FetchOrders = () => {
         setSearchTerm(e.target.value);
     };
 
+    // const handleSearchChange = (e) => {
+    //     const searchRef = e.target.value;
+    //     setSearchTerm(searchRef);
+    //     fetchData(searchRef, selectedStatus, dateRange[0].startDate, dateRange[0].endDate);
+    // };
+
     const handleStatusChange = (e) => {
         setSelectedStatus(e.target.value);
     };
@@ -92,16 +98,16 @@ const FetchOrders = () => {
     const endpoint = '/admin/order/fetch-order-items';
     const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
-    const fetchData = async () => {
+    const fetchData = async (ref = searchTerm, status = selectedStatus, startDate = dateRange[0].startDate, endDate = dateRange[0].endDate) => {
+        setLoading(true);
         try {
-            const response = await fetch(baseURL + endpoint, {
+            const query = `?ref=${ref}&startDate=${startDate ? startDate.toISOString().split('T')[0] : ''}&endDate=${endDate ? endDate.toISOString().split('T')[0] : ''}&page=${currentPage}`;
+            const response = await fetch(baseURL + endpoint + query, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${Atoken}`,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'ngrok-skip-browser-warning': "69420",
-                    'origin': '*',
                 },
             });
 
@@ -111,12 +117,14 @@ const FetchOrders = () => {
             const result = await response.json();
             if (result.status) {
                 setData(result.data);
-                setDisplayData(result.data); // Initially show all data
+                setDisplayData(result.data); 
             } else {
                 throw new Error('Data fetch unsuccessful');
             }
         } catch (error) {
             setError(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -244,24 +252,33 @@ const FetchOrders = () => {
                             <th className="px-4 py-6 text-black2 font-normal">Action</th>
                         </tr>
                     </thead>
+
                     <tbody className="text-left">
-                        {displayData.map((item) => (
-                            <tr key={item.id} className="text-black2 text-sm border-b border-disable">
-                                <td className="px-6 py-6">{item.orderItemsRef}</td>
-                                <td className="px-4 py-6">{item.product.price}</td>
-                                <td className="flex flex-row items-center px-4 py-6">
-                                    <span
-                                        className={`w-2 h-2 rounded-full mr-2 ${getStatusColorClass(item.orderState)}`}
-                                    ></span>
-                                    {item.orderState}
-                                </td>
-                                <td className="px-4 py-6">{formatBooleanToYesNoWithColor(item.isPayBackLater)}</td>
-                                <td className="px-4 py-6">{item.createdDate}</td>
-                                <td className="flex flex-row gap-2 px-4 py-6 items-center">
-                                    <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => handleView(item)}/>
-                                </td>
+                          {displayData.length > 0 ? (
+                            displayData.map((item) => (
+                                <tr key={item.id} className="text-black2 text-sm border-b border-disable">
+                                    <td className="px-6 py-6">{item.orderItemsRef}</td>
+                                    <td className="px-4 py-6">{item.product.price}</td>
+                                    <td className="flex flex-row items-center px-4 py-6">
+                                        <span
+                                            className={`w-2 h-2 rounded-full mr-2 ${getStatusColorClass(item.orderState)}`}
+                                        ></span>
+                                        {item.orderState}
+                                    </td>
+                                    <td className="px-4 py-6">{formatBooleanToYesNoWithColor(item.isPayBackLater)}</td>
+                                    <td className="px-4 py-6">{item.createdDate}</td>
+                                    <td className="flex flex-row gap-2 px-4 py-6 items-center">
+                                        <FaEye className="text-c4 size-5 cursor-pointer" onClick={() => handleView(item)}/>
+                                    </td>
+                                </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="7" className="text-center py-4 text-gray-500">
+                                No order found.
+                              </td>
                             </tr>
-                        ))}
+                          )}
                     </tbody>
                 </table>        
 
