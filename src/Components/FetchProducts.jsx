@@ -66,8 +66,8 @@ const FetchProducts = () => {
   };
 
   const baseURL = process.env.REACT_APP_BASE_URL;
-  const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?page=1';
-  // const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?minPrice=&maxPrice=&ratings=&page=1';
+  // const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?page=1';
+  const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?searchQuery=&minPrice=&maxPrice=&ratings=&page=1';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
 
     const fetchData = async () => {
