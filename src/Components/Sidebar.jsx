@@ -44,7 +44,7 @@ const Sidebar = () => {
                 </div>
             )}
                 <div>
-                    <div className="hidden md:flex md:flex-col sticky h-full left-0 w-60 text-left border-r border-disable p-4 bg-primary md:show">
+                    <div className="hidden md:hidden lg:flex lg:flex-col sticky h-full left-0 w-60 text-left border-r border-disable p-4 bg-primary md:show">
                         <div className="flex flex-col justify-items-start mb-4 pl-2">                
                         <h1 className="mb-4 mt-4 font-extrabold text-white text-2xl">Market Access</h1>
                         </div>
@@ -96,10 +96,10 @@ const Sidebar = () => {
                     </div>  
                     
                     {/* Side Toggle */}
-                    <div className="md:hidden">    
-                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black bg-disable p-2 size-8 rounded-full absolute top-15 right-20 cursor-pointer"/> : <GiHamburgerMenu className="text-primary font-black absolute top-6 size-5 mr-4 left-2"/>}</button>
+                    <div className="lg:hidden">    
+                            <button onClick={()=>toggleNavbar(true)} className="">{side ? <MdClose className="text-black bg-disable p-2 size-8 rounded-full absolute top-15 md:top-2 right-20 md:left-2 z-50 cursor-pointer"/> : <GiHamburgerMenu className="text-primary font-black absolute top-6 md:top-4 size-5 mr-4 left-2"/>}</button>
                             {side &&(
-                            <div className="sticky h-full w-screen left-0 top-0 -translate-x-0 transition-all px-4">
+                            <div className="sticky h-full w-screen md:w-60 left-0 top-0 -translate-x-0 transition-all px-4">
                                 <div className="flex bg-white flex-col right-0 top-0 p-2 gap-5 z-[100] w-56 ">
                                     <div className="flex flex-col justify-items-start pl-2">                
                                         <h1 className="font-extrabold text-left text-primary text-2xl">Market Access</h1>

@@ -32,12 +32,20 @@ function AddStaffAdmin ({ show, handleClose }) {
 
 
   const handleSubmit = async (e) => { 
+    const phonePattern = /^\+234\d{10}$/;
+
     if (!fullName || !email || !phone_number || !role) {
         setErrorMessage('All fields are required.');
         setSuccessMessage('');
         setIsModalOpen(true);
         return;
     } 
+
+    if (!phonePattern.test(phone_number)) {
+      setErrorMessage('Phone number must start with +234');
+      setIsModalOpen(true);
+      return;
+  }
     setSpin(true);
 
     try {
@@ -142,7 +150,7 @@ function AddStaffAdmin ({ show, handleClose }) {
                         className='border p-4 w-full rounded-md border-disable bg-white focus:outline-disable text-black2' 
                         // type='number' 
                         id = "phone_number" 
-                        placeholder='+XXX XXX XXX XXXX'
+                        placeholder='+234 XXX XXX XXXX'
                         value={phone_number}
                         onChange={(e) => setPhone_number(e.target.value)}
                     />
