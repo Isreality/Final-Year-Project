@@ -65,6 +65,11 @@ const FetchProducts = () => {
     setDateRange([ranges.selection]);
   };
 
+  const handleClearDateFilter = () => {
+    setDateRange([{ startDate: null, endDate: null, key: 'selection' }]);
+    setShowDatePicker(false);
+  };
+
   const baseURL = process.env.REACT_APP_BASE_URL;
   // const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?page=1';
   const endpoint = '/admin/buyers-product/fetch-all-product-with-filter?searchQuery=&minPrice=&maxPrice=&ratings=&page=1';
@@ -222,13 +227,13 @@ const FetchProducts = () => {
                     placeholder="Search by name"
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    className="p-4 text-sm text-black2 border border-f2 rounded focus:bg-white focus:outline-primary"
+                    className="p-4 text-sm text-black2 border border-disable rounded focus:bg-white focus:outline-primary"
                 />
 
                 <div className="relative">
                     {/* <div className="relative"> */}
                         {/* Button to Toggle Date Picker */}
-                            <button onClick={() => setShowDatePicker(!showDatePicker)} className="flex flex-row gap-1 items-center py-4 px-8 bg-fa rounded cursor-pointer">
+                            <button onClick={() => setShowDatePicker(!showDatePicker)} className="flex flex-row gap-1 items-center py-4 px-8 bg-white border border-disable rounded cursor-pointer">
                                 <FaRegCalendarDays className="text-primary size-4"/>
                                 <p className="text-sm text-black2">Filter by Date</p>
                             </button>
@@ -244,6 +249,11 @@ const FetchProducts = () => {
                                     rangeColors={['#481986']}
                                     className="date-range"
                                 />
+                                <div className="grid justify-items-end">
+                                    <button onClick={handleClearDateFilter} className="text-sm text-primary hover:underline ">
+                                        Clear
+                                    </button>
+                                </div>
                             </div>
                         )}
                     {/* </div> */}

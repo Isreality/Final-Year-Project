@@ -236,7 +236,7 @@ const FetchUser = () => {
                         <select
                             value={selectedAccount}
                             onChange={handleAccountChange}
-                            className="block appearance-none py-4 px-8 text-sm text-black2 bg-fa rounded focus:outline-primary cursor-pointer"
+                            className="block appearance-none py-4 px-8 text-sm text-black2 bg-white border border-disable rounded focus:outline-primary cursor-pointer"
                         >
                             <option className="text-sm" value="">Account Type</option>
                             <option className="text-sm" value="SELLER">Seller</option>
