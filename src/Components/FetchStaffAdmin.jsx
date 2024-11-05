@@ -26,6 +26,8 @@ const FetchStaffAdmin = () => {
   const baseURL = process.env.REACT_APP_BASE_URL;
   const endpoint = '/admin/staff-management/fetch-all-admins';
   const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
+  // const currentAdminEmail = JSON.parse(sessionStorage.getItem('data')).access.super_admin === 1;
+  const currentAdminSuperAdmin = JSON.parse(sessionStorage.getItem('data')).access;
 
   // useEffect(() => {
     const fetchData = async () => {
@@ -176,9 +178,14 @@ const FetchStaffAdmin = () => {
                                 <td className="px-4 py-6 text-left">{item.email}</td>
                                 <td className="px-4 py-6 text-left">{item.phone.phoneNumber}</td>
                                 <td className="flex flex-row gap-2 px-4 py-6 items-right ">
-                                    <button onClick={() => handleDelete(item)} className="cursor-pointer ">
-                                        <HiOutlineTrash className="text-red text-right size-6 cursor-pointer" />
+                                  {(item.access.super_admin === 0 && item.access.owner === 0) && (
+                                    <button onClick={() => handleDelete(item)} className="cursor-pointer">
+                                      <HiOutlineTrash className="text-red text-right size-6 cursor-pointer" />
                                     </button>
+                                  )}
+                                    {/* <button onClick={() => handleDelete(item)} className="cursor-pointer ">
+                                        <HiOutlineTrash className="text-red text-right size-6 cursor-pointer" />
+                                    </button> */}
                                 </td>
                             </tr>
                         ))}
