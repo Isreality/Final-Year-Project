@@ -107,17 +107,39 @@ useEffect(() => {
       // localStorage.setItem('auth', JSON.stringify(data.status));
       // console.log('API response status:', response.status);
 
+      // if (!response.ok) {
+      //   setErrorMessage('Incorrect email or password! Please try again');
+      //   setSuccessMessage('');
+      //   setIsModalOpen(true);
+      //   return;
+      // } else {
+      //   setSuccessMessage('Sign-in successful.');
+      //   setErrorMessage('')
+      //   setIsModalOpen(true);
+      //   sessionStorage.setItem('data', JSON.stringify(data))
+      //   sessionStorage.setItem('access', JSON.stringify(data.data.access));
+      // }
+
       if (!response.ok) {
         setErrorMessage('Incorrect email or password! Please try again');
         setSuccessMessage('');
         setIsModalOpen(true);
         return;
-      } else {
-        setSuccessMessage('Sign-in successful.');
-        setErrorMessage('')
-        setIsModalOpen(true);
-        sessionStorage.setItem('data', JSON.stringify(data))
       }
+  
+      const { super_admin, owner } = data.data.access;
+      // if (super_admin !== 1 && owner !== 1) {
+      //   setErrorMessage('Access denied. You do not have the required permissions.');
+      //   setIsModalOpen(true);
+      //   return;
+      // }
+  
+      // Store user data and access information in sessionStorage
+      sessionStorage.setItem('data', JSON.stringify(data));
+      sessionStorage.setItem('access', JSON.stringify(data.data.access));
+  
+      setSuccessMessage('Sign-in successful.');
+      setIsModalOpen(true);
 
       setTimeout(() => {
         navigate('/Dashboard');

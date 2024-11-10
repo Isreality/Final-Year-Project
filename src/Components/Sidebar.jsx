@@ -1,6 +1,6 @@
 import "../style.css";
 import "../index.css";
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import SidebarData from "../Components/SidebarData";
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -9,13 +9,30 @@ import Skeleton from 'react-loading-skeleton';
 import { useNavigate } from 'react-router-dom';
 import { GiHamburgerMenu } from "react-icons/gi";
 import {MdClose} from "react-icons/md";
+import ProtectedRoute from '../Components/ProtectedRoute';
 
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [side, setSide] = useState(false);
     const [loading, setLoading] = useState(false);
+    // const [isSuperAdminOrOwner, setIsSuperAdminOrOwner] = useState(false); 
     const navigate = useNavigate(false);
+
+    const userData = JSON.parse(sessionStorage.getItem("data"));
+    const isSuperAdminOrOwner = userData && (userData.access?.super_admin === 1 || userData.access?.owner === 1);
+
+
+    // const Atoken = JSON.parse(sessionStorage.getItem('data')).token.original.access_token;
+
+    // useEffect(() => {
+    //     // Retrieve user data from session storage and check access level
+    //     const userData = JSON.parse(sessionStorage.getItem("data"));
+    //     if (userData && userData.access) {
+    //         const { super_admin, owner } = userData.access;
+    //         setIsSuperAdminOrOwner(super_admin === 1 || owner === 1);
+    //     }
+    // }, [Atoken]);
 
     const openModal = () => {
         setIsOpen(true);
@@ -52,13 +69,28 @@ const Sidebar = () => {
                         <div className="flex flex-col justify-between gap-20">
                             {/* Nav */}
                             <div className="flex justify-between flex-col md:flex-col lg:flex-col space-y-1">
-                                {SidebarData.map((nav) => (
+                                {/* {SidebarData.map((nav) => (                                    
                                     <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-white hover:text-white hover:bg-secondary font-normal  hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
                                         {nav.icons || <Skeleton circle width={20} height={20}/>}
-                                        {/* <NavLink to={nav.path} className="nav">{nav.title}</NavLink> */}
                                         {nav.title || <Skeleton/>}
                                     </NavLink> 
+                                ))} */}
+                                {SidebarData.map((nav) => (
+                                    nav.title === "Staff Admins" ? (
+                                        <ProtectedRoute key={nav.id} access={isSuperAdminOrOwner}>
+                                            <NavLink to={nav.path} className="flex flex-row items-center gap-2 text-sm text-white hover:text-white hover:bg-secondary font-normal hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
+                                                {nav.icons}
+                                                {nav.title}
+                                            </NavLink>
+                                        </ProtectedRoute>
+                                    ) : (
+                                        <NavLink to={nav.path} key={nav.id} className="flex flex-row items-center gap-2 text-sm text-white hover:text-white hover:bg-secondary font-normal hover:rounded-md hover:border-primary pl-4 pr-10 py-4">
+                                            {nav.icons || <Skeleton circle width={20} height={20} />}
+                                            {nav.title || <Skeleton />}
+                                        </NavLink>
+                                    )
                                 ))}
+                                
                             </div><br/><br/><br/>
 
                             {/* Logout */}   

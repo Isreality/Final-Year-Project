@@ -14,15 +14,34 @@ import PushNotification from './Pages/PushNotification';
 import Reviews from './Pages/Reviews';
 import Settings from './Pages/settings/Settings';
 import SettingRoutes from './Pages/settings/SettingRoutes';
+import ProtectedRoute from './Components/ProtectedRoute';
 // import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 
 function App() {
+  // const [isSuperAdminOrOwner, setIsSuperAdminOrOwner] = useState(false);
+
+  // useEffect(() => {
+  //   const adminData = JSON.parse(sessionStorage.getItem('data'));
+  //   if (adminData?.access) {
+  //     const { super_admin, owner } = adminData.access;
+  //     setIsSuperAdminOrOwner(super_admin === 1 || owner === 1);
+  //   }
+  // }, []);
+
+  // const adminData = JSON.parse(sessionStorage.getItem('data'))?.data[0];
+  // const adminData = JSON.parse(sessionStorage.getItem('data')).access;
+
+  // Function to check if the user has access to Staff Admin
+  // const hasAccessToStaffAdmin = () => {
+  //   return adminData?.access?.super_admin === 1 || adminData?.access?.owner === 1;
+  // };
+
   return (   
     <div className="App" >
-      {/* <SkeletonTheme baseColor='#313131' highlightColor='#525252'> */}
       <SkeletonTheme baseColor='#202020' highlightColor='#444'>
         <BrowserRouter>
           {/* <Link to='/Dashboard'>Dashboard</Link> */}
@@ -31,7 +50,22 @@ function App() {
             <Route index path="/" Component={Login}></Route>
             <Route exact path="/dashboard" Component={Dashboard}></Route>
             <Route exact path="/orders" Component={OrderList}></Route>
-            <Route path="/staffadmins" Component={StaffAdmins}></Route> 
+            {/* <Route path="/staffadmins" Component={StaffAdmins}></Route> */}
+             {/* Protect the Dashboard route */}
+            <Route
+              path="/staffadmins"
+              element={
+                <ProtectedRoute>
+                  <StaffAdmins />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* {(adminData?.access?.super_admin === 1 || adminData?.access?.owner === 1) ? (
+              <Route path="/staffadmins" Component={StaffAdmins}></Route>
+            ) : (
+              <Route path="/staffadmins" element={<Navigate to="/" replace />} />
+            )} */}
             <Route path="/users" Component={Users}></Route>
             <Route path="/category" Component={Category}></Route>
             <Route path="/products" Component={ManageProducts}></Route>
